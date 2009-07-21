@@ -1,16 +1,44 @@
 <?php
 
 /**
- * Simple_Mail class.
- * 
- */
+* Simple Mail class.
+*
+* @author Eoghan O'Brien <eoghan@eoghanobrien.com> (www.eoghanobrien.com)
+* @package Simple Mail
+* @version 1.0
+* @copyright 2009-2010
+* @see http://eoghanobrien.com/code/simple-mail-php/
+*/
 class Simple_Mail
 {
-	private $wrap;
-
+	/**
+	 * @var int $wrap
+	 * @access private
+	 */
+	private $wrap			= 70;
+	
+	/**
+	 * @var string $_to (default value: NULL)
+	 * @access protected
+	 */
 	protected $_to			= NULL;
+	
+	/**
+	 * @var string $_subject (default value: NULL)
+	 * @access protected
+	 */
 	protected $_subject		= NULL;
+	
+	/**
+	 * @var mixed $_message (default value: NULL)
+	 * @access protected
+	 */
 	protected $_message		= NULL;
+	
+	/**
+	 * @var array $_headers (default value: array())
+	 * @access protected
+	 */
 	protected $_headers		= array();
 	
 	/**
@@ -137,6 +165,17 @@ class Simple_Mail
 			trigger_error('Mail could not be sent please the site administrator.', E_USER_ERROR);
 			return false;
 		}
+	}
+	
+	/**
+	 * debug function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function debug()
+	{
+		sprintf('<h1>Var Dump of Simple Mail instance</h1><pre>%s</pre><h1>PrintR of Simple Mail instance</h1><pre>%s</pre>', var_dump($this), print_r($this);
 	}
 	
 	/**************************************************************************************************
