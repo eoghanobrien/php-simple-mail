@@ -14,7 +14,7 @@ class Simple_Mail
 {
 	/**
 	 * @var int $wrap
-	 * @access private
+	 * @access protected
 	 */
 	protected $_wrap		= 70;
 	
