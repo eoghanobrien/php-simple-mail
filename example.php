@@ -9,7 +9,7 @@ $send	= $Mail->setTo('john@example.com', 'John Smith')
 				->addMailHeader('Reply-To', 'no-reply@domain.com', 'Domain.com')
 				->addMailHeader('Cc', 'bill@example.com', 'Bill Gates')
 				->addMailHeader('Bcc', 'steve@example.com', 'Steve Jobs')
-				->addGernericHeader('X-Mailer', 'PHP/' . phpversion())
+				->addGenericHeader('X-Mailer', 'PHP/' . phpversion())
 				->setMessage('This is a test message.')
 				->setWrap(100)
 				->send();

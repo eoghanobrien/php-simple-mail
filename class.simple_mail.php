@@ -5,17 +5,18 @@
 *
 * @author Eoghan O'Brien <eoghan@eoghanobrien.com> (www.eoghanobrien.com)
 * @package Simple Mail
-* @version 1.0
+* @version 1.1
 * @copyright 2009-2010
 * @see http://eoghanobrien.com/code/simple-mail-php/
 */
+
 class Simple_Mail
 {
 	/**
 	 * @var int $wrap
 	 * @access private
 	 */
-	private $wrap			= 70;
+	protected $_wrap		= 70;
 	
 	/**
 	 * @var string $_to (default value: NULL)
@@ -89,7 +90,7 @@ class Simple_Mail
 	 */
 	public function setMessage($message)
 	{
-		$this->_message = $this->_filterOther(str_replace("\n.", "\n..", $message));
+		$this->_message = str_replace("\n.", "\n..", $message);
 		return $this;
 	}
 	
@@ -145,7 +146,7 @@ class Simple_Mail
 	 */
 	public function setWrap($wrap = 70)
 	{
-		$this->wrap = $wrap;
+		$this->_wrap = $wrap;
 		return $this;
 	}
 	
@@ -156,25 +157,10 @@ class Simple_Mail
 	 * @return void
 	 */
 	public function send()
-	{
-		if ( $this->_to = '' || $this->_to == NULL ) {
-			trigger_error('To address wasnt specified. Please use <code>`setTo() method.', E_USER_ERROR);
-			return false;
-		}
-		
-		if ( $this->_subject = '' || $this->_subject == NULL ) {
-			trigger_error('To address wasnt specified. Please use <code>`setSubject() method.', E_USER_ERROR);
-			return false;
-		}
-		
-		if ( $this->_message = '' || $this->_message == NULL ) {
-			trigger_error('To address wasnt specified. Please use <code>`setMessage() method.', E_USER_ERROR);
-			return false;
-		}
-		
+	{			
 		$headers = ( !empty($this->_headers) ) ? join("\r\n", $this->_headers) : array();
 		
-		if ( @mail($this->_to, $this->_subject, wordwrap($this->_message, $this->wrap), $headers) ) {
+		if ( mail($this->_to, $this->_subject, wordwrap($this->_message, $this->_wrap), $headers) ) {
 			return true;
 		} else {
 			trigger_error('Mail could not be sent please the site administrator.', E_USER_ERROR);
@@ -190,7 +176,7 @@ class Simple_Mail
 	 */
 	public function debug()
 	{
-		sprintf('<h1>Var Dump of Simple Mail instance</h1><pre>%s</pre><h1>PrintR of Simple Mail instance</h1><pre>%s</pre>', var_dump($this), print_r($this);
+		sprintf('<h1>Var Dump of Simple Mail instance</h1><pre>%s</pre><h1>PrintR of Simple Mail instance</h1><pre>%s</pre>', var_dump($this), print_r($this));
 	}
 	
 	/**************************************************************************************************
