@@ -157,9 +157,24 @@ class Simple_Mail
 	 */
 	public function send()
 	{
+		if ( $this->_to = '' || $this->_to == NULL ) {
+			trigger_error('To address wasnt specified. Please use <code>`setTo() method.', E_USER_ERROR);
+			return false;
+		}
+		
+		if ( $this->_subject = '' || $this->_subject == NULL ) {
+			trigger_error('To address wasnt specified. Please use <code>`setSubject() method.', E_USER_ERROR);
+			return false;
+		}
+		
+		if ( $this->_message = '' || $this->_message == NULL ) {
+			trigger_error('To address wasnt specified. Please use <code>`setMessage() method.', E_USER_ERROR);
+			return false;
+		}
+		
 		$headers = ( !empty($this->_headers) ) ? join("\r\n", $this->_headers) : array();
 		
-		if ( mail($this->_to, $this->_subject, wordwrap($this->_message, $this->wrap), $headers) ) {
+		if ( @mail($this->_to, $this->_subject, wordwrap($this->_message, $this->wrap), $headers) ) {
 			return true;
 		} else {
 			trigger_error('Mail could not be sent please the site administrator.', E_USER_ERROR);
