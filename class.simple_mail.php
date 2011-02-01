@@ -88,8 +88,13 @@ class Simple_Mail
 	 * @param mixed $message
 	 * @return void
 	 */
-	public function setMessage($message)
+	public function setMessage($message, $html = FALSE)
 	{
+		if($html === TRUE)
+		{
+			$this->addGenericHeader('Content-type', 'text/html');
+		}
+		
 		$this->_message = str_replace("\n.", "\n..", $message);
 		return $this;
 	}
