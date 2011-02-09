@@ -31,7 +31,7 @@ class Simple_Mail
 	protected $_subject		= NULL;
 	
 	/**
-	 * @var mixed $_message (default value: NULL)
+	 * @var string $_message (default value: NULL)
 	 * @access protected
 	 */
 	protected $_message		= NULL;
@@ -43,26 +43,47 @@ class Simple_Mail
 	protected $_headers		= array();
 	
 	/**
+	 * @var boolean $_throwExceptions (default value: FALSE)
+	 * @access protected
+	 */
+	protected $_throwExceptions = FALSE;
+	
+	
+	/**
 	 * __construct function.
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct()
+	public function __construct($throwExceptions = FALSE)
 	{
 		$this->_headers = array();
+		$this->_throwExceptions = $throwExceptions;
 	}
 
 	/**
 	 * setTo function.
 	 * 
 	 * @access public
-	 * @param mixed $email
-	 * @param mixed $name
+	 * @param	string	$email
+	 * @param	string	$name
+	 * @param	boolean	$addHeader	(default: FALSE)
 	 * @return void
 	 */
 	public function setTo($email, $name, $addHeader = FALSE)
 	{
+		if ( ! is_string($email) && $this->_throwExceptions) {
+			throw new InvalidArgumentException();
+		}
+		
+		if ( ! is_string($name) && $this->_throwExceptions) {
+			throw new InvalidArgumentException();
+		}
+		
+		if ( ! is_bool($addHeader) && $this->_throwExceptions) {
+			throw new InvalidArgumentException();
+		}
+		
 		$this->_to = $this->_formatHeader($email, $name);
 		if ( $addHeader ) $this->addMailHeader('To', $email, $name);
 		return $this;
@@ -72,11 +93,15 @@ class Simple_Mail
 	 * setSubject function.
 	 * 
 	 * @access public
-	 * @param mixed $subject
+	 * @param	string	$subject
 	 * @return void
 	 */
 	public function setSubject($subject)
 	{
+		if ( ! is_string($subject) && $this->_throwExceptions) {
+			throw new InvalidArgumentException();
+		}
+		
 		$this->_subject = $this->_filterOther($subject);
 		return $this;
 	}
@@ -85,13 +110,17 @@ class Simple_Mail
 	 * setMessage function.
 	 * 
 	 * @access public
-	 * @param mixed $message
+	 * @param	string		$message
+	 * @param	boolean		$html		default: FALSE	Sends the message in plain text format
 	 * @return void
 	 */
 	public function setMessage($message, $html = FALSE)
 	{
-		if($html === TRUE)
-		{
+		if ( ! is_string($message) && $this->_throwExceptions) {
+			throw new InvalidArgumentException();
+		}
+		
+		if ($html === TRUE) {
 			$this->addGenericHeader('Content-type', 'text/html');
 		}
 		
@@ -103,12 +132,20 @@ class Simple_Mail
 	 * setFrom function.
 	 * 
 	 * @access public
-	 * @param mixed $email
-	 * @param mixed $name
+	 * @param	string	$email
+	 * @param	string	$name
 	 * @return void
 	 */
 	public function setFrom($email, $name)
 	{
+		if ( ! is_string($email) && $this->_throwExceptions) {
+			throw new InvalidArgumentException();
+		}
+		
+		if ( ! is_string($name) && $this->_throwExceptions) {
+			throw new InvalidArgumentException();
+		}
+		
 		$this->addMailHeader('From', $email, $name);
 		return $this;
 	}
@@ -117,13 +154,25 @@ class Simple_Mail
 	 * addMailHeader function.
 	 * 
 	 * @access public
-	 * @param mixed $header
-	 * @param mixed $email. (default: NULL)
-	 * @param mixed $name. (default: NULL)
+	 * @param	string	$header
+	 * @param	string	$email	(default: NULL)
+	 * @param	string	$name	(default: NULL)
 	 * @return void
 	 */
 	public function addMailHeader($header, $email = NULL, $name = NULL)
 	{
+		if ( ! is_string($header) && $this->_throwExceptions) {
+			throw new InvalidArgumentException();
+		}
+		
+		if ( ! is_string($email) && $this->_throwExceptions) {
+			throw new InvalidArgumentException();
+		}
+		
+		if ( ! is_string($name) && $this->_throwExceptions) {
+			throw new InvalidArgumentException();
+		}
+		
 		$this->_headers[] = "$header: " . $this->_formatHeader($email, $name);		
 		return $this;
 	}
@@ -132,12 +181,20 @@ class Simple_Mail
 	 * addGenericHeader function.
 	 * 
 	 * @access public
-	 * @param mixed $header
-	 * @param mixed $value
+	 * @param	string $header
+	 * @param	mixed $value
 	 * @return void
 	 */
 	public function addGenericHeader($header, $value)
 	{
+		if ( ! is_string($header) && $this->_throwExceptions) {
+			throw new InvalidArgumentException();
+		}
+		
+		if ( ! is_string($header) || ! is_int($value) && $this->_throwExceptions) {
+			throw new InvalidArgumentException();
+		}
+		
 		$this->_headers[] = "$header: $value";
 		return $this;
 	}
@@ -151,6 +208,10 @@ class Simple_Mail
 	 */
 	public function setWrap($wrap = 70)
 	{
+		if ( ! is_int($wrap) && $wrap < 1 && $this->_throwExceptions) {
+			throw new InvalidArgumentException('Wrap must be an integer larger than 0');
+		}
+		
 		$this->_wrap = $wrap;
 		return $this;
 	}
@@ -165,12 +226,17 @@ class Simple_Mail
 	{			
 		$headers = ( !empty($this->_headers) ) ? join("\r\n", $this->_headers) : array();
 		
-		if ( mail($this->_to, $this->_subject, wordwrap($this->_message, $this->_wrap), $headers) ) {
-			return true;
-		} else {
-			trigger_error('Mail could not be sent please the site administrator.', E_USER_ERROR);
+		$send = mail($this->_to, $this->_subject, wordwrap($this->_message, $this->_wrap), $headers);
+		
+		if ( ! $send && $this->_throwExceptions) {
+			throw new Exception('Email failed to send');
+		}
+		
+		if ( ! $send) {
 			return false;
 		}
+		
+		return true;
 	}
 	
 	/**
@@ -181,7 +247,7 @@ class Simple_Mail
 	 */
 	public function debug()
 	{
-		sprintf('<h1>Var Dump of Simple Mail instance</h1><pre>%s</pre><h1>PrintR of Simple Mail instance</h1><pre>%s</pre>', var_dump($this), print_r($this));
+		echo sprintf('<h1>Var Dump of Simple Mail instance</h1><pre>%s</pre><h1>PrintR of Simple Mail instance</h1><pre>%s</pre>', var_dump($this), print_r($this, 1));
 	}
 	
 	/**************************************************************************************************
