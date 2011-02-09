@@ -111,17 +111,12 @@ class Simple_Mail
 	 * 
 	 * @access public
 	 * @param	string		$message
-	 * @param	boolean		$html		default: FALSE	Sends the message in plain text format
 	 * @return void
 	 */
-	public function setMessage($message, $html = FALSE)
+	public function setMessage($message)
 	{
 		if ( ! is_string($message) && $this->_throwExceptions) {
 			throw new InvalidArgumentException();
-		}
-		
-		if ($html === TRUE) {
-			$this->addGenericHeader('Content-type', 'text/html');
 		}
 		
 		$this->_message = str_replace("\n.", "\n..", $message);
