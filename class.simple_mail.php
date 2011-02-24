@@ -58,7 +58,23 @@ class Simple_Mail
 	public function __construct($throwExceptions = FALSE)
 	{
 		$this->_headers = array();
-		$this->_throwExceptions = $throwExceptions;
+		$this->setThrowExceptions($throwExceptions);
+	}
+	
+	/**
+	 * setThrowExceptions function.
+	 * 
+	 * @access	public
+	 * @param	mixed	$bool (default: FALSE)
+	 * @return void
+	 */
+	public function setThrowExceptions($bool = FALSE)
+	{
+		if ( ! is_bool($bool) && $this->_throwExceptions) {
+			throw new InvalidArgumentException('First parameter must be boolean');
+		}
+	
+		$this->_throwExceptions = $bool;
 	}
 
 	/**
@@ -186,7 +202,7 @@ class Simple_Mail
 			throw new InvalidArgumentException();
 		}
 		
-		if ( ! is_string($header) || ! is_int($value) && $this->_throwExceptions) {
+		if ( ! is_string($value) || ! is_string($value) && $this->_throwExceptions) {
 			throw new InvalidArgumentException();
 		}
 		
@@ -242,7 +258,18 @@ class Simple_Mail
 	 */
 	public function debug()
 	{
-		echo sprintf('<h1>Var Dump of Simple Mail instance</h1><pre>%s</pre><h1>PrintR of Simple Mail instance</h1><pre>%s</pre>', var_dump($this), print_r($this, 1));
+		var_dump($this);
+	}
+	
+	/**
+	 * magic __toString function.
+	 * 
+	 * @access public
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return print_r($this, 1);
 	}
 	
 	/**************************************************************************************************
@@ -283,7 +310,10 @@ class Simple_Mail
                       '>'  => '',
     	);
     	
-        return strtr($email, $rule);
+    	$email = strtr($email, $rule);
+    	$email = filter_var($email, FILTER_SANITIZE_EMAIL);
+    	
+        return $email;
     }
 
     /**
@@ -303,7 +333,7 @@ class Simple_Mail
     	              '>'  => ']',
     	);
 
-        return trim(strtr($name, $rule));
+        return trim(strtr(filter_var($name, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH), $rule));
     }
 
     /**
@@ -320,7 +350,7 @@ class Simple_Mail
                       "\t" => '',
         );
 
-        return strtr($data, $rule);
+        return strtr(filter_var($data, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH), $rule);
     }
 
 }
