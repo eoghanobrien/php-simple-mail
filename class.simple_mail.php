@@ -272,10 +272,6 @@ class Simple_Mail
 		return print_r($this, 1);
 	}
 	
-	/**************************************************************************************************
-	PROTECTED METHODS
-	**************************************************************************************************/
-	
 	/**
 	 * Format headers
 	 * 
@@ -291,68 +287,65 @@ class Simple_Mail
 		return sprintf('%s <%s>', $name, $email);
 	}
 	
-	
 	/**
-     * Filter of email data
-     *
-     * @access protected
-     * @param string $email
-     * @return string
-     */
-    protected function _filterEmail($email)
-    {
-    	$rule = array("\r" => '',
-    	              "\n" => '',
-    	              "\t" => '',
-                      '"'  => '',
-    	              ','  => '',
-                      '<'  => '',
-                      '>'  => '',
-    	);
-    	
-    	$email = strtr($email, $rule);
-    	$email = filter_var($email, FILTER_SANITIZE_EMAIL);
-    	
-        return $email;
-    }
+	 * Filter of email data
+	 *
+	 * @access protected
+	 * @param string $email
+	 * @return string
+	 */
+	protected function _filterEmail($email)
+	{
+		$rule = array("\r" => '',
+					  "\n" => '',
+					  "\t" => '',
+					  '"'  => '',
+					  ','  => '',
+					  '<'  => '',
+					  '>'  => '',
+		);
 
-    /**
-     * Filter of name data
-     *
-     * @access protected
-     * @param string $name
-     * @return string
-     */
-    protected function _filterName($name)
-    {
-    	$rule = array("\r" => '',
-                      "\n" => '',
-                      "\t" => '',
-                      '"'  => "'",
-                      '<'  => '[',
-    	              '>'  => ']',
-    	);
+		$email = strtr($email, $rule);
+		$email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
-        return trim(strtr(filter_var($name, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH), $rule));
-    }
+		return $email;
+	}
 
-    /**
-     * Filter of other data
-     *
-     * @access protected
-     * @param string $data
-     * @return string
-     */
-    protected function _filterOther($data)
-    {
-        $rule = array("\r" => '',
-                      "\n" => '',
-                      "\t" => '',
-        );
+	/**
+	 * Filter of name data
+	 *
+	 * @access protected
+	 * @param string $name
+	 * @return string
+	 */
+	protected function _filterName($name)
+	{
+		$rule = array("\r" => '',
+					  "\n" => '',
+					  "\t" => '',
+					  '"'  => "'",
+					  '<'  => '[',
+					  '>'  => ']',
+		);
 
-        return strtr(filter_var($data, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH), $rule);
-    }
+		return trim(strtr(filter_var($name, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH), $rule));
+	}
+
+	/**
+	 * Filter of other data
+	 *
+	 * @access protected
+	 * @param string $data
+	 * @return string
+	 */
+	protected function _filterOther($data)
+	{
+		$rule = array("\r" => '',
+					  "\n" => '',
+					  "\t" => '',
+		);
+
+		return strtr(filter_var($data, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH), $rule);
+	}
 
 }
-
-?>
