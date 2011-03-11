@@ -5,22 +5,19 @@ echo '<h1>Simple Mail</h1>';
 
 $mailer = new Simple_Mail(TRUE); // Set to TRUE to enable exception throwing
 
-// if you are sending an attachment there is no need to add any addGenericHeader()'s.
-$send	= $mailer->setTo('shoxty@gmail.com', 'Eoghan OBrien')
+$send	= $mailer->setTo('eoghan@eoghanobrien.com', 'Eoghan OBrien')
 				 ->setSubject('Test Message')
 				 ->setFrom('no-reply@domain.com', 'Domain.com')
 				 ->addMailHeader('Reply-To', 'no-reply@domain.com', 'Domain.com')
-/*
 				 ->addMailHeader('Cc', 'bill@example.com', 'Bill Gates')
 				 ->addMailHeader('Bcc', 'steve@example.com', 'Steve Jobs')
-*/
 				 ->addAttachment('example/pbXBsZSwgY2hh.jpg', 'lolcat_finally_arrived.jpg')
 				 ->addAttachment('example/lolcat_what.jpg')
 				 ->setMessage('<strong>This is a test message.</strong>')
 				 ->setWrap(100)
 				 ->send();
 				 
-/* $mailer->debug(); */
+$mailer->debug();
 
 if ($send) {
 	echo 'Email sent successfully';
