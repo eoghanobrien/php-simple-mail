@@ -16,7 +16,7 @@ class Simple_Mail
 	 * @var int $wrap
 	 * @access protected
 	 */
-	protected $_wrap = 100;
+	protected $_wrap = 70;
 	
 	/**
 	 * @var string $_to (default value: NULL)
@@ -47,24 +47,6 @@ class Simple_Mail
 	 * @access protected
 	 */
 	protected $_throwExceptions = FALSE;
-	
-	/**
-	 * @var string $_attachment (default value: array())
-	 * @access protected
-	 */
-	protected $_attachment = array();
-	
-	/**
-	 * @var string $_attachmentPath (default value: array())
-	 * @access protected
-	 */
-	protected $_attachmentPath = array();
-	
-	/**
-	 * @var string $attachment_filename (default value: array())
-	 * @access protected
-	 */
-	protected $_attachmentFilename = array();
 	
 	
 	/**
@@ -177,23 +159,6 @@ class Simple_Mail
 		
 		$this->addMailHeader('From', $email, $name);
 		return $this;
-	}	
-	
-	/**
-	 * setWrap function.
-	 * 
-	 * @access public
-	 * @param mixed $wrap. (default: 100)
-	 * @return object
-	 */
-	public function setWrap($wrap = 100)
-	{
-		if ( ! is_int($wrap) && $wrap < 1 && $this->_throwExceptions) {
-			throw new InvalidArgumentException('Wrap must be an integer larger than 0');
-		}
-		
-		$this->_wrap = $wrap;
-		return $this;
 	}
 	
 	/**
@@ -246,64 +211,33 @@ class Simple_Mail
 	}
 	
 	/**
-	 * addAttachment function.
+	 * setWrap function.
 	 * 
 	 * @access public
-	 * @param	string		$message
-	 * @return void
+	 * @param mixed $wrap. (default: 70)
+	 * @return object
 	 */
-	public function addAttachment($path, $filename = NULL)
+	public function setWrap($wrap = 70)
 	{
-		$this->_attachmentPath[] = $path;
-		$this->_attachmentFilename[] = empty($filename) ? basename($path) : $filename;
+		if ( ! is_int($wrap) && $wrap < 1 && $this->_throwExceptions) {
+			throw new InvalidArgumentException('Wrap must be an integer larger than 0');
+		}
 		
-		// TODO: Add error handling for file operations
-		$fileSize = filesize($path);
-		$handle = fopen($path, "r");
-		$attachment = fread($handle, $fileSize);
-		fclose($handle);
-		$this->_attachment[] = chunk_split(base64_encode($attachment));
-
+		$this->_wrap = $wrap;
 		return $this;
 	}
 	
 	/**
 	 * send function.
-	 *
-	 * TODO: Clean up the $headers string for attachments
 	 * 
 	 * @access public
 	 * @return void
 	 */
 	public function send()
-	{	
-		$headers = ( !empty($this->_headers) ) ? join("\r\n", $this->_headers) : '';
+	{			
+		$headers = ( !empty($this->_headers) ) ? join("\r\n", $this->_headers) : array();
 		
-		if ($this->_attachment)
-		{
-			$uid = md5(uniqid(time()));
-			$headers .= "MIME-Version: 1.0\r\n";
-			$headers .= "Content-Type: multipart/mixed; boundary=\"".$uid."\"\r\n\r\n";
-			$headers .= "This is a multi-part message in MIME format.\r\n";
-			$headers .= "--".$uid."\r\n";
-			$headers .= "Content-type:text/html; charset=\"utf-8\"\r\n";
-			$headers .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
-			$headers .= $this->_message."\r\n\r\n";
-			$headers .= "--".$uid."\r\n";
-			foreach($this->_attachmentFilename as $key => $value)
-			{
-				$headers .= "Content-Type: application/octet-stream; name=\"".$value."\"\r\n";
-				$headers .= "Content-Transfer-Encoding: base64\r\n";
-				$headers .= "Content-Disposition: attachment; filename=\"".$value."\"\r\n\r\n";
-				$headers .= $this->_attachment[$key]."\r\n\r\n";
-				$headers .= "--".$uid."\r\n";
-			}
-			$send = mail($this->_to, $this->_subject, '', $headers);
-		}
-		else
-		{
-			$send = mail($this->_to, $this->_subject, wordwrap($this->_message, $this->_wrap), $headers);
-		}
+		$send = mail($this->_to, $this->_subject, wordwrap($this->_message, $this->_wrap), $headers);
 		
 		if ( ! $send && $this->_throwExceptions) {
 			throw new Exception('Email failed to send');

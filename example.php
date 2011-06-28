@@ -5,7 +5,7 @@ echo '<h1>Simple Mail</h1>';
 
 $mailer = new Simple_Mail(TRUE); // Set to TRUE to enable exception throwing
 
-$send	= $mailer->setTo('test@test.com', 'Test Icle')
+$send	= $mailer->setTo('eoghan@eoghanobrien.com', 'Eoghan OBrien')
 				 ->setSubject('Test Message')
 				 ->setFrom('no-reply@domain.com', 'Domain.com')
 				 ->addMailHeader('Reply-To', 'no-reply@domain.com', 'Domain.com')
