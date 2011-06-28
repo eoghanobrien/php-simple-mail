@@ -16,31 +16,31 @@ class Simple_Mail
 	 * @var int $wrap
 	 * @access protected
 	 */
-	protected $_wrap		= 70;
+	protected $_wrap = 70;
 	
 	/**
 	 * @var string $_to (default value: NULL)
 	 * @access protected
 	 */
-	protected $_to			= NULL;
+	protected $_to = NULL;
 	
 	/**
 	 * @var string $_subject (default value: NULL)
 	 * @access protected
 	 */
-	protected $_subject		= NULL;
+	protected $_subject = NULL;
 	
 	/**
 	 * @var string $_message (default value: NULL)
 	 * @access protected
 	 */
-	protected $_message		= NULL;
+	protected $_message = NULL;
 	
 	/**
 	 * @var array $_headers (default value: array())
 	 * @access protected
 	 */
-	protected $_headers		= array();
+	protected $_headers = array();
 	
 	/**
 	 * @var boolean $_throwExceptions (default value: FALSE)
