@@ -298,7 +298,7 @@ class Simple_Mail
 	public function send()
 	{	
 		$headers = ( !empty($this->_headers) ) ? join("\r\n", $this->_headers) : array();
-		
+
 		if($this->_attachment)
 		{
 			$uid = md5(uniqid(time()));
