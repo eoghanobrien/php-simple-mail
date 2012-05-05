@@ -38,3 +38,6 @@ If you are sending an attachment there is no need to add any addGenericHeader()'
 					 ->setWrap(100)
 					 ->send();
 	echo ($send) ? 'Email sent successfully' : 'Could not send email';
+	
+## License
+php-simple-mail is free and unencumbered public domain software. For more information, see http://unlicense.org/ or the accompanying UNLICENSE file.

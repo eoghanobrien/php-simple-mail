@@ -8,6 +8,7 @@
 * @version 1.1
 * @copyright 2009-2010
 * @see http://eoghanobrien.com/code/simple-mail-php/
+* @license Free http://unlicense.org/
 */
 
 class Simple_Mail
