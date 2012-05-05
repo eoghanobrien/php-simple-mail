@@ -298,9 +298,8 @@ class Simple_Mail
 	public function send()
 	{	
 		$headers = ( !empty($this->_headers) ) ? join("\r\n", $this->_headers) : array();
-
-		if($this->_attachment)
-		{
+		
+		if (!empty($this->_attachment)) {
 			$uid = md5(uniqid(time()));
 			$headers .= "MIME-Version: 1.0\r\n";
 			$headers .= "Content-Type: multipart/mixed; boundary=\"".$uid."\"\r\n\r\n";
@@ -310,8 +309,8 @@ class Simple_Mail
 			$headers .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
 			$headers .= $this->_message."\r\n\r\n";
 			$headers .= "--".$uid."\r\n";
-			foreach($this->_attachmentFilename as $key => $value)
-			{
+			
+			foreach ($this->_attachmentFilename as $key => $value) {
 				$headers .= "Content-Type: application/octet-stream; name=\"".$value."\"\r\n";
 				$headers .= "Content-Transfer-Encoding: base64\r\n";
 				$headers .= "Content-Disposition: attachment; filename=\"".$value."\"\r\n\r\n";
@@ -320,8 +319,7 @@ class Simple_Mail
 			}
 			$send = mail($this->_to, $this->_subject, "", $headers, $this->_additionalParameters);
 		}
-		else
-		{
+		else {
 			$send = mail($this->_to, $this->_subject, wordwrap($this->_message, $this->_wrap), $headers, $this->_additionalParameters);
 		}
 		
