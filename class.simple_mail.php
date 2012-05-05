@@ -43,6 +43,12 @@ class Simple_Mail
 	protected $_headers = array();
 	
 	/**
+	 * @var string $_additionalParameters (default value: NULL)
+	 * @access protected
+	 */
+	protected $_additionalParameters	= NULL;
+		
+	/**
 	 * @var boolean $_throwExceptions (default value: FALSE)
 	 * @access protected
 	 */
@@ -248,6 +254,23 @@ class Simple_Mail
 		$this->_headers[] = "$header: $value";
 		return $this;
 	}
+		
+	/**
+	 * setAdditionalParameters function.
+	 * 
+	 * @access public
+	 * @param	string		$additionalParameters
+	 * @return void
+	 */
+	public function setAdditionalParameters($additionalParameters)
+	{
+		if ( ! is_string($additionalParameters) && $this->_throwExceptions) {
+			throw new InvalidArgumentException();
+		}
+		
+		$this->_additionalParameters = $additionalParameters;
+		return $this;
+	}
 	
 	/**
 	 * setWrap function.
@@ -295,11 +318,11 @@ class Simple_Mail
 				$headers .= $this->_attachment[$key]."\r\n\r\n";
 				$headers .= "--".$uid."\r\n";
 			}
-			$send = mail($this->_to, $this->_subject, "", $headers);
+			$send = mail($this->_to, $this->_subject, "", $headers, $this->_additionalParameters);
 		}
 		else
 		{
-			$send = mail($this->_to, $this->_subject, wordwrap($this->_message, $this->_wrap), $headers);
+			$send = mail($this->_to, $this->_subject, wordwrap($this->_message, $this->_wrap), $headers, $this->_additionalParameters);
 		}
 		
 		if ( ! $send && $this->_throwExceptions) {
