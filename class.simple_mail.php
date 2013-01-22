@@ -20,22 +20,22 @@ class Simple_Mail
 	protected $_wrap = 70;
 	
 	/**
-	 * @var string $_to (default value: NULL)
+	 * @var string $_to (default value: null)
 	 * @access protected
 	 */
-	protected $_to = NULL;
+	protected $_to = null;
 	
 	/**
-	 * @var string $_subject (default value: NULL)
+	 * @var string $_subject (default value: null)
 	 * @access protected
 	 */
-	protected $_subject = NULL;
+	protected $_subject = null;
 	
 	/**
-	 * @var string $_message (default value: NULL)
+	 * @var string $_message (default value: null)
 	 * @access protected
 	 */
-	protected $_message = NULL;
+	protected $_message = null;
 	
 	/**
 	 * @var array $_headers (default value: array())
@@ -44,16 +44,16 @@ class Simple_Mail
 	protected $_headers = array();
 	
 	/**
-	 * @var string $_additionalParameters (default value: NULL)
+	 * @var string $_additionalParameters (default value: null)
 	 * @access protected
 	 */
-	protected $_additionalParameters	= NULL;
+	protected $_additionalParameters	= null;
 		
 	/**
-	 * @var boolean $_throwExceptions (default value: FALSE)
+	 * @var boolean $_throwExceptions (default value: false)
 	 * @access protected
 	 */
-	protected $_throwExceptions = FALSE;
+	protected $_throwExceptions = false;
 	
 	/**
 	 * @var string $_attachment (default value: array())
@@ -80,7 +80,7 @@ class Simple_Mail
 	 * @access public
 	 * @return void
 	 */
-	public function __construct($throwExceptions = FALSE)
+	public function __construct($throwExceptions = false)
 	{
 		$this->_headers = array();
 		$this->setThrowExceptions($throwExceptions);
@@ -90,10 +90,10 @@ class Simple_Mail
 	 * setThrowExceptions function.
 	 * 
 	 * @access	public
-	 * @param	mixed	$bool (default: FALSE)
+	 * @param	mixed	$bool (default: false)
 	 * @return void
 	 */
-	public function setThrowExceptions($bool = FALSE)
+	public function setThrowExceptions($bool = false)
 	{
 		if ( ! is_bool($bool) && $this->_throwExceptions) {
 			throw new InvalidArgumentException('First parameter must be boolean');
@@ -108,10 +108,10 @@ class Simple_Mail
 	 * @access public
 	 * @param	string	$email
 	 * @param	string	$name
-	 * @param	boolean	$addHeader	(default: FALSE)
+	 * @param	boolean	$addHeader	(default: false)
 	 * @return void
 	 */
-	public function setTo($email, $name, $addHeader = FALSE)
+	public function setTo($email, $name, $addHeader = false)
 	{
 		if ( ! is_string($email) && $this->_throwExceptions) {
 			throw new InvalidArgumentException();
@@ -171,14 +171,14 @@ class Simple_Mail
 	 * @param	string		$message
 	 * @return void
 	 */
-	public function addAttachment($path, $filename = NULL)
+	public function addAttachment($path, $filename = null)
 	{
 		$this->_attachmentPath[] = $path;
 		$this->_attachmentFilename[] = empty($filename) ? basename($path) : $filename;
 		
-		$fileSize = filesize($path);
+		$filesize = filesize($path);
 		$handle = fopen($path, "r");
-		$attachment = fread($handle, $fileSize);
+		$attachment = fread($handle, $filesize);
 		fclose($handle);
 		$this->_attachment[] = chunk_split(base64_encode($attachment));
 
@@ -212,11 +212,11 @@ class Simple_Mail
 	 * 
 	 * @access public
 	 * @param	string	$header
-	 * @param	string	$email	(default: NULL)
-	 * @param	string	$name	(default: NULL)
+	 * @param	string	$email	(default: null)
+	 * @param	string	$name	(default: null)
 	 * @return void
 	 */
-	public function addMailHeader($header, $email = NULL, $name = NULL)
+	public function addMailHeader($header, $email = null, $name = null)
 	{
 		if ( ! is_string($header) && $this->_throwExceptions) {
 			throw new InvalidArgumentException();
@@ -303,20 +303,20 @@ class Simple_Mail
 		if ( ! empty($this->_attachment)) {
 			$uid = md5(uniqid(time()));
 			$headers .= "MIME-Version: 1.0\r\n";
-			$headers .= "Content-Type: multipart/mixed; boundary=\"".$uid."\"\r\n\r\n";
+			$headers .= sprintf("Content-Type: multipart/mixed; boundary=\"%s\"\r\n\r\n", $uid);
 			$headers .= "This is a multi-part message in MIME format.\r\n";
-			$headers .= "--".$uid."\r\n";
+			$headers .= sprintf("--%s\r\n", $uid);
 			$headers .= "Content-type:text/html; charset=\"utf-8\"\r\n";
 			$headers .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
 			$headers .= $this->_message."\r\n\r\n";
-			$headers .= "--".$uid."\r\n";
+			$headers .= sprintf("--%s\r\n", $uid);
 			
 			foreach ($this->_attachmentFilename as $key => $value) {
-				$headers .= "Content-Type: application/octet-stream; name=\"".$value."\"\r\n";
+				$headers .= sprintf("Content-Type: application/octet-stream; name=\"%s\"\r\n", $value);
 				$headers .= "Content-Transfer-Encoding: base64\r\n";
-				$headers .= "Content-Disposition: attachment; filename=\"".$value."\"\r\n\r\n";
-				$headers .= $this->_attachment[$key]."\r\n\r\n";
-				$headers .= "--".$uid."\r\n";
+				$headers .= sprintf("Content-Disposition: attachment; filename=\"%s\"\r\n\r\n", $value);
+				$headers .= sprintf("%s\r\n\r\n", $this->_attachment[$key]);
+				$headers .= sprintf("--%s\r\n", $uid);
 			}
 			$send = mail($this->_to, $this->_subject, "", $headers, $this->_additionalParameters);
 		}

@@ -17,7 +17,7 @@ $send	= $mailer->setTo('eoghan@eoghanobrien.com', 'Eoghan OBrien')
 				 ->setWrap(100)
 				 ->send();
 				 
-$mailer->debug();
+//$mailer->debug();
 
 if ($send) {
 	echo 'Email sent successfully';

@@ -7,7 +7,7 @@
 Simple Mail Class provides a simple, chainable PHP class for sending basic emails
 
     $mailer = new Simple_Mail(TRUE); // Set to TRUE to enable exception throwing
-    $send	= $mailer->setTo('eoghan@eoghanobrien.com', 'Eoghan OBrien')
+    $send	= $mailer->setTo('youremail@gmail.com', 'Your Email')
 				 ->setSubject('Test Message')
 				 ->setFrom('no-reply@domain.com', 'Domain.com')
 				 ->addMailHeader('Reply-To', 'no-reply@domain.com', 'Domain.com')
@@ -26,7 +26,7 @@ Simple Mail Class provides a simple, chainable PHP class for sending basic email
 If you are sending an attachment there is no need to add any addGenericHeader()'s. To properly send the attachments the necessary headers will be set for you. You can also chain as many attachments as you want (see example).
 
 	$mailer = new Simple_Mail(TRUE); // Set to TRUE to enable exception throwing
-	$send	= $mailer->setTo('eoghan@eoghanobrien.com', 'Eoghan OBrien')
+	$send	= $mailer->setTo('youremail@gmail.com', 'Your Email')
 					 ->setSubject('Test Message')
 					 ->setFrom('no-reply@domain.com', 'Domain.com')
 					 ->addMailHeader('Reply-To', 'no-reply@domain.com', 'Domain.com')
