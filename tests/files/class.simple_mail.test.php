@@ -164,6 +164,93 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
 		$this->assertSame(78, $this->mailer->getWrap());
 	}
 
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testAddMailHeaderThrowsInvalidArgumentExceptionWithInvalidHeader()
+	{
+		$this->mailer->setThrowExceptions(true);
+		$this->mailer->addMailHeader(123);
+	}
+
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testAddMailHeaderThrowsInvalidArgumentExceptionWithInvalidEmail()
+	{
+		$this->mailer->setThrowExceptions(true);
+		$this->mailer->addMailHeader('Testing', 213);
+	}
+
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testAddMailHeaderThrowsInvalidArgumentExceptionWithInvalidName()
+	{
+		$this->mailer->setThrowExceptions(true);
+		$this->mailer->addMailHeader('Testing', 'testing@gmail.com', 123);
+	}
+
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testSetAdditionalParametersThrowsInvalidArgumentExceptionWithInvalidParams()
+	{
+		$this->mailer->setThrowExceptions(true);
+		$this->mailer->setAdditionalParameters(123);
+	}
+
+	public function testSetAdditionalParamatersReturnsCorrectString()
+	{
+		$this->mailer->setThrowExceptions(true);
+		$this->mailer->setAdditionalParameters("-ftest@gmail.com");
+		$params = $this->mailer->getAdditionalParameters();
+
+		$this->assertSame("-ftest@gmail.com", $params);
+	}
+
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testAddGenericHeaderThrowsInvalidArgumentExceptionWithInvalidHeader()
+	{
+		$this->mailer->setThrowExceptions(true);
+		$this->mailer->addGenericHeader(false, 'Value');
+
+		$this->_headers[] = sprintf('%s: %s', $header, $this->formatHeader($email, $name));
+	}
+
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testAddGenericHeaderThrowsInvalidArgumentExceptionWithInvalidValue()
+	{
+		$this->mailer->setThrowExceptions(true);
+		$this->mailer->addGenericHeader('Version', false);
+	}
+
+	public function testAddGenericHeaderReturnsCorrectHeader()
+	{
+		$this->mailer->setThrowExceptions(true);
+		$this->mailer->addGenericHeader('Version', 'PHP5');
+		$this->assertContains("Version: PHP5", $this->mailer->getHeaders());
+	}
+
+	public function testDebug()
+	{
+		$this->mailer->setThrowExceptions(true);
+
+		$this->assertSame($this->mailer->debug(), var_dump($this->mailer));
+	}
+
+	public function testToString()
+	{
+		$this->mailer->setThrowExceptions(true);
+		$stringifyObject = print_r($this->mailer, 1);
+
+		$this->assertSame((string) $this->mailer, $stringifyObject);
+	}
+
 	public function tearDown()
 	{
 		unset($this->mailer);

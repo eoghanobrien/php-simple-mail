@@ -140,6 +140,7 @@ class Simple_Mail
 		if ( $addHeader ) {
 			$this->addMailHeader('To', $email, $name);
 		}
+
 		return $this;
 	}
 
@@ -298,7 +299,7 @@ class Simple_Mail
 			throw new InvalidArgumentException();
 		}
 
-		$this->_headers[] = sprintf('%s: %s', $header, $this->formatHeader($email, $name));
+		$this->_headers[] = "$header: $value";
 
 		return $this;
 	}
@@ -323,6 +324,16 @@ class Simple_Mail
 		
 		$this->_additionalParameters = $additionalParameters;
 		return $this;
+	}
+
+	/**
+	 * getAdditionalParameters function
+	 *
+	 * @return string
+	 */
+	public function getAdditionalParameters()
+	{
+		return $this->_additionalParameters;
 	}
 	
 	/**
