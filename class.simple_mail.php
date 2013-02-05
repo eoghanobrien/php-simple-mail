@@ -16,7 +16,7 @@ class Simple_Mail
 	 * @var int $wrap
 	 * @access protected
 	 */
-	protected $_wrap = 70;
+	protected $_wrap = 78;
 	
 	/**
 	 * @var string $_to (default value: null)
