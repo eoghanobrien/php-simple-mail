@@ -1,5 +1,7 @@
 #README
 
+[![Build Status](https://travis-ci.org/[eoghanobrien]/[php-simple-mail].png)](https://travis-ci.org/[eoghanobrien]/[php-simple-mail])
+
 ##Description
 
 ####Version 1.0
