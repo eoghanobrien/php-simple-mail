@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1360097705">
-  <project timestamp="1360097705">
+<coverage generated="1360098296">
+  <project timestamp="1360098296">
     <file name="/Applications/MAMP/htdocs/git/php-simple-mail/class.simple_mail.php">
       <class name="Simple_Mail" namespace="global" fullPackage="Simple">
         <metrics methods="21" coveredmethods="10" conditionals="0" coveredconditionals="0" statements="121" coveredstatements="48" elements="142" coveredelements="58"/>

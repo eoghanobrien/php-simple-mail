@@ -3,11 +3,10 @@
 /**
 * Simple Mail class.
 *
-* @author Eoghan O'Brien <eoghan@eoghanobrien.com> (www.eoghanobrien.com)
+* @author Eoghan O'Brien http://github.com/eoghanobrien
 * @package Simple Mail
 * @version 1.1
 * @copyright 2009-2010
-* @see http://eoghanobrien.com/code/simple-mail-php/
 * @license Free http://unlicense.org/
 */
 
