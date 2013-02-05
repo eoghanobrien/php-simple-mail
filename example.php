@@ -14,10 +14,11 @@ $send	= $mailer->setTo('youremail@gmail.com', 'Your Email')
 				 ->addGenericHeader('X-Mailer', 'PHP/' . phpversion())
 				 ->addGenericHeader('Content-Type', 'text/html; charset="utf-8"')
 				 ->setMessage('<strong>This is a test message.</strong>')
-				 ->setWrap(100)
-				 ->send();
-				 
+				 ->setWrap(100)/*
+				 ->send()*/;
+echo '<pre>';
 $mailer->debug();
+echo '</pre>';
 
 if ($send) {
 	echo 'Email sent successfully';

@@ -1,0 +1,5 @@
+
+tests/files/class.simple_mail.test.php
+
+.idea/*
+tests/report/*

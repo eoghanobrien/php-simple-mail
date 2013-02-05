@@ -1,0 +1,24 @@
+<phpunit colors="true" backupGlobals="false">
+	<testsuites>
+		<testsuite name="Test Suite">
+			<directory suffix=".test.php">./files</directory>
+		</testsuite>
+	</testsuites>
+	<filter>
+		<whitelist>
+            <file>../class.simple_mail.php</file>
+		</whitelist>
+	</filter>
+	<logging>
+		<log
+			type="coverage-html"
+			target="./report/"
+			charset="UTF-8"
+			yui="true"
+			highlight="true"
+			lowUpperBound="50"
+			highLowerBound="80"
+		/>
+		<log type="coverage-clover" target="./tests/clover.xml" charset="UTF-8"/>
+	</logging>
+</phpunit>

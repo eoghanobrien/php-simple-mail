@@ -62,13 +62,13 @@ class Simple_Mail
 	protected $_attachment = array();
 	
 	/**
-	 * @var string $_attachmentPath (default value: array())
+	 * @var    string $_attachmentPath (default value: array())
 	 * @access protected
 	 */
 	protected $_attachmentPath = array();
 	
 	/**
-	 * @var string $attachment_filename (default value: array())
+	 * @var    string $attachment_filename (default value: array())
 	 * @access protected
 	 */
 	protected $_attachmentFilename = array();
@@ -89,13 +89,13 @@ class Simple_Mail
 	/**
 	 * setThrowExceptions function.
 	 * 
-	 * @access	public
-	 * @param	mixed	$bool (default: false)
+	 * @access public
+	 * @param  mixed	$bool (default: false)
 	 * @return void
 	 */
 	public function setThrowExceptions($bool = false)
 	{
-		if ( ! is_bool($bool) && $this->_throwExceptions) {
+		if ( ! is_bool($bool)) {
 			throw new InvalidArgumentException('First parameter must be boolean');
 		}
 	
@@ -103,12 +103,23 @@ class Simple_Mail
 	}
 
 	/**
+	 * Determine whether or not the class should throw exceptions.
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function shouldThrowExceptions()
+	{
+		return $this->_throwExceptions;
+	}
+
+	/**
 	 * setTo function.
 	 * 
 	 * @access public
-	 * @param	string	$email
-	 * @param	string	$name
-	 * @param	boolean	$addHeader	(default: false)
+	 * @param  string	$email
+	 * @param  string	$name
+	 * @param  boolean	$addHeader	(default: false)
 	 * @return void
 	 */
 	public function setTo($email, $name, $addHeader = false)
@@ -125,16 +136,30 @@ class Simple_Mail
 			throw new InvalidArgumentException();
 		}
 		
-		$this->_to = $this->_formatHeader($email, $name);
-		if ( $addHeader ) $this->addMailHeader('To', $email, $name);
+		$this->_to = $this->formatHeader($email, $name);
+
+		if ( $addHeader ) {
+			$this->addMailHeader('To', $email, $name);
+		}
 		return $this;
+	}
+
+	/**
+	 * Return the formatted To address
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function getTo()
+	{
+		return $this->_to;
 	}
 	
 	/**
 	 * setSubject function.
 	 * 
 	 * @access public
-	 * @param	string	$subject
+	 * @param  string	$subject
 	 * @return void
 	 */
 	public function setSubject($subject)
@@ -151,7 +176,7 @@ class Simple_Mail
 	 * setMessage function.
 	 * 
 	 * @access public
-	 * @param	string		$message
+	 * @param  string		$message
 	 * @return void
 	 */
 	public function setMessage($message)
@@ -168,7 +193,7 @@ class Simple_Mail
 	 * addAttachment function.
 	 * 
 	 * @access public
-	 * @param	string		$message
+	 * @param  string		$message
 	 * @return void
 	 */
 	public function addAttachment($path, $filename = null)
@@ -189,8 +214,8 @@ class Simple_Mail
 	 * setFrom function.
 	 * 
 	 * @access public
-	 * @param	string	$email
-	 * @param	string	$name
+	 * @param  string	$email
+	 * @param  string	$name
 	 * @return void
 	 */
 	public function setFrom($email, $name)
@@ -211,9 +236,9 @@ class Simple_Mail
 	 * addMailHeader function.
 	 * 
 	 * @access public
-	 * @param	string	$header
-	 * @param	string	$email	(default: null)
-	 * @param	string	$name	(default: null)
+	 * @param  string	$header
+	 * @param  string	$email	(default: null)
+	 * @param  string	$name	(default: null)
 	 * @return void
 	 */
 	public function addMailHeader($header, $email = null, $name = null)
@@ -229,8 +254,9 @@ class Simple_Mail
 		if ( ! is_string($name) && $this->_throwExceptions) {
 			throw new InvalidArgumentException();
 		}
-		
-		$this->_headers[] = "$header: " . $this->_formatHeader($email, $name);		
+
+		$this->_headers[] = sprintf('%s:%s', $header, $this->formatHeader($email, $name));
+
 		return $this;
 	}
 	
@@ -238,8 +264,8 @@ class Simple_Mail
 	 * addGenericHeader function.
 	 * 
 	 * @access public
-	 * @param	string $header
-	 * @param	mixed $value
+	 * @param  string $header
+	 * @param  mixed $value
 	 * @return void
 	 */
 	public function addGenericHeader($header, $value)
@@ -255,12 +281,17 @@ class Simple_Mail
 		$this->_headers[] = "$header: $value";
 		return $this;
 	}
+
+	public function getHeaders()
+	{
+		return $this->_headers;
+	}
 		
 	/**
 	 * setAdditionalParameters function.
 	 * 
 	 * @access public
-	 * @param	string		$additionalParameters
+	 * @param  string	$additionalParameters
 	 * @return void
 	 */
 	public function setAdditionalParameters($additionalParameters)
@@ -277,7 +308,7 @@ class Simple_Mail
 	 * setWrap function.
 	 * 
 	 * @access public
-	 * @param mixed $wrap. (default: 70)
+	 * @param  int      $wrap. (default: 70)
 	 * @return object
 	 */
 	public function setWrap($wrap = 70)
@@ -325,7 +356,7 @@ class Simple_Mail
 		}
 		
 		if ( ! $send && $this->_throwExceptions) {
-			throw new Exception('Email failed to send');
+			throw new Exception('Email failed to send.');
 		}
 		
 		if ( ! $send) {
@@ -360,12 +391,12 @@ class Simple_Mail
 	/**
 	 * Format headers
 	 * 
-	 * @access protected
-	 * @param string $email
-	 * @param string $name
+	 * @access public
+	 * @param  string $email
+	 * @param  string $name
 	 * @return string
 	 */
-	protected function _formatHeader($email, $name)
+	public function formatHeader($email, $name)
 	{
 		$name	= $this->_filterName($name);
 		$email	= $this->_filterEmail($email);
@@ -376,7 +407,7 @@ class Simple_Mail
 	 * Filter of email data
 	 *
 	 * @access protected
-	 * @param string $email
+	 * @param  string $email
 	 * @return string
 	 */
 	protected function _filterEmail($email)
@@ -400,7 +431,7 @@ class Simple_Mail
 	 * Filter of name data
 	 *
 	 * @access protected
-	 * @param string $name
+	 * @param  string $name
 	 * @return string
 	 */
 	protected function _filterName($name)
@@ -420,7 +451,7 @@ class Simple_Mail
 	 * Filter of other data
 	 *
 	 * @access protected
-	 * @param string $data
+	 * @param  string $data
 	 * @return string
 	 */
 	protected function _filterOther($data)
