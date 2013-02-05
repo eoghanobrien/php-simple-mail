@@ -170,6 +170,16 @@ class Simple_Mail
 		$this->_subject = $this->_filterOther($subject);
 		return $this;
 	}
+
+	/**
+	 * getSubject function.
+	 *
+	 * @return string
+	 */
+	public function getSubject()
+	{
+		return $this->_subject;
+	}
 	
 	/**
 	 * setMessage function.

@@ -72,6 +72,23 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
 		$this->assertContains($header, $this->mailer->getHeaders());
 	}
 
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testSetSubjectThrowsInvalidArgumentExceptionWithInvalidSubject()
+	{
+		$this->mailer->setThrowExceptions(true);
+		$this->mailer->setSubject(12345);
+	}
+
+	public function testSetSubjectReturnsCorrectValue()
+	{
+		$this->mailer->setThrowExceptions(true);
+		$this->mailer->setSubject('Testing Simple Mail');
+
+		$this->assertSame($this->mailer->getSubject(), 'Testing Simple Mail');
+	}
+
 	public function tearDown()
 	{
 		unset($this->mailer);
