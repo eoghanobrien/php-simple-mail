@@ -221,10 +221,11 @@ class Simple_Mail
 		$this->_attachmentPath[] = $path;
 		$this->_attachmentFilename[] = empty($filename) ? basename($path) : $filename;
 		
-		$filesize = filesize($path);
-		$handle = fopen($path, "r");
+		$filesize   = filesize($path);
+		$handle     = fopen($path, "r");
 		$attachment = fread($handle, $filesize);
 		fclose($handle);
+
 		$this->_attachment[] = chunk_split(base64_encode($attachment));
 
 		return $this;
