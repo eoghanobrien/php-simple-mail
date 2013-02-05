@@ -32,7 +32,7 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
 	{
 		$this->mailer->setTo('test@gmail.com', 'Tester');
 
-		$this->assertEquals('Tester <test@gmail.com>', $this->mailer->getTo());
+		$this->assertContains('Tester <test@gmail.com>', $this->mailer->getTo());
 	}
 
 	/**
@@ -53,22 +53,13 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
 		$this->mailer->setTo('test@gmail.com', 123);
 	}
 
-	/**
-	 * @expectedException InvalidArgumentException
-	 */
-	public function testSetToThrowsInvalidArgumentExceptionWithInvalidAddHeadersValue()
+	public function testSetToAddsHeader()
 	{
 		$this->mailer->setThrowExceptions(true);
-		$this->mailer->setTo('test@gmail.com', 'Tester', 'not bool');
-	}
+		$this->mailer->setTo('test@gmail.com', 'Tester');
+		$header = $this->mailer->formatHeader('test@gmail.com', 'Tester');
 
-	public function testSetToAddHeaderParameterAddsHeader()
-	{
-		$this->mailer->setThrowExceptions(true);
-		$this->mailer->setTo('test@gmail.com', 'Tester', true);
-		$header = sprintf('%s: %s', 'To', $this->mailer->formatHeader('test@gmail.com', 'Tester'));
-
-		$this->assertContains($header, $this->mailer->getHeaders());
+		$this->assertContains($header, $this->mailer->getTo());
 	}
 
 	/**
@@ -240,7 +231,7 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
 	{
 		$this->mailer->setThrowExceptions(true);
 
-		$this->assertSame($this->mailer->debug(), var_dump($this->mailer));
+		$this->assertSame($this->mailer->debug(), '<pre>'.print_r($this->mailer, 1).'</pre>');
 	}
 
 	public function testToString()
@@ -249,6 +240,26 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
 		$stringifyObject = print_r($this->mailer, 1);
 
 		$this->assertSame((string) $this->mailer, $stringifyObject);
+	}
+
+	/**
+	 * @expectedException RuntimeException
+	 */
+	public function testSendThrowsRuntimeExceptionWhenNoToAddressIsSet()
+	{
+		$this->mailer->setThrowExceptions(true);
+		$this->mailer->send();
+	}
+
+	public function testSendReturnsTrueOnSuccess()
+	{
+		$this->mailer->setThrowExceptions(true);
+		$this->mailer->setTo('eoghan@eoghanobrien.com', "Eoghan O'Brien")
+					 ->setFrom('info@studioforty9.com', 'StudioForty9')
+					 ->setSubject('Hello From PHPUnit')
+					 ->setMessage('Hello message.');
+
+		$this->assertTrue($this->mailer->send());
 	}
 
 	public function tearDown()

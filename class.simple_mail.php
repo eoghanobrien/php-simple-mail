@@ -12,6 +12,8 @@
 
 class Simple_Mail
 {
+	const CRLF = "\r\n";
+
 	/**
 	 * @var int $wrap
 	 * @access protected
@@ -22,7 +24,7 @@ class Simple_Mail
 	 * @var string $_to (default value: null)
 	 * @access protected
 	 */
-	protected $_to = null;
+	protected $_to = array();
 	
 	/**
 	 * @var string $_subject (default value: null)
@@ -121,7 +123,7 @@ class Simple_Mail
 	 * @param  boolean	$addHeader	(default: false)
 	 * @return void
 	 */
-	public function setTo($email, $name, $addHeader = false)
+	public function setTo($email, $name)
 	{
 		if ( ! is_string($email) && $this->_throwExceptions) {
 			throw new InvalidArgumentException();
@@ -131,15 +133,7 @@ class Simple_Mail
 			throw new InvalidArgumentException();
 		}
 		
-		if ( ! is_bool($addHeader) && $this->_throwExceptions) {
-			throw new InvalidArgumentException();
-		}
-		
-		$this->_to = $this->formatHeader($email, $name);
-
-		if ( $addHeader ) {
-			$this->addMailHeader('To', $email, $name);
-		}
+		$this->_to[] = $this->formatHeader($email, $name);
 
 		return $this;
 	}
@@ -372,11 +366,15 @@ class Simple_Mail
 	 */
 	public function send()
 	{	
-		$headers = ( !empty($this->_headers) ) ? join("\r\n", $this->_headers) : array();
+		$headers = (!empty($this->_headers)) ? join("\r\n", $this->_headers) : array();
+		$to = (is_array($this->_to) && !empty($this->_to)) ? join(", ", $this->_to) : false;
+		if ($to === false) {
+			throw new RuntimeException('Unable to send, no To address has been set.');
+		}
 		
-		if ( ! empty($this->_attachment)) {
+		if (!empty($this->_attachment)) {
 			$uid = md5(uniqid(time()));
-			$headers .= "MIME-Version: 1.0\r\n";
+			$headers .= "MIME-Version: 1.0".self::CRLF;
 			$headers .= sprintf("Content-Type: multipart/mixed; boundary=\"%s\"\r\n\r\n", $uid);
 			$headers .= "This is a multi-part message in MIME format.\r\n";
 			$headers .= sprintf("--%s\r\n", $uid);
@@ -392,10 +390,10 @@ class Simple_Mail
 				$headers .= sprintf("%s\r\n\r\n", $this->_attachment[$key]);
 				$headers .= sprintf("--%s\r\n", $uid);
 			}
-			$send = mail($this->_to, $this->_subject, "", $headers, $this->_additionalParameters);
+			$send = mail('eoghan@eoghanobrien.com', $this->_subject, "", $headers, $this->_additionalParameters);
 		}
 		else {
-			$send = mail($this->_to, $this->_subject, wordwrap($this->_message, $this->_wrap), $headers, $this->_additionalParameters);
+			$send = mail($to, $this->_subject, wordwrap($this->_message, $this->_wrap), $headers, $this->_additionalParameters);
 		}
 		
 		if ( ! $send && $this->_throwExceptions) {
@@ -417,7 +415,7 @@ class Simple_Mail
 	 */
 	public function debug()
 	{
-		var_dump($this);
+		return '<pre>'.print_r($this, 1).'</pre>';
 	}
 	
 	/**

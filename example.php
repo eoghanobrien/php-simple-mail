@@ -5,20 +5,20 @@ echo '<h1>Simple Mail</h1>';
 
 $mailer = new Simple_Mail(TRUE); // Set to TRUE to enable exception throwing
 
-$send	= $mailer->setTo('youremail@gmail.com', 'Your Email')
+$send	= $mailer->setTo('test@gmail.com', 'Recipient 1')
+				 ->setTo('test2@gmail.com', 'Recipient 2')
 				 ->setSubject('Test Message')
-				 ->setFrom('no-reply@domain.com', 'Domain.com')
-				 ->addMailHeader('Reply-To', 'no-reply@domain.com', 'Domain.com')
+				 ->setFrom('sender@gmail.com', 'Sender')
+				 ->addMailHeader('Reply-To', 'sender@gmail.com', 'Sender')
 				 ->addMailHeader('Cc', 'bill@example.com', 'Bill Gates')
 				 ->addMailHeader('Bcc', 'steve@example.com', 'Steve Jobs')
 				 ->addGenericHeader('X-Mailer', 'PHP/' . phpversion())
 				 ->addGenericHeader('Content-Type', 'text/html; charset="utf-8"')
 				 ->setMessage('<strong>This is a test message.</strong>')
-				 ->setWrap(100)/*
-				 ->send()*/;
-echo '<pre>';
-$mailer->debug();
-echo '</pre>';
+				 ->setWrap(78)
+				 ->send();
+
+echo $mailer->debug();
 
 if ($send) {
 	echo 'Email sent successfully';
