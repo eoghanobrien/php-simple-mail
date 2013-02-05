@@ -66,8 +66,7 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
 	{
 		$this->mailer->setThrowExceptions(true);
 		$this->mailer->setTo('test@gmail.com', 'Tester', true);
-
-		$header = sprintf('%s:%s', 'To', $this->mailer->formatHeader('test@gmail.com', 'Tester'));
+		$header = sprintf('%s: %s', 'To', $this->mailer->formatHeader('test@gmail.com', 'Tester'));
 
 		$this->assertContains($header, $this->mailer->getHeaders());
 	}
@@ -87,6 +86,82 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
 		$this->mailer->setSubject('Testing Simple Mail');
 
 		$this->assertSame($this->mailer->getSubject(), 'Testing Simple Mail');
+	}
+
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testSetMessageThrowsInvalidArgumentExceptionWithInvalidMessage()
+	{
+		$this->mailer->setThrowExceptions(true);
+		$this->mailer->setMessage(123);
+	}
+
+	public function testSetMessageReturnsCorrectValue()
+	{
+		$this->mailer->setThrowExceptions(true);
+		$this->mailer->setMessage('Testing Simple Mail');
+
+		$this->assertSame($this->mailer->getMessage(), 'Testing Simple Mail');
+	}
+
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testSetFromThrowsInvalidArgumentWithInvalidEmail()
+	{
+		$this->mailer->setThrowExceptions(true);
+		$this->mailer->setFrom(123, 'Tester');
+	}
+
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testSetMessageThrowsInvalidArgumentWithInvalidName()
+	{
+		$this->mailer->setThrowExceptions(true);
+		$this->mailer->setFrom('test@gmail.com', 123);
+	}
+
+	public function testSetMessageIsAddedToHeaders()
+	{
+		$this->mailer->setThrowExceptions(true);
+		$this->mailer->setFrom('test@gmail.com', 'Tester', true);
+		$header = sprintf('%s: %s', 'From', $this->mailer->formatHeader('test@gmail.com', 'Tester'));
+
+		$this->assertContains($header, $this->mailer->getHeaders());
+	}
+
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testSetWrapThrowsInvalidArgumentExceptionWithNonInt()
+	{
+		$this->mailer->setThrowExceptions(true);
+		$this->mailer->setWrap('non int');
+	}
+
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testSetWrapThrowsInvalidArgumentExceptionWithZero()
+	{
+		$this->mailer->setThrowExceptions(true);
+		$this->mailer->setWrap(0);
+	}
+
+	public function testSetWrapAssignsCorrectValue()
+	{
+		$this->mailer->setThrowExceptions(true);
+		$this->mailer->setWrap(50);
+
+		$this->assertSame(50, $this->mailer->getWrap());
+	}
+
+	public function testgetWrapDefaultsTo78()
+	{
+		$this->mailer->setThrowExceptions(true);
+		$this->assertSame(78, $this->mailer->getWrap());
 	}
 
 	public function tearDown()

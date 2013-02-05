@@ -185,7 +185,7 @@ class Simple_Mail
 	 * setMessage function.
 	 * 
 	 * @access public
-	 * @param  string		$message
+	 * @param  string	$message
 	 * @return void
 	 */
 	public function setMessage($message)
@@ -196,6 +196,16 @@ class Simple_Mail
 		
 		$this->_message = str_replace("\n.", "\n..", $message);
 		return $this;
+	}
+
+	/**
+	 * getMessage function.
+	 *
+	 * @return string
+	 */
+	public function getMessage()
+	{
+		return $this->_message;
 	}
 	
 	/**
@@ -238,6 +248,7 @@ class Simple_Mail
 		}
 		
 		$this->addMailHeader('From', $email, $name);
+
 		return $this;
 	}
 	
@@ -264,7 +275,7 @@ class Simple_Mail
 			throw new InvalidArgumentException();
 		}
 
-		$this->_headers[] = sprintf('%s:%s', $header, $this->formatHeader($email, $name));
+		$this->_headers[] = sprintf('%s: %s', $header, $this->formatHeader($email, $name));
 
 		return $this;
 	}
@@ -286,8 +297,9 @@ class Simple_Mail
 		if ( ! is_string($value) || ! is_string($value) && $this->_throwExceptions) {
 			throw new InvalidArgumentException();
 		}
-		
-		$this->_headers[] = "$header: $value";
+
+		$this->_headers[] = sprintf('%s: %s', $header, $this->formatHeader($email, $name));
+
 		return $this;
 	}
 
@@ -317,17 +329,27 @@ class Simple_Mail
 	 * setWrap function.
 	 * 
 	 * @access public
-	 * @param  int      $wrap. (default: 70)
+	 * @param  int      $wrap. (default: 78)
 	 * @return object
 	 */
-	public function setWrap($wrap = 70)
+	public function setWrap($wrap = 78)
 	{
-		if ( ! is_int($wrap) && $wrap < 1 && $this->_throwExceptions) {
+		if (($this->_throwExceptions) && !is_int($wrap) || $wrap < 1) {
 			throw new InvalidArgumentException('Wrap must be an integer larger than 0');
 		}
 		
 		$this->_wrap = $wrap;
 		return $this;
+	}
+
+	/**
+	 * getWrap function.
+	 *
+	 * @return int
+	 */
+	public function getWrap()
+	{
+		return $this->_wrap;
 	}
 	
 	/**
