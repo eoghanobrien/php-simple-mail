@@ -11,4 +11,4 @@ before_script:
 
 script:
   - phpunit --configuration ./tests/stub.xml
-  - phpcs --standard=PSR2 class.simple_mail.php
+  - phpcs --standard=PSR1 class.simple_mail.php

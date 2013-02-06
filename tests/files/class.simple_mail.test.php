@@ -10,7 +10,7 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
 
 	public function setUp()
 	{
-		$this->mailer    = new Simple_Mail();
+		$this->mailer    = new SimpleMail();
 		$this->directory = realpath('./');
 	}
 
