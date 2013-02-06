@@ -4,7 +4,7 @@
 * Simple Mail class.
 *
 * @author Eoghan O'Brien http://github.com/eoghanobrien
-* @package Simple Mail
+* @package Simple
 * @version 1.1
 * @copyright 2009-2010
 * @license Free http://unlicense.org/
@@ -74,7 +74,7 @@ class Mail
      *
      * Resets all variables to initial state.
      *
-     * @return Simple_Mail
+     * @return Mail
      */
     public function reset()
     {
@@ -97,10 +97,10 @@ class Mail
      * @param  string $email
      * @param  string $name
      *
-     * @throws InvalidArgumentException on non string value for $email
-     * @throws InvalidArgumentException on non string value for $name
+     * @throws \InvalidArgumentException on non string value for $email
+     * @throws \InvalidArgumentException on non string value for $name
      *
-     * @return Simple_Mail
+     * @return Mail
      */
     public function setTo($email, $name)
     {
@@ -131,13 +131,13 @@ class Mail
      * setSubject function.
      *
      * @param  string$subject
-     * @throws InvalidArgumentException on non string value for $subject
-     * @return Simple_Mail
+     * @throws \InvalidArgumentException on non string value for $subject
+     * @return Mail
      */
     public function setSubject($subject)
     {
         if (! is_string($subject)) {
-            throw new \InvalidArgumentException();
+            throw new \InvalidArgumentException('$subject must be a string.');
         }
 
         $this->subject = $this->filterOther($subject);
@@ -160,13 +160,13 @@ class Mail
      *
      * @access public
      * @param  string $message
-     * @throws InvalidArgumentException on non string value for $message
-     * @return Simple_Mail
+     * @throws \InvalidArgumentException on non string value for $message
+     * @return Mail
      */
     public function setMessage($message)
     {
         if (! is_string($message)) {
-            throw new \InvalidArgumentException();
+            throw new \InvalidArgumentException('$message must be a string.');
         }
 
         $this->message = str_replace("\n.", "\n..", $message);
@@ -191,7 +191,7 @@ class Mail
      * @access public
      * @param  string $path
      * @param  string $filename
-     * @return Simple_Mail
+     * @return Mail
      */
     public function addAttachment($path, $filename = null)
     {
@@ -207,7 +207,7 @@ class Mail
      *
      * @todo   Test this.
      * @param  string $path
-     * @return Simple_Mail
+     * @return Mail
      */
     public function addAttachmentPath($path)
     {
@@ -221,7 +221,7 @@ class Mail
      *
      * @todo   Test this.
      * @param  string $filename
-     * @return Simple_Mail
+     * @return Mail
      */
     public function addAttachmentFilename($filename)
     {
@@ -253,10 +253,10 @@ class Mail
      * @param  string $email
      * @param  string $name
      *
-     * @throws InvalidArgumentException on non string value for $email
-     * @throws InvalidArgumentException on non string value for $name
+     * @throws \InvalidArgumentException on non string value for $email
+     * @throws \InvalidArgumentException on non string value for $name
      *
-     * @return Simple_Mail
+     * @return Mail
      */
     public function setFrom($email, $name)
     {
@@ -280,11 +280,11 @@ class Mail
      * @param  string $email
      * @param  string $name
      *
-     * @throws InvalidArgumentException on non string value for $header
-     * @throws InvalidArgumentException on non string value for $email
-     * @throws InvalidArgumentException on non string value for $name
+     * @throws \InvalidArgumentException on non string value for $header
+     * @throws \InvalidArgumentException on non string value for $email
+     * @throws \InvalidArgumentException on non string value for $name
      *
-     * @return Simple_Mail
+     * @return Mail
      */
     public function addMailHeader($header, $email = null, $name = null)
     {
@@ -311,10 +311,10 @@ class Mail
      * @param  string $header
      * @param  mixed $value
      *
-     * @throws InvalidArgumentException on non string value for $header
-     * @throws InvalidArgumentException on non string value for $value
+     * @throws \InvalidArgumentException on non string value for $header
+     * @throws \InvalidArgumentException on non string value for $value
      *
-     * @return Simple_Mail
+     * @return Mail
      */
     public function addGenericHeader($header, $value)
     {
@@ -348,9 +348,9 @@ class Mail
      *
      * @param  string $additionalParameters
      *
-     * @throws InvalidArgumentException on non string value for $additionalParameters
+     * @throws \InvalidArgumentException on non string value for $additionalParameters
      *
-     * @return Simple_Mail
+     * @return Mail
      */
     public function setAdditionalParameters($additionalParameters)
     {
@@ -378,9 +378,9 @@ class Mail
      *
      * @param  int  $wrap
      *
-     * @throws InvalidArgumentException on non int value or int less than 1 for $wrap
+     * @throws \InvalidArgumentException on non int value or int less than 1 for $wrap
      *
-     * @return Simple_Mail
+     * @return Mail
      */
     public function setWrap($wrap = 78)
     {
@@ -444,7 +444,7 @@ class Mail
     /**
      * send function.
      *
-     * @throws RuntimeException on no To: address to send to
+     * @throws \RuntimeException on no To: address to send to
      * @return boolean
      */
     public function send()
@@ -517,7 +517,7 @@ class Mail
      * @param  string $email
      * @return string
      */
-    protected function filterEmail($email)
+	public function filterEmail($email)
     {
         $rule = array("\r" => '',
                       "\n" => '',
@@ -545,7 +545,7 @@ class Mail
      * @param  string $name
      * @return string
      */
-    protected function filterName($name)
+    public function filterName($name)
     {
         $rule = array("\r" => '',
                       "\n" => '',
@@ -567,7 +567,7 @@ class Mail
      * @param  string $data
      * @return string
      */
-    protected function filterOther($data)
+	public function filterOther($data)
     {
         $rule = array("\r" => '',
                       "\n" => '',
