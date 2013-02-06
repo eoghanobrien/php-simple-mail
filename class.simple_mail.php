@@ -140,7 +140,7 @@ class Simple_Mail
 			throw new InvalidArgumentException();
 		}
 		
-		$this->_subject = $this->_filterOther($subject);
+		$this->_subject = $this->filterOther($subject);
 
 		return $this;
 	}
@@ -497,18 +497,18 @@ class Simple_Mail
 	 */
 	public function formatHeader($email, $name = null)
 	{
-		$email	= $this->_filterEmail($email);
+		$email	= $this->filterEmail($email);
 
 		if (is_null($name)) {
 			return $email;
 		}
 
-		$name	= $this->_filterName($name);
+		$name	= $this->filterName($name);
 		return sprintf('%s <%s>', $name, $email);
 	}
 	
 	/**
-	 * _filterEmail.
+	 * filterEmail.
 	 *
 	 * Removes any carriage return, line feed, tab, double quote, comma
 	 * and angle bracket characters before sanitizing the email address.
@@ -517,7 +517,7 @@ class Simple_Mail
 	 * @param  string $email
 	 * @return string
 	 */
-	protected function _filterEmail($email)
+	protected function filterEmail($email)
 	{
 		$rule = array("\r" => '',
 					  "\n" => '',
@@ -545,7 +545,7 @@ class Simple_Mail
 	 * @param  string $name
 	 * @return string
 	 */
-	protected function _filterName($name)
+	protected function filterName($name)
 	{
 		$rule = array("\r" => '',
 					  "\n" => '',
@@ -567,7 +567,7 @@ class Simple_Mail
 	 * @param  string $data
 	 * @return string
 	 */
-	protected function _filterOther($data)
+	protected function filterOther($data)
 	{
 		$rule = array("\r" => '',
 					  "\n" => '',
