@@ -3,7 +3,7 @@
 require 'class.simple_mail.php';
 echo '<h1>Simple Mail</h1>';
 
-$mailer = new SimpleMail(TRUE); // Set to TRUE to enable exception throwing
+$mailer = new Simple\Mail(TRUE); // Set to TRUE to enable exception throwing
 
 $send	= $mailer->setTo('youremail@gmail.com', 'Your Email')
 				 ->setSubject('Test Message')

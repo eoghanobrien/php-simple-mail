@@ -1,4 +1,4 @@
-<?php
+<?php namespace Simple;
 
 /**
 * Simple Mail class.
@@ -10,7 +10,7 @@
 * @license Free http://unlicense.org/
 */
 
-class SimpleMail
+class Mail
 {
     const CRLF = "\r\n";
 
