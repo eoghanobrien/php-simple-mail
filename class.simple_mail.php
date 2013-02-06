@@ -212,19 +212,55 @@ class Simple_Mail
 	 */
 	public function addAttachment($path, $filename = null)
 	{
+		$this->addAttachmentPath($path);
+		$this->addAttachmentFilename(empty($filename) ? basename($path) : $filename);
+		$this->_attachment[] = $this->getAttachmentData($path);
+
+		return $this;
+	}
+
+	/**
+	 * addAttachmentPath function.
+	 *
+	 * @param  string $path
+	 * @return Simple_Mail
+	 */
+	public function addAttachmentPath($path)
+	{
 		$this->_attachmentPath[] = $path;
-		$this->_attachmentFilename[] = empty($filename) ? basename($path) : $filename;
-		
+
+		return $this;
+	}
+
+	/**
+	 * addAttachmentFilename function.
+	 *
+	 * @param  string $filename
+	 * @return Simple_Mail
+	 */
+	public function addAttachmentFilename($filename)
+	{
+		$this->_attachmentFilename[] = $filename;
+
+		return $this;
+	}
+
+	/**
+	 * getAttachmentData function.
+	 *
+	 * @param  string $path
+	 * @return string
+	 */
+	public function getAttachmentData($path)
+	{
 		$filesize   = filesize($path);
 		$handle     = fopen($path, "r");
 		$attachment = fread($handle, $filesize);
 		fclose($handle);
 
-		$this->_attachment[] = chunk_split(base64_encode($attachment));
-
-		return $this;
+		return chunk_split(base64_encode($attachment));
 	}
-	
+
 	/**
 	 * setFrom function.
 	 * 
@@ -371,18 +407,19 @@ class Simple_Mail
 		if ($to === false) {
 			throw new RuntimeException('Unable to send, no To address has been set.');
 		}
-		
+
+		// TODO: Move the attachment assembling code into its own method. assembleAttachments()
 		if (!empty($this->_attachment)) {
 			$uid = md5(uniqid(time()));
 			$headers .= "MIME-Version: 1.0".self::CRLF;
-			$headers .= sprintf("Content-Type: multipart/mixed; boundary=\"%s\"\r\n\r\n", $uid);
-			$headers .= "This is a multi-part message in MIME format.\r\n";
-			$headers .= sprintf("--%s\r\n", $uid);
-			$headers .= "Content-type:text/html; charset=\"utf-8\"\r\n";
-			$headers .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
-			$headers .= $this->_message."\r\n\r\n";
-			$headers .= sprintf("--%s\r\n", $uid);
-			
+			$headers .= sprintf('Content-Type: multipart/mixed; boundary="%s"%s%s', self::CRLF, self::CRLF, $uid);
+			$headers .= sprintf('This is a multi-part message in MIME format.%s', self::CRLF);
+			$headers .= sprintf('--%s%s', $uid, self::CRLF);
+			$headers .= sprintf('Content-type:text/html; charset="utf-8"%s', self::CRLF);
+			$headers .= sprintf('Content-Transfer-Encoding: 7bit%s', self::CRLF, self::CRLF);
+			$headers .= sprintf('%s%s%s', $this->_message, self::CRLF, self::CRLF);
+			$headers .= sprintf('--%s%s', $uid, self::CRLF);
+			// TODO: Cleanup CRLFs in here Eughh!
 			foreach ($this->_attachmentFilename as $key => $value) {
 				$headers .= sprintf("Content-Type: application/octet-stream; name=\"%s\"\r\n", $value);
 				$headers .= "Content-Transfer-Encoding: base64\r\n";
