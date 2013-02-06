@@ -1,6 +1,6 @@
 #README
 
-[![Build Status](https://travis-ci.org/eoghanobrien/php-simple-mail.png)](https://travis-ci.org/eoghanobrien/php-simple-mail)
+[![Build Status](https://travis-ci.org/eoghanobrien/php-simple-mail.png?branch=master)](https://travis-ci.org/eoghanobrien/php-simple-mail)
 
 ##Description
 
