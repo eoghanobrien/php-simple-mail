@@ -10,5 +10,5 @@ before_script:
   - php -l class.simple_mail.php
 
 script:
-  - phpunit --configuration ./tests/phpunit.xml
+  - phpunit --configuration phpunit.xml
   - phpcs --standard=PSR2 class.simple_mail.php
