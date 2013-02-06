@@ -49,30 +49,24 @@ class Simple_Mail
 	 * @access protected
 	 */
 	protected $_additionalParameters	= null;
-		
-	/**
-	 * @var boolean $_throwExceptions (default value: false)
-	 * @access protected
-	 */
-	protected $_throwExceptions = false;
 	
 	/**
-	 * @var string $_attachment (default value: array())
+	 * @var string $_attachments (default value: array())
 	 * @access protected
 	 */
-	protected $_attachment = array();
+	protected $_attachments = array();
 	
 	/**
-	 * @var    string $_attachmentPath (default value: array())
+	 * @var    string $_attachmentsPath (default value: array())
 	 * @access protected
 	 */
-	protected $_attachmentPath = array();
+	protected $_attachmentsPath = array();
 	
 	/**
 	 * @var    string $attachment_filename (default value: array())
 	 * @access protected
 	 */
-	protected $_attachmentFilename = array();
+	protected $_attachmentsFilename = array();
 	
 	
 	/**
@@ -81,37 +75,9 @@ class Simple_Mail
 	 * @access public
 	 * @return void
 	 */
-	public function __construct($throwExceptions = false)
+	public function __construct()
 	{
 		$this->_headers = array();
-		$this->setThrowExceptions($throwExceptions);
-	}
-	
-	/**
-	 * setThrowExceptions function.
-	 * 
-	 * @access public
-	 * @param  mixed	$bool (default: false)
-	 * @return void
-	 */
-	public function setThrowExceptions($bool = false)
-	{
-		if ( ! is_bool($bool)) {
-			throw new InvalidArgumentException('First parameter must be boolean');
-		}
-	
-		$this->_throwExceptions = $bool;
-	}
-
-	/**
-	 * Determine whether or not the class should throw exceptions.
-	 *
-	 * @access public
-	 * @return bool
-	 */
-	public function shouldThrowExceptions()
-	{
-		return $this->_throwExceptions;
 	}
 
 	/**
@@ -121,16 +87,16 @@ class Simple_Mail
 	 * @param  string	$email
 	 * @param  string	$name
 	 * @param  boolean	$addHeader	(default: false)
-	 * @return void
+	 * @return Simple_Mail
 	 */
 	public function setTo($email, $name)
 	{
-		if ( ! is_string($email) && $this->_throwExceptions) {
-			throw new InvalidArgumentException();
+		if (! is_string($email)) {
+			throw new InvalidArgumentException('$email must be a string');
 		}
 		
-		if ( ! is_string($name) && $this->_throwExceptions) {
-			throw new InvalidArgumentException();
+		if (! is_string($name)) {
+			throw new InvalidArgumentException('$name must be a string.');
 		}
 		
 		$this->_to[] = $this->formatHeader($email, $name);
@@ -139,10 +105,10 @@ class Simple_Mail
 	}
 
 	/**
-	 * Return the formatted To address
+	 * Return an array of formatted To addresses.
 	 *
 	 * @access public
-	 * @return string
+	 * @return array
 	 */
 	public function getTo()
 	{
@@ -154,11 +120,11 @@ class Simple_Mail
 	 * 
 	 * @access public
 	 * @param  string	$subject
-	 * @return void
+	 * @return Simple_Mail
 	 */
 	public function setSubject($subject)
 	{
-		if ( ! is_string($subject) && $this->_throwExceptions) {
+		if (! is_string($subject)) {
 			throw new InvalidArgumentException();
 		}
 		
@@ -181,15 +147,16 @@ class Simple_Mail
 	 * 
 	 * @access public
 	 * @param  string	$message
-	 * @return void
+	 * @return Simple_Mail
 	 */
 	public function setMessage($message)
 	{
-		if ( ! is_string($message) && $this->_throwExceptions) {
+		if (! is_string($message)) {
 			throw new InvalidArgumentException();
 		}
 		
 		$this->_message = str_replace("\n.", "\n..", $message);
+
 		return $this;
 	}
 
@@ -205,16 +172,17 @@ class Simple_Mail
 	
 	/**
 	 * addAttachment function.
-	 * 
+	 *
+	 * @todo   Test this.
 	 * @access public
 	 * @param  string		$message
-	 * @return void
+	 * @return Simple_Mail
 	 */
 	public function addAttachment($path, $filename = null)
 	{
 		$this->addAttachmentPath($path);
 		$this->addAttachmentFilename(empty($filename) ? basename($path) : $filename);
-		$this->_attachment[] = $this->getAttachmentData($path);
+		$this->_attachments[] = $this->getAttachmentData($path);
 
 		return $this;
 	}
@@ -222,12 +190,13 @@ class Simple_Mail
 	/**
 	 * addAttachmentPath function.
 	 *
+	 * @todo   Test this.
 	 * @param  string $path
 	 * @return Simple_Mail
 	 */
 	public function addAttachmentPath($path)
 	{
-		$this->_attachmentPath[] = $path;
+		$this->_attachmentsPath[] = $path;
 
 		return $this;
 	}
@@ -235,12 +204,13 @@ class Simple_Mail
 	/**
 	 * addAttachmentFilename function.
 	 *
+	 * @todo   Test this.
 	 * @param  string $filename
 	 * @return Simple_Mail
 	 */
 	public function addAttachmentFilename($filename)
 	{
-		$this->_attachmentFilename[] = $filename;
+		$this->_attachmentsFilename[] = $filename;
 
 		return $this;
 	}
@@ -248,6 +218,7 @@ class Simple_Mail
 	/**
 	 * getAttachmentData function.
 	 *
+	 * @todo   Test this.
 	 * @param  string $path
 	 * @return string
 	 */
@@ -267,15 +238,15 @@ class Simple_Mail
 	 * @access public
 	 * @param  string	$email
 	 * @param  string	$name
-	 * @return void
+	 * @return Simple_Mail
 	 */
 	public function setFrom($email, $name)
 	{
-		if ( ! is_string($email) && $this->_throwExceptions) {
+		if ( ! is_string($email)) {
 			throw new InvalidArgumentException();
 		}
 		
-		if ( ! is_string($name) && $this->_throwExceptions) {
+		if ( ! is_string($name)) {
 			throw new InvalidArgumentException();
 		}
 		
@@ -291,20 +262,20 @@ class Simple_Mail
 	 * @param  string	$header
 	 * @param  string	$email	(default: null)
 	 * @param  string	$name	(default: null)
-	 * @return void
+	 * @return Simple_Mail
 	 */
 	public function addMailHeader($header, $email = null, $name = null)
 	{
-		if ( ! is_string($header) && $this->_throwExceptions) {
-			throw new InvalidArgumentException();
+		if ( ! is_string($header)) {
+			throw new InvalidArgumentException('$header must be a string.');
 		}
 		
-		if ( ! is_string($email) && $this->_throwExceptions) {
-			throw new InvalidArgumentException();
+		if ( ! is_string($email)) {
+			throw new InvalidArgumentException('$email must be a string.');
 		}
 		
-		if ( ! is_string($name) && $this->_throwExceptions) {
-			throw new InvalidArgumentException();
+		if ( ! is_string($name)) {
+			throw new InvalidArgumentException('$name must be a string.');
 		}
 
 		$this->_headers[] = sprintf('%s: %s', $header, $this->formatHeader($email, $name));
@@ -318,16 +289,16 @@ class Simple_Mail
 	 * @access public
 	 * @param  string $header
 	 * @param  mixed $value
-	 * @return void
+	 * @return Simple_Mail
 	 */
 	public function addGenericHeader($header, $value)
 	{
-		if ( ! is_string($header) && $this->_throwExceptions) {
-			throw new InvalidArgumentException();
+		if ( ! is_string($header)) {
+			throw new InvalidArgumentException('$header must be a string.');
 		}
 		
-		if ( ! is_string($value) || ! is_string($value) && $this->_throwExceptions) {
-			throw new InvalidArgumentException();
+		if ( ! is_string($value) || ! is_string($value)) {
+			throw new InvalidArgumentException('$value must be a string.');
 		}
 
 		$this->_headers[] = "$header: $value";
@@ -335,6 +306,11 @@ class Simple_Mail
 		return $this;
 	}
 
+	/**
+	 * Return the headers registered so far as an array.
+	 *
+	 * @return array
+	 */
 	public function getHeaders()
 	{
 		return $this->_headers;
@@ -345,15 +321,16 @@ class Simple_Mail
 	 * 
 	 * @access public
 	 * @param  string	$additionalParameters
-	 * @return void
+	 * @return Simple_Mail
 	 */
 	public function setAdditionalParameters($additionalParameters)
 	{
-		if ( ! is_string($additionalParameters) && $this->_throwExceptions) {
-			throw new InvalidArgumentException();
+		if ( ! is_string($additionalParameters)) {
+			throw new InvalidArgumentException('$additionalParameters must be a string.');
 		}
 		
 		$this->_additionalParameters = $additionalParameters;
+
 		return $this;
 	}
 
@@ -376,11 +353,12 @@ class Simple_Mail
 	 */
 	public function setWrap($wrap = 78)
 	{
-		if (($this->_throwExceptions) && !is_int($wrap) || $wrap < 1) {
+		if (! is_int($wrap) || $wrap < 1) {
 			throw new InvalidArgumentException('Wrap must be an integer larger than 0');
 		}
 		
 		$this->_wrap = $wrap;
+
 		return $this;
 	}
 
@@ -393,6 +371,44 @@ class Simple_Mail
 	{
 		return $this->_wrap;
 	}
+
+	/**
+	 * Checks if the email has an registered attachments.
+	 *
+	 * @return bool
+	 */
+	public function hasAttachments()
+	{
+		return !empty($this->_attachments);
+	}
+
+	/**
+	 * assembleAttachment function.
+	 *
+	 * @return string
+	 */
+	public function assembleAttachmentHeaders()
+	{
+		$uid = md5(uniqid(time()));
+		$headers  = sprintf('MIME-Version: 1.0', self::CRLF);
+		$headers .= sprintf('Content-Type: multipart/mixed; boundary="%s"%s%s', self::CRLF, self::CRLF, $uid);
+		$headers .= sprintf('This is a multi-part message in MIME format.%s', self::CRLF);
+		$headers .= sprintf('--%s%s', $uid, self::CRLF);
+		$headers .= sprintf('Content-type:text/html; charset="utf-8"%s', self::CRLF);
+		$headers .= sprintf('Content-Transfer-Encoding: 7bit%s', self::CRLF, self::CRLF);
+		$headers .= sprintf('%s%s%s', $this->_message, self::CRLF, self::CRLF);
+		$headers .= sprintf('--%s%s', $uid, self::CRLF);
+
+		foreach ($this->_attachmentsFilename as $key => $value) {
+			$headers .= sprintf('Content-Type: application/octet-stream; name="%s"%s', $value, self::CRLF);
+			$headers .= sprintf('Content-Transfer-Encoding: base64%s', self::CRLF);
+			$headers .= sprintf('Content-Disposition: attachment; filename="%s"%s%s', $value, self::CRLF, self::CRLF);
+			$headers .= sprintf('%s%s%s', $this->_attachments[$key], self::CRLF, self::CRLF);
+			$headers .= sprintf('--%s%s', $uid, self::CRLF);
+		}
+
+		return $headers;
+	}
 	
 	/**
 	 * send function.
@@ -403,45 +419,19 @@ class Simple_Mail
 	public function send()
 	{	
 		$headers = (!empty($this->_headers)) ? join("\r\n", $this->_headers) : array();
-		$to = (is_array($this->_to) && !empty($this->_to)) ? join(", ", $this->_to) : false;
+		$to      = (is_array($this->_to) && !empty($this->_to)) ? join(", ", $this->_to) : false;
+
 		if ($to === false) {
 			throw new RuntimeException('Unable to send, no To address has been set.');
 		}
 
-		// TODO: Move the attachment assembling code into its own method. assembleAttachments()
-		if (!empty($this->_attachment)) {
-			$uid = md5(uniqid(time()));
-			$headers .= "MIME-Version: 1.0".self::CRLF;
-			$headers .= sprintf('Content-Type: multipart/mixed; boundary="%s"%s%s', self::CRLF, self::CRLF, $uid);
-			$headers .= sprintf('This is a multi-part message in MIME format.%s', self::CRLF);
-			$headers .= sprintf('--%s%s', $uid, self::CRLF);
-			$headers .= sprintf('Content-type:text/html; charset="utf-8"%s', self::CRLF);
-			$headers .= sprintf('Content-Transfer-Encoding: 7bit%s', self::CRLF, self::CRLF);
-			$headers .= sprintf('%s%s%s', $this->_message, self::CRLF, self::CRLF);
-			$headers .= sprintf('--%s%s', $uid, self::CRLF);
-			// TODO: Cleanup CRLFs in here Eughh!
-			foreach ($this->_attachmentFilename as $key => $value) {
-				$headers .= sprintf("Content-Type: application/octet-stream; name=\"%s\"\r\n", $value);
-				$headers .= "Content-Transfer-Encoding: base64\r\n";
-				$headers .= sprintf("Content-Disposition: attachment; filename=\"%s\"\r\n\r\n", $value);
-				$headers .= sprintf("%s\r\n\r\n", $this->_attachment[$key]);
-				$headers .= sprintf("--%s\r\n", $uid);
-			}
-			$send = mail('eoghan@eoghanobrien.com', $this->_subject, "", $headers, $this->_additionalParameters);
+		if ($this->hasAttachments()) {
+			$headers += $this->assembleAttachmentHeaders();
+			return mail($to, $this->_subject, "", $headers, $this->_additionalParameters);
 		}
 		else {
-			$send = mail($to, $this->_subject, wordwrap($this->_message, $this->_wrap), $headers, $this->_additionalParameters);
+			return mail($to, $this->_subject, wordwrap($this->_message, $this->_wrap), $headers, $this->_additionalParameters);
 		}
-		
-		if ( ! $send && $this->_throwExceptions) {
-			throw new Exception('Email failed to send.');
-		}
-		
-		if ( ! $send) {
-			return false;
-		}
-		
-		return true;
 	}
 	
 	/**
@@ -468,7 +458,8 @@ class Simple_Mail
 	
 	/**
 	 * Format headers
-	 * 
+	 *
+	 * @todo   Test this.
 	 * @access public
 	 * @param  string $email
 	 * @param  string $name
@@ -484,6 +475,7 @@ class Simple_Mail
 	/**
 	 * Filter of email data
 	 *
+	 * @todo   Test this.
 	 * @access protected
 	 * @param  string $email
 	 * @return string
@@ -508,6 +500,7 @@ class Simple_Mail
 	/**
 	 * Filter of name data
 	 *
+	 * @todo   Test this.
 	 * @access protected
 	 * @param  string $name
 	 * @return string
@@ -528,6 +521,7 @@ class Simple_Mail
 	/**
 	 * Filter of other data
 	 *
+	 * @todo   Test this.
 	 * @access protected
 	 * @param  string $data
 	 * @return string
