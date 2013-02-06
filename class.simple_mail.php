@@ -16,77 +16,90 @@ class Simple_Mail
 
 	/**
 	 * @var int $wrap
-	 * @access protected
 	 */
 	protected $_wrap = 78;
 	
 	/**
-	 * @var string $_to (default value: null)
-	 * @access protected
+	 * @var string $_to
 	 */
 	protected $_to = array();
 	
 	/**
-	 * @var string $_subject (default value: null)
-	 * @access protected
+	 * @var string $_subject
 	 */
-	protected $_subject = null;
+	protected $_subject;
 	
 	/**
-	 * @var string $_message (default value: null)
-	 * @access protected
+	 * @var string $_message
 	 */
-	protected $_message = null;
+	protected $_message;
 	
 	/**
-	 * @var array $_headers (default value: array())
-	 * @access protected
+	 * @var array $_headers
 	 */
 	protected $_headers = array();
 	
 	/**
-	 * @var string $_additionalParameters (default value: null)
-	 * @access protected
+	 * @var string $_additionalParameters
 	 */
-	protected $_additionalParameters	= null;
+	protected $_additionalParameters;
 	
 	/**
-	 * @var string $_attachments (default value: array())
-	 * @access protected
+	 * @var array $_attachments
 	 */
 	protected $_attachments = array();
 	
 	/**
-	 * @var    string $_attachmentsPath (default value: array())
-	 * @access protected
+	 * @var array $_attachmentsPath
 	 */
 	protected $_attachmentsPath = array();
 	
 	/**
-	 * @var    string $attachment_filename (default value: array())
-	 * @access protected
+	 * @var array $attachment_filename
 	 */
 	protected $_attachmentsFilename = array();
 	
 	
 	/**
-	 * __construct function.
-	 * 
-	 * @access public
-	 * @return void
+	 * __construct.
+	 *
 	 */
 	public function __construct()
 	{
-		$this->_headers = array();
+		$this->reset();
 	}
 
 	/**
-	 * setTo function.
-	 * 
-	 * @access public
+	 * reset.
+	 *
+	 * Resets all variables to initial state.
+	 *
+	 * @return Simple_Mail
+	 */
+	public function reset()
+	{
+		$this->_to      = array();
+		$this->_headers = array();
+		$this->_subject = null;
+		$this->_message = null;
+		$this->_wrap    = 78;
+		$this->_additionalParameters = null;
+		$this->_attachments         = array();
+		$this->_attachmentsPath     = array();
+		$this->_attachmentsFilename = array();
+
+		return $this;
+	}
+
+	/**
+	 * setTo.
+	 *
 	 * @param  string	$email
 	 * @param  string	$name
-	 * @param  boolean	$addHeader	(default: false)
+	 *
+	 * @throws InvalidArgumentException on non string value for $email
+	 * @throws InvalidArgumentException on non string value for $name
+	 *
 	 * @return Simple_Mail
 	 */
 	public function setTo($email, $name)
@@ -107,7 +120,6 @@ class Simple_Mail
 	/**
 	 * Return an array of formatted To addresses.
 	 *
-	 * @access public
 	 * @return array
 	 */
 	public function getTo()
@@ -117,9 +129,9 @@ class Simple_Mail
 	
 	/**
 	 * setSubject function.
-	 * 
-	 * @access public
+	 *
 	 * @param  string	$subject
+	 * @throws InvalidArgumentException on non string value for $subject
 	 * @return Simple_Mail
 	 */
 	public function setSubject($subject)
@@ -129,6 +141,7 @@ class Simple_Mail
 		}
 		
 		$this->_subject = $this->_filterOther($subject);
+
 		return $this;
 	}
 
@@ -147,6 +160,7 @@ class Simple_Mail
 	 * 
 	 * @access public
 	 * @param  string	$message
+	 * @throws InvalidArgumentException on non string value for $message
 	 * @return Simple_Mail
 	 */
 	public function setMessage($message)
@@ -175,7 +189,8 @@ class Simple_Mail
 	 *
 	 * @todo   Test this.
 	 * @access public
-	 * @param  string		$message
+	 * @param  string	$path
+	 * @param  string	$filename
 	 * @return Simple_Mail
 	 */
 	public function addAttachment($path, $filename = null)
@@ -233,11 +248,14 @@ class Simple_Mail
 	}
 
 	/**
-	 * setFrom function.
-	 * 
-	 * @access public
+	 * setFrom.
+	 *
 	 * @param  string	$email
 	 * @param  string	$name
+	 *
+	 * @throws InvalidArgumentException on non string value for $email
+	 * @throws InvalidArgumentException on non string value for $name
+	 *
 	 * @return Simple_Mail
 	 */
 	public function setFrom($email, $name)
@@ -257,11 +275,15 @@ class Simple_Mail
 	
 	/**
 	 * addMailHeader function.
-	 * 
-	 * @access public
+	 *
 	 * @param  string	$header
-	 * @param  string	$email	(default: null)
-	 * @param  string	$name	(default: null)
+	 * @param  string	$email
+	 * @param  string	$name
+	 *
+	 * @throws InvalidArgumentException on non string value for $header
+	 * @throws InvalidArgumentException on non string value for $email
+	 * @throws InvalidArgumentException on non string value for $name
+	 *
 	 * @return Simple_Mail
 	 */
 	public function addMailHeader($header, $email = null, $name = null)
@@ -285,10 +307,13 @@ class Simple_Mail
 	
 	/**
 	 * addGenericHeader function.
-	 * 
-	 * @access public
+	 *
 	 * @param  string $header
 	 * @param  mixed $value
+	 *
+	 * @throws InvalidArgumentException on non string value for $header
+	 * @throws InvalidArgumentException on non string value for $value
+	 *
 	 * @return Simple_Mail
 	 */
 	public function addGenericHeader($header, $value)
@@ -318,14 +343,18 @@ class Simple_Mail
 		
 	/**
 	 * setAdditionalParameters function.
-	 * 
-	 * @access public
+	 *
+	 * Such as "-fyouremail@yourserver.com
+	 *
 	 * @param  string	$additionalParameters
+	 *
+	 * @throws InvalidArgumentException on non string value for $additionalParameters
+	 *
 	 * @return Simple_Mail
 	 */
 	public function setAdditionalParameters($additionalParameters)
 	{
-		if ( ! is_string($additionalParameters)) {
+		if (! is_string($additionalParameters)) {
 			throw new InvalidArgumentException('$additionalParameters must be a string.');
 		}
 		
@@ -346,10 +375,12 @@ class Simple_Mail
 	
 	/**
 	 * setWrap function.
-	 * 
-	 * @access public
-	 * @param  int      $wrap. (default: 78)
-	 * @return object
+	 *
+	 * @param  int  $wrap
+	 *
+	 * @throws InvalidArgumentException on non int value or int less than 1 for $wrap
+	 *
+	 * @return Simple_Mail
 	 */
 	public function setWrap($wrap = 78)
 	{
@@ -412,12 +443,12 @@ class Simple_Mail
 	
 	/**
 	 * send function.
-	 * 
-	 * @access public
-	 * @return void
+	 *
+	 * @throws RuntimeException on no To: address to send to
+	 * @return boolean
 	 */
 	public function send()
-	{	
+	{
 		$headers = (!empty($this->_headers)) ? join("\r\n", $this->_headers) : array();
 		$to      = (is_array($this->_to) && !empty($this->_to)) ? join(", ", $this->_to) : false;
 
@@ -426,19 +457,17 @@ class Simple_Mail
 		}
 
 		if ($this->hasAttachments()) {
-			$headers += $this->assembleAttachmentHeaders();
+			$headers .= $this->assembleAttachmentHeaders();
 			return mail($to, $this->_subject, "", $headers, $this->_additionalParameters);
 		}
-		else {
-			return mail($to, $this->_subject, wordwrap($this->_message, $this->_wrap), $headers, $this->_additionalParameters);
-		}
+
+		return mail($to, $this->_subject, wordwrap($this->_message, $this->_wrap), $headers, $this->_additionalParameters);
 	}
 	
 	/**
 	 * debug function.
-	 * 
-	 * @access public
-	 * @return void
+	 *
+	 * @return string
 	 */
 	public function debug()
 	{
@@ -447,8 +476,7 @@ class Simple_Mail
 	
 	/**
 	 * magic __toString function.
-	 * 
-	 * @access public
+	 *
 	 * @return string
 	 */
 	public function __toString()
@@ -457,26 +485,35 @@ class Simple_Mail
 	}
 	
 	/**
-	 * Format headers
+	 * formatHeader.
+	 *
+	 * Formats a display address for emails according to RFC2822 e.g.
+	 * Name <address@domain.tld>
 	 *
 	 * @todo   Test this.
-	 * @access public
 	 * @param  string $email
 	 * @param  string $name
 	 * @return string
 	 */
-	public function formatHeader($email, $name)
+	public function formatHeader($email, $name = null)
 	{
-		$name	= $this->_filterName($name);
 		$email	= $this->_filterEmail($email);
+
+		if (is_null($name)) {
+			return $email;
+		}
+
+		$name	= $this->_filterName($name);
 		return sprintf('%s <%s>', $name, $email);
 	}
 	
 	/**
-	 * Filter of email data
+	 * _filterEmail.
+	 *
+	 * Removes any carriage return, line feed, tab, double quote, comma
+	 * and angle bracket characters before sanitizing the email address.
 	 *
 	 * @todo   Test this.
-	 * @access protected
 	 * @param  string $email
 	 * @return string
 	 */
@@ -498,10 +535,13 @@ class Simple_Mail
 	}
 
 	/**
-	 * Filter of name data
+	 * Filter of name data.
+	 *
+	 * Removes any carriage return, line feed or tab characters. Replaces
+	 * double quotes with single quotes and angle brackets with square
+	 * brackets, before sanitizing the string and stripping out html tags.
 	 *
 	 * @todo   Test this.
-	 * @access protected
 	 * @param  string $name
 	 * @return string
 	 */
@@ -519,10 +559,11 @@ class Simple_Mail
 	}
 
 	/**
-	 * Filter of other data
+	 * Filter of other data.
+	 *
+	 * Removes any carriage return, line feed or tab characters.
 	 *
 	 * @todo   Test this.
-	 * @access protected
 	 * @param  string $data
 	 * @return string
 	 */

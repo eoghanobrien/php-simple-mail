@@ -1,7 +1,6 @@
 <?php
 
-$dir = realpath('../../'.dirname(__FILE__));
-require_once $dir . 'class.simple_mail.php';
+require_once(realpath('./class.simple_mail.php'));
 
 class testSimpleMail extends PHPUnit_Framework_TestCase
 {
@@ -18,7 +17,6 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
 	public function testSetToWithExpectedValues()
 	{
 		$this->mailer->setTo('test@gmail.com', 'Tester');
-
 		$this->assertContains('Tester <test@gmail.com>', $this->mailer->getTo());
 	}
 
@@ -188,6 +186,14 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
 	{
 		$this->mailer->addGenericHeader('Version', 'PHP5');
 		$this->assertContains("Version: PHP5", $this->mailer->getHeaders());
+	}
+
+	public function testFormatHeaderWithoutNameReturnsOnlyTheEmail()
+	{
+		$email  = 'test@domain.tld';
+		$header = $this->mailer->formatHeader($email);
+
+		$this->assertSame($email, $header);
 	}
 
 	public function testDebug()

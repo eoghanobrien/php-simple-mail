@@ -1,158 +1,171 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1360149734">
-  <project timestamp="1360149734">
+<coverage generated="1360157867">
+  <project timestamp="1360157867">
     <file name="/Applications/MAMP/htdocs/git/php-simple-mail/class.simple_mail.php">
       <class name="Simple_Mail" namespace="global" fullPackage="Simple">
-        <metrics methods="28" coveredmethods="28" conditionals="0" coveredconditionals="0" statements="118" coveredstatements="118" elements="146" coveredelements="146"/>
+        <metrics methods="29" coveredmethods="29" conditionals="0" coveredconditionals="0" statements="130" coveredstatements="130" elements="159" coveredelements="159"/>
       </class>
-      <line num="78" type="method" name="__construct" crap="1" count="31"/>
-      <line num="80" type="stmt" count="31"/>
-      <line num="81" type="stmt" count="31"/>
-      <line num="92" type="method" name="setTo" crap="3" count="6"/>
-      <line num="94" type="stmt" count="6"/>
-      <line num="95" type="stmt" count="1"/>
-      <line num="98" type="stmt" count="5"/>
-      <line num="99" type="stmt" count="1"/>
-      <line num="102" type="stmt" count="4"/>
-      <line num="104" type="stmt" count="4"/>
-      <line num="113" type="method" name="getTo" crap="1" count="2"/>
-      <line num="115" type="stmt" count="2"/>
-      <line num="125" type="method" name="setSubject" crap="2" count="4"/>
-      <line num="127" type="stmt" count="4"/>
-      <line num="128" type="stmt" count="1"/>
-      <line num="131" type="stmt" count="3"/>
-      <line num="132" type="stmt" count="3"/>
-      <line num="140" type="method" name="getSubject" crap="1" count="1"/>
-      <line num="142" type="stmt" count="1"/>
-      <line num="152" type="method" name="setMessage" crap="2" count="4"/>
-      <line num="154" type="stmt" count="4"/>
+      <line num="67" type="method" name="__construct" crap="1" count="32"/>
+      <line num="69" type="stmt" count="32"/>
+      <line num="70" type="stmt" count="32"/>
+      <line num="79" type="method" name="reset" crap="1" count="32"/>
+      <line num="81" type="stmt" count="32"/>
+      <line num="82" type="stmt" count="32"/>
+      <line num="83" type="stmt" count="32"/>
+      <line num="84" type="stmt" count="32"/>
+      <line num="85" type="stmt" count="32"/>
+      <line num="86" type="stmt" count="32"/>
+      <line num="87" type="stmt" count="32"/>
+      <line num="88" type="stmt" count="32"/>
+      <line num="89" type="stmt" count="32"/>
+      <line num="91" type="stmt" count="32"/>
+      <line num="105" type="method" name="setTo" crap="3" count="6"/>
+      <line num="107" type="stmt" count="6"/>
+      <line num="108" type="stmt" count="1"/>
+      <line num="111" type="stmt" count="5"/>
+      <line num="112" type="stmt" count="1"/>
+      <line num="115" type="stmt" count="4"/>
+      <line num="117" type="stmt" count="4"/>
+      <line num="125" type="method" name="getTo" crap="1" count="2"/>
+      <line num="127" type="stmt" count="2"/>
+      <line num="137" type="method" name="setSubject" crap="2" count="4"/>
+      <line num="139" type="stmt" count="4"/>
+      <line num="140" type="stmt" count="1"/>
+      <line num="143" type="stmt" count="3"/>
+      <line num="145" type="stmt" count="3"/>
+      <line num="153" type="method" name="getSubject" crap="1" count="1"/>
       <line num="155" type="stmt" count="1"/>
-      <line num="158" type="stmt" count="3"/>
-      <line num="160" type="stmt" count="3"/>
-      <line num="168" type="method" name="getMessage" crap="1" count="1"/>
-      <line num="170" type="stmt" count="1"/>
-      <line num="181" type="method" name="addAttachment" crap="2" count="3"/>
-      <line num="183" type="stmt" count="3"/>
-      <line num="184" type="stmt" count="3"/>
-      <line num="185" type="stmt" count="3"/>
-      <line num="187" type="stmt" count="3"/>
-      <line num="197" type="method" name="addAttachmentPath" crap="1" count="3"/>
+      <line num="166" type="method" name="setMessage" crap="2" count="4"/>
+      <line num="168" type="stmt" count="4"/>
+      <line num="169" type="stmt" count="1"/>
+      <line num="172" type="stmt" count="3"/>
+      <line num="174" type="stmt" count="3"/>
+      <line num="182" type="method" name="getMessage" crap="1" count="1"/>
+      <line num="184" type="stmt" count="1"/>
+      <line num="196" type="method" name="addAttachment" crap="2" count="3"/>
+      <line num="198" type="stmt" count="3"/>
       <line num="199" type="stmt" count="3"/>
-      <line num="201" type="stmt" count="3"/>
-      <line num="211" type="method" name="addAttachmentFilename" crap="1" count="3"/>
-      <line num="213" type="stmt" count="3"/>
-      <line num="215" type="stmt" count="3"/>
-      <line num="225" type="method" name="getAttachmentData" crap="1" count="3"/>
-      <line num="227" type="stmt" count="3"/>
+      <line num="200" type="stmt" count="3"/>
+      <line num="202" type="stmt" count="3"/>
+      <line num="212" type="method" name="addAttachmentPath" crap="1" count="3"/>
+      <line num="214" type="stmt" count="3"/>
+      <line num="216" type="stmt" count="3"/>
+      <line num="226" type="method" name="addAttachmentFilename" crap="1" count="3"/>
       <line num="228" type="stmt" count="3"/>
-      <line num="229" type="stmt" count="3"/>
       <line num="230" type="stmt" count="3"/>
-      <line num="232" type="stmt" count="3"/>
-      <line num="243" type="method" name="setFrom" crap="3" count="5"/>
-      <line num="245" type="stmt" count="5"/>
-      <line num="246" type="stmt" count="1"/>
-      <line num="249" type="stmt" count="4"/>
-      <line num="250" type="stmt" count="1"/>
-      <line num="253" type="stmt" count="3"/>
-      <line num="255" type="stmt" count="3"/>
-      <line num="267" type="method" name="addMailHeader" crap="4" count="6"/>
-      <line num="269" type="stmt" count="6"/>
-      <line num="270" type="stmt" count="1"/>
-      <line num="273" type="stmt" count="5"/>
-      <line num="274" type="stmt" count="1"/>
-      <line num="277" type="stmt" count="4"/>
-      <line num="278" type="stmt" count="1"/>
-      <line num="281" type="stmt" count="3"/>
-      <line num="283" type="stmt" count="3"/>
-      <line num="294" type="method" name="addGenericHeader" crap="4" count="3"/>
-      <line num="296" type="stmt" count="3"/>
-      <line num="297" type="stmt" count="1"/>
-      <line num="300" type="stmt" count="2"/>
-      <line num="301" type="stmt" count="1"/>
-      <line num="304" type="stmt" count="1"/>
-      <line num="306" type="stmt" count="1"/>
-      <line num="314" type="method" name="getHeaders" crap="1" count="2"/>
-      <line num="316" type="stmt" count="2"/>
-      <line num="326" type="method" name="setAdditionalParameters" crap="2" count="2"/>
-      <line num="328" type="stmt" count="2"/>
+      <line num="240" type="method" name="getAttachmentData" crap="1" count="3"/>
+      <line num="242" type="stmt" count="3"/>
+      <line num="243" type="stmt" count="3"/>
+      <line num="244" type="stmt" count="3"/>
+      <line num="245" type="stmt" count="3"/>
+      <line num="247" type="stmt" count="3"/>
+      <line num="261" type="method" name="setFrom" crap="3" count="5"/>
+      <line num="263" type="stmt" count="5"/>
+      <line num="264" type="stmt" count="1"/>
+      <line num="267" type="stmt" count="4"/>
+      <line num="268" type="stmt" count="1"/>
+      <line num="271" type="stmt" count="3"/>
+      <line num="273" type="stmt" count="3"/>
+      <line num="289" type="method" name="addMailHeader" crap="4" count="6"/>
+      <line num="291" type="stmt" count="6"/>
+      <line num="292" type="stmt" count="1"/>
+      <line num="295" type="stmt" count="5"/>
+      <line num="296" type="stmt" count="1"/>
+      <line num="299" type="stmt" count="4"/>
+      <line num="300" type="stmt" count="1"/>
+      <line num="303" type="stmt" count="3"/>
+      <line num="305" type="stmt" count="3"/>
+      <line num="319" type="method" name="addGenericHeader" crap="4" count="3"/>
+      <line num="321" type="stmt" count="3"/>
+      <line num="322" type="stmt" count="1"/>
+      <line num="325" type="stmt" count="2"/>
+      <line num="326" type="stmt" count="1"/>
       <line num="329" type="stmt" count="1"/>
-      <line num="332" type="stmt" count="1"/>
-      <line num="334" type="stmt" count="1"/>
-      <line num="342" type="method" name="getAdditionalParameters" crap="1" count="1"/>
-      <line num="344" type="stmt" count="1"/>
-      <line num="354" type="method" name="setWrap" crap="3" count="3"/>
-      <line num="356" type="stmt" count="3"/>
+      <line num="331" type="stmt" count="1"/>
+      <line num="339" type="method" name="getHeaders" crap="1" count="2"/>
+      <line num="341" type="stmt" count="2"/>
+      <line num="355" type="method" name="setAdditionalParameters" crap="2" count="2"/>
       <line num="357" type="stmt" count="2"/>
-      <line num="360" type="stmt" count="1"/>
-      <line num="362" type="stmt" count="1"/>
-      <line num="370" type="method" name="getWrap" crap="1" count="2"/>
-      <line num="372" type="stmt" count="2"/>
-      <line num="380" type="method" name="hasAttachments" crap="1" count="4"/>
-      <line num="382" type="stmt" count="4"/>
-      <line num="390" type="method" name="assembleAttachmentHeaders" crap="2" count="2"/>
-      <line num="392" type="stmt" count="2"/>
-      <line num="393" type="stmt" count="2"/>
-      <line num="394" type="stmt" count="2"/>
-      <line num="395" type="stmt" count="2"/>
-      <line num="396" type="stmt" count="2"/>
-      <line num="397" type="stmt" count="2"/>
-      <line num="398" type="stmt" count="2"/>
-      <line num="399" type="stmt" count="2"/>
-      <line num="400" type="stmt" count="2"/>
-      <line num="402" type="stmt" count="2"/>
+      <line num="358" type="stmt" count="1"/>
+      <line num="361" type="stmt" count="1"/>
+      <line num="363" type="stmt" count="1"/>
+      <line num="371" type="method" name="getAdditionalParameters" crap="1" count="1"/>
+      <line num="373" type="stmt" count="1"/>
+      <line num="385" type="method" name="setWrap" crap="3" count="3"/>
+      <line num="387" type="stmt" count="3"/>
+      <line num="388" type="stmt" count="2"/>
+      <line num="391" type="stmt" count="1"/>
+      <line num="393" type="stmt" count="1"/>
+      <line num="401" type="method" name="getWrap" crap="1" count="2"/>
       <line num="403" type="stmt" count="2"/>
-      <line num="404" type="stmt" count="2"/>
-      <line num="405" type="stmt" count="2"/>
-      <line num="406" type="stmt" count="2"/>
-      <line num="407" type="stmt" count="2"/>
-      <line num="408" type="stmt" count="2"/>
-      <line num="410" type="stmt" count="2"/>
-      <line num="419" type="method" name="send" crap="6" count="3"/>
-      <line num="421" type="stmt" count="3"/>
-      <line num="422" type="stmt" count="3"/>
-      <line num="424" type="stmt" count="3"/>
-      <line num="425" type="stmt" count="1"/>
+      <line num="411" type="method" name="hasAttachments" crap="1" count="4"/>
+      <line num="413" type="stmt" count="4"/>
+      <line num="421" type="method" name="assembleAttachmentHeaders" crap="2" count="2"/>
+      <line num="423" type="stmt" count="2"/>
+      <line num="424" type="stmt" count="2"/>
+      <line num="425" type="stmt" count="2"/>
+      <line num="426" type="stmt" count="2"/>
+      <line num="427" type="stmt" count="2"/>
       <line num="428" type="stmt" count="2"/>
-      <line num="429" type="stmt" count="1"/>
-      <line num="430" type="stmt" count="1"/>
-      <line num="433" type="stmt" count="1"/>
-      <line num="443" type="method" name="debug" crap="1" count="1"/>
-      <line num="445" type="stmt" count="1"/>
-      <line num="454" type="method" name="__toString" crap="1" count="1"/>
+      <line num="429" type="stmt" count="2"/>
+      <line num="430" type="stmt" count="2"/>
+      <line num="431" type="stmt" count="2"/>
+      <line num="433" type="stmt" count="2"/>
+      <line num="434" type="stmt" count="2"/>
+      <line num="435" type="stmt" count="2"/>
+      <line num="436" type="stmt" count="2"/>
+      <line num="437" type="stmt" count="2"/>
+      <line num="438" type="stmt" count="2"/>
+      <line num="439" type="stmt" count="2"/>
+      <line num="441" type="stmt" count="2"/>
+      <line num="450" type="method" name="send" crap="6" count="3"/>
+      <line num="452" type="stmt" count="3"/>
+      <line num="453" type="stmt" count="3"/>
+      <line num="455" type="stmt" count="3"/>
       <line num="456" type="stmt" count="1"/>
-      <line num="468" type="method" name="formatHeader" crap="1" count="5"/>
-      <line num="470" type="stmt" count="5"/>
-      <line num="471" type="stmt" count="5"/>
-      <line num="472" type="stmt" count="5"/>
-      <line num="483" type="method" name="_filterEmail" crap="1" count="5"/>
-      <line num="485" type="stmt" count="5"/>
-      <line num="486" type="stmt" count="5"/>
-      <line num="487" type="stmt" count="5"/>
-      <line num="488" type="stmt" count="5"/>
-      <line num="489" type="stmt" count="5"/>
-      <line num="490" type="stmt" count="5"/>
-      <line num="491" type="stmt" count="5"/>
-      <line num="492" type="stmt" count="5"/>
-      <line num="494" type="stmt" count="5"/>
-      <line num="495" type="stmt" count="5"/>
-      <line num="497" type="stmt" count="5"/>
-      <line num="508" type="method" name="_filterName" crap="1" count="5"/>
-      <line num="510" type="stmt" count="5"/>
-      <line num="511" type="stmt" count="5"/>
-      <line num="512" type="stmt" count="5"/>
-      <line num="513" type="stmt" count="5"/>
-      <line num="514" type="stmt" count="5"/>
-      <line num="515" type="stmt" count="5"/>
-      <line num="516" type="stmt" count="5"/>
-      <line num="518" type="stmt" count="5"/>
-      <line num="529" type="method" name="_filterOther" crap="1" count="3"/>
-      <line num="531" type="stmt" count="3"/>
-      <line num="532" type="stmt" count="3"/>
-      <line num="533" type="stmt" count="3"/>
-      <line num="534" type="stmt" count="3"/>
-      <line num="536" type="stmt" count="3"/>
-      <metrics loc="538" ncloc="304" classes="1" methods="28" coveredmethods="28" conditionals="0" coveredconditionals="0" statements="118" coveredstatements="118" elements="146" coveredelements="146"/>
+      <line num="459" type="stmt" count="2"/>
+      <line num="460" type="stmt" count="1"/>
+      <line num="461" type="stmt" count="1"/>
+      <line num="464" type="stmt" count="1"/>
+      <line num="472" type="method" name="debug" crap="1" count="1"/>
+      <line num="474" type="stmt" count="1"/>
+      <line num="482" type="method" name="__toString" crap="1" count="1"/>
+      <line num="484" type="stmt" count="1"/>
+      <line num="498" type="method" name="formatHeader" crap="2" count="6"/>
+      <line num="500" type="stmt" count="6"/>
+      <line num="502" type="stmt" count="6"/>
+      <line num="503" type="stmt" count="1"/>
+      <line num="506" type="stmt" count="5"/>
+      <line num="507" type="stmt" count="5"/>
+      <line num="520" type="method" name="_filterEmail" crap="1" count="6"/>
+      <line num="522" type="stmt" count="6"/>
+      <line num="523" type="stmt" count="6"/>
+      <line num="524" type="stmt" count="6"/>
+      <line num="525" type="stmt" count="6"/>
+      <line num="526" type="stmt" count="6"/>
+      <line num="527" type="stmt" count="6"/>
+      <line num="528" type="stmt" count="6"/>
+      <line num="529" type="stmt" count="6"/>
+      <line num="531" type="stmt" count="6"/>
+      <line num="532" type="stmt" count="6"/>
+      <line num="534" type="stmt" count="6"/>
+      <line num="548" type="method" name="_filterName" crap="1" count="5"/>
+      <line num="550" type="stmt" count="5"/>
+      <line num="551" type="stmt" count="5"/>
+      <line num="552" type="stmt" count="5"/>
+      <line num="553" type="stmt" count="5"/>
+      <line num="554" type="stmt" count="5"/>
+      <line num="555" type="stmt" count="5"/>
+      <line num="556" type="stmt" count="5"/>
+      <line num="558" type="stmt" count="5"/>
+      <line num="570" type="method" name="_filterOther" crap="1" count="3"/>
+      <line num="572" type="stmt" count="3"/>
+      <line num="573" type="stmt" count="3"/>
+      <line num="574" type="stmt" count="3"/>
+      <line num="575" type="stmt" count="3"/>
+      <line num="577" type="stmt" count="3"/>
+      <metrics loc="579" ncloc="324" classes="1" methods="29" coveredmethods="29" conditionals="0" coveredconditionals="0" statements="130" coveredstatements="130" elements="159" coveredelements="159"/>
     </file>
-    <metrics files="1" loc="538" ncloc="304" classes="1" methods="28" coveredmethods="28" conditionals="0" coveredconditionals="0" statements="118" coveredstatements="118" elements="146" coveredelements="146"/>
+    <metrics files="1" loc="579" ncloc="324" classes="1" methods="29" coveredmethods="29" conditionals="0" coveredconditionals="0" statements="130" coveredstatements="130" elements="159" coveredelements="159"/>
   </project>
 </coverage>
