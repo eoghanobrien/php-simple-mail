@@ -4,4 +4,6 @@ php:
   - 5.3
   - 5.4
 
-script: phpunit --configuration ./tests/stub.xml
+script:
+  phpunit --configuration ./tests/stub.xml
+  php -l class.simple_mail.php
