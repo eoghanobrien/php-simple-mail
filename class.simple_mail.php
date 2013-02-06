@@ -10,7 +10,7 @@
 * @license Free http://unlicense.org/
 */
 
-class Simple_Mail
+class SimpleMail
 {
     const CRLF = "\r\n";
 
@@ -577,4 +577,3 @@ class Simple_Mail
         return strtr(filter_var($data, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH), $rule);
     }
 }
-
