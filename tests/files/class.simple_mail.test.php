@@ -229,17 +229,18 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
 		$this->mailer->send();
 	}
 
-	public function testSendReturnsTrueOnSuccess()
+	public function testSendReturnsBoolean()
 	{
 		$this->mailer->setTo('test@asdf123asdfa.com', "Recipient")
 					 ->setFrom('tester@gmail.com', 'Tester')
 					 ->setSubject('Hello From PHPUnit')
 					 ->setMessage('Hello message.');
 
-		$this->assertTrue($this->mailer->send());
+		$bool = $this->mailer->send();
+		$this->assertTrue(is_bool($bool));
 	}
 
-	public function testSendAttachmentReturnsTrueOnSuccess()
+	public function testSendAttachmentReturnsBoolean()
 	{
 		$this->mailer->setTo('test@asdf123asdfa.com', "Recipient")
 					 ->setFrom('tester@gmail.com', 'Tester')
@@ -247,7 +248,8 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
 					 ->setMessage('Hello message.')
 					 ->addAttachment($this->directory.'/example/pbXBsZSwgY2hh.jpg', 'lolcat_finally_arrived.jpg');
 
-		$this->assertTrue($this->mailer->send());
+		$bool = $this->mailer->send();
+		$this->assertTrue(is_bool($bool));
 	}
 
 	public function tearDown()
