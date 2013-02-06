@@ -4,6 +4,10 @@ php:
   - 5.3
   - 5.4
 
+before_script:
+  - pyrus install pear/PHP_CodeSniffer
+  - phpenv rehash
+
 script:
-  phpunit --configuration ./tests/stub.xml
-  php -l class.simple_mail.php
+  - phpunit --configuration ./tests/stub.xml
+  - phpcs --standard=PSR-0
