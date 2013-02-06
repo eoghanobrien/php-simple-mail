@@ -517,7 +517,7 @@ class Mail
      * @param  string $email
      * @return string
      */
-	public function filterEmail($email)
+    public function filterEmail($email)
     {
         $rule = array("\r" => '',
                       "\n" => '',
@@ -567,7 +567,7 @@ class Mail
      * @param  string $data
      * @return string
      */
-	public function filterOther($data)
+    public function filterOther($data)
     {
         $rule = array("\r" => '',
                       "\n" => '',
