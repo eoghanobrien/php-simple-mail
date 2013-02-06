@@ -105,11 +105,11 @@ class Mail
     public function setTo($email, $name)
     {
         if (! is_string($email)) {
-            throw new InvalidArgumentException('$email must be a string');
+            throw new \InvalidArgumentException('$email must be a string');
         }
 
         if (! is_string($name)) {
-            throw new InvalidArgumentException('$name must be a string.');
+            throw new \InvalidArgumentException('$name must be a string.');
         }
 
         $this->to[] = $this->formatHeader($email, $name);
@@ -137,7 +137,7 @@ class Mail
     public function setSubject($subject)
     {
         if (! is_string($subject)) {
-            throw new InvalidArgumentException();
+            throw new \InvalidArgumentException();
         }
 
         $this->subject = $this->filterOther($subject);
@@ -166,7 +166,7 @@ class Mail
     public function setMessage($message)
     {
         if (! is_string($message)) {
-            throw new InvalidArgumentException();
+            throw new \InvalidArgumentException();
         }
 
         $this->message = str_replace("\n.", "\n..", $message);
@@ -261,11 +261,11 @@ class Mail
     public function setFrom($email, $name)
     {
         if ( ! is_string($email)) {
-            throw new InvalidArgumentException();
+            throw new \InvalidArgumentException();
         }
 
         if ( ! is_string($name)) {
-            throw new InvalidArgumentException();
+            throw new \InvalidArgumentException();
         }
 
         $this->addMailHeader('From', $email, $name);
@@ -289,15 +289,15 @@ class Mail
     public function addMailHeader($header, $email = null, $name = null)
     {
         if ( ! is_string($header)) {
-            throw new InvalidArgumentException('$header must be a string.');
+            throw new \InvalidArgumentException('$header must be a string.');
         }
 
         if ( ! is_string($email)) {
-            throw new InvalidArgumentException('$email must be a string.');
+            throw new \InvalidArgumentException('$email must be a string.');
         }
 
         if ( ! is_string($name)) {
-            throw new InvalidArgumentException('$name must be a string.');
+            throw new \InvalidArgumentException('$name must be a string.');
         }
 
         $this->headers[] = sprintf('%s: %s', $header, $this->formatHeader($email, $name));
@@ -319,11 +319,11 @@ class Mail
     public function addGenericHeader($header, $value)
     {
         if ( ! is_string($header)) {
-            throw new InvalidArgumentException('$header must be a string.');
+            throw new \InvalidArgumentException('$header must be a string.');
         }
 
         if ( ! is_string($value) || ! is_string($value)) {
-            throw new InvalidArgumentException('$value must be a string.');
+            throw new \InvalidArgumentException('$value must be a string.');
         }
 
         $this->headers[] = "$header: $value";
@@ -355,7 +355,7 @@ class Mail
     public function setAdditionalParameters($additionalParameters)
     {
         if (! is_string($additionalParameters)) {
-            throw new InvalidArgumentException('$additionalParameters must be a string.');
+            throw new \InvalidArgumentException('$additionalParameters must be a string.');
         }
 
         $this->additionalParameters = $additionalParameters;
@@ -385,7 +385,7 @@ class Mail
     public function setWrap($wrap = 78)
     {
         if (! is_int($wrap) || $wrap < 1) {
-            throw new InvalidArgumentException('Wrap must be an integer larger than 0');
+            throw new \InvalidArgumentException('Wrap must be an integer larger than 0');
         }
 
         $this->wrap = $wrap;
@@ -453,7 +453,7 @@ class Mail
         $to      = (is_array($this->to) && !empty($this->to)) ? join(", ", $this->to) : false;
 
         if ($to === false) {
-            throw new RuntimeException('Unable to send, no To address has been set.');
+            throw new \RuntimeException('Unable to send, no To address has been set.');
         }
 
         if ($this->hasAttachments()) {
