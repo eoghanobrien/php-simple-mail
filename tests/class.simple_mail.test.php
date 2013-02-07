@@ -154,15 +154,15 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testSetAdditionalParametersThrowsInvalidArgumentExceptionWithInvalidParams()
+    public function testSetParametersThrowsInvalidArgumentExceptionWithInvalidParams()
     {
-        $this->mailer->setAdditionalParameters(123);
+        $this->mailer->setParameters(123);
     }
 
-    public function testSetAdditionalParametersReturnsCorrectString()
+    public function testSetParametersReturnsCorrectString()
     {
-        $this->mailer->setAdditionalParameters("-fuse@gmail.com");
-        $params = $this->mailer->getAdditionalParameters();
+        $this->mailer->setParameters("-fuse@gmail.com");
+        $params = $this->mailer->getParameters();
 
         $this->assertSame("-fuse@gmail.com", $params);
     }

@@ -40,9 +40,9 @@ class Simple_Mail
     protected $_headers = array();
 
     /**
-     * @var string $_additionalParameters
+     * @var string $_parameters
      */
-    protected $_additionalParameters;
+    protected $_parameters;
 
     /**
      * @var array $_attachments
@@ -83,7 +83,7 @@ class Simple_Mail
         $this->_subject = null;
         $this->_message = null;
         $this->_wrap    = 78;
-        $this->_additionalParameters = null;
+        $this->_parameters = null;
         $this->_attachments         = array();
         $this->_attachmentsPath     = array();
         $this->_attachmentsFilename = array();
@@ -354,13 +354,15 @@ class Simple_Mail
      *
      * @return Mail
      */
-    public function setAdditionalParameters($additionalParameters)
+    public function setParameters($additionalParameters)
     {
         if (! is_string($additionalParameters)) {
-            throw new \InvalidArgumentException('$additionalParameters must be a string.');
+            throw new \InvalidArgumentException(
+                '$additionalParameters must be a string.'
+            );
         }
 
-        $this->_additionalParameters = $additionalParameters;
+        $this->_parameters = $additionalParameters;
 
         return $this;
     }
@@ -370,9 +372,9 @@ class Simple_Mail
      *
      * @return string
      */
-    public function getAdditionalParameters()
+    public function getParameters()
     {
-        return $this->_additionalParameters;
+        return $this->_parameters;
     }
 
     /**
@@ -380,14 +382,17 @@ class Simple_Mail
      *
      * @param  int  $wrap
      *
-     * @throws \InvalidArgumentException on non int value or int less than 1 for $wrap
+     * @throws \InvalidArgumentException on non int value
+     * @throws \InvalidArgumentException on int less than 1 for $wrap
      *
      * @return Mail
      */
     public function setWrap($wrap = 78)
     {
         if (! is_int($wrap) || $wrap < 1) {
-            throw new \InvalidArgumentException('Wrap must be an integer larger than 0');
+            throw new \InvalidArgumentException(
+                'Wrap must be an integer larger than 0'
+            );
         }
 
         $this->_wrap = $wrap;
@@ -424,19 +429,46 @@ class Simple_Mail
     {
         $uid = md5(uniqid(time()));
         $headers  = sprintf('MIME-Version: 1.0', self::CRLF);
-        $headers .= sprintf('Content-Type: multipart/mixed; boundary="%s"%s%s', self::CRLF, self::CRLF, $uid);
-        $headers .= sprintf('This is a multi-part message in MIME format.%s', self::CRLF);
-        $headers .= sprintf('--%s%s', $uid, self::CRLF);
-        $headers .= sprintf('Content-type:text/html; charset="utf-8"%s', self::CRLF);
-        $headers .= sprintf('Content-Transfer-Encoding: 7bit%s', self::CRLF, self::CRLF);
+        $headers .= sprintf(
+            'Content-Type: multipart/mixed; boundary="%s"%s%s',
+            self::CRLF,
+            self::CRLF,
+            $uid
+        );
+        $headers .= sprintf(
+            'This is a multi-part message in MIME format.%s',
+            self::CRLF
+        );
+        $headers .= sprintf(
+            '--%s%s', $uid, self::CRLF
+        );
+        $headers .= sprintf(
+            'Content-type:text/html; charset="utf-8"%s', self::CRLF
+        );
+        $headers .= sprintf(
+            'Content-Transfer-Encoding: 7bit%s', self::CRLF, self::CRLF
+        );
         $headers .= sprintf('%s%s%s', $this->_message, self::CRLF, self::CRLF);
         $headers .= sprintf('--%s%s', $uid, self::CRLF);
 
         foreach ($this->_attachmentsFilename as $key => $value) {
-            $headers .= sprintf('Content-Type: application/octet-stream; name="%s"%s', $value, self::CRLF);
-            $headers .= sprintf('Content-Transfer-Encoding: base64%s', self::CRLF);
-            $headers .= sprintf('Content-Disposition: attachment; filename="%s"%s%s', $value, self::CRLF, self::CRLF);
-            $headers .= sprintf('%s%s%s', $this->_attachments[$key], self::CRLF, self::CRLF);
+            $headers .= sprintf(
+                'Content-Type: application/octet-stream; name="%s"%s',
+                $value,
+                self::CRLF
+            );
+            $headers .= sprintf(
+                'Content-Transfer-Encoding: base64%s', self::CRLF
+            );
+            $headers .= sprintf(
+                'Content-Disposition: attachment; filename="%s"%s%s',
+                $value,
+                self::CRLF,
+                self::CRLF
+            );
+            $headers .= sprintf(
+                '%s%s%s', $this->_attachments[$key], self::CRLF, self::CRLF
+            );
             $headers .= sprintf('--%s%s', $uid, self::CRLF);
         }
 
@@ -451,21 +483,30 @@ class Simple_Mail
      */
     public function send()
     {
-        $headers = (!empty($this->_headers)) ? join("\r\n", $this->_headers) : array();
-        $to      = (is_array($this->to) && !empty($this->to)) ? join(", ", $this->to) : false;
+        $headers = (!empty($this->_headers))
+                 ? join("\r\n", $this->_headers) : array();
+
+        $to      = (is_array($this->to) && !empty($this->to))
+                 ? join(", ", $this->to) : false;
 
         if ($to === false) {
-            throw new \RuntimeException('Unable to send, no To address has been set.');
+            throw new \RuntimeException(
+                'Unable to send, no To address has been set.'
+            );
         }
 
         if ($this->hasAttachments()) {
             $headers .= $this->assembleAttachmentHeaders();
-            return mail($to, $this->_subject, "", $headers, $this->_additionalParameters);
+            return mail(
+                $to, $this->_subject, "", $headers, $this->_parameters
+            );
         }
 
         $message = wordwrap($this->_message, $this->_wrap);
 
-        return mail($to, $this->_subject, $message, $headers, $this->_additionalParameters);
+        return mail(
+            $to, $this->_subject, $message, $headers, $this->_parameters
+        );
     }
 
     /**
@@ -559,7 +600,14 @@ class Simple_Mail
                       '>'  => ']',
         );
 
-        return trim(strtr(filter_var($name, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH), $rule));
+        return trim(
+            strtr(
+                filter_var(
+                    $name, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH
+                ),
+                $rule
+            )
+        );
     }
 
     /**
@@ -578,6 +626,11 @@ class Simple_Mail
                       "\t" => '',
         );
 
-        return strtr(filter_var($data, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH), $rule);
+        return strtr(
+            filter_var(
+                $data, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH
+            ),
+            $rule
+        );
     }
 }
