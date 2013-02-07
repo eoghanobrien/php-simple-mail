@@ -74,7 +74,7 @@ class Simple_Mail
      *
      * Resets all variables to initial state.
      *
-     * @return Mail
+     * @return Simple_Mail
      */
     public function reset()
     {
@@ -100,7 +100,7 @@ class Simple_Mail
      * @throws \InvalidArgumentException on non string value for $email
      * @throws \InvalidArgumentException on non string value for $name
      *
-     * @return Mail
+     * @return Simple_Mail
      */
     public function setTo($email, $name)
     {
@@ -132,7 +132,7 @@ class Simple_Mail
      *
      * @param  string$subject
      * @throws \InvalidArgumentException on non string value for $subject
-     * @return Mail
+     * @return Simple_Mail
      */
     public function setSubject($subject)
     {
@@ -161,7 +161,7 @@ class Simple_Mail
      * @access public
      * @param  string $message
      * @throws \InvalidArgumentException on non string value for $message
-     * @return Mail
+     * @return Simple_Mail
      */
     public function setMessage($message)
     {
@@ -191,7 +191,7 @@ class Simple_Mail
      * @access public
      * @param  string $path
      * @param  string $filename
-     * @return Mail
+     * @return Simple_Mail
      */
     public function addAttachment($path, $filename = null)
     {
@@ -208,7 +208,7 @@ class Simple_Mail
      *
      * @todo   Test this.
      * @param  string $path
-     * @return Mail
+     * @return Simple_Mail
      */
     public function addAttachmentPath($path)
     {
@@ -222,7 +222,7 @@ class Simple_Mail
      *
      * @todo   Test this.
      * @param  string $filename
-     * @return Mail
+     * @return Simple_Mail
      */
     public function addAttachmentFilename($filename)
     {
@@ -257,7 +257,7 @@ class Simple_Mail
      * @throws \InvalidArgumentException on non string value for $email
      * @throws \InvalidArgumentException on non string value for $name
      *
-     * @return Mail
+     * @return Simple_Mail
      */
     public function setFrom($email, $name)
     {
@@ -285,7 +285,7 @@ class Simple_Mail
      * @throws \InvalidArgumentException on non string value for $email
      * @throws \InvalidArgumentException on non string value for $name
      *
-     * @return Mail
+     * @return Simple_Mail
      */
     public function addMailHeader($header, $email = null, $name = null)
     {
@@ -316,7 +316,7 @@ class Simple_Mail
      * @throws \InvalidArgumentException on non string value for $header
      * @throws \InvalidArgumentException on non string value for $value
      *
-     * @return Mail
+     * @return Simple_Mail
      */
     public function addGenericHeader($header, $value)
     {
@@ -349,10 +349,8 @@ class Simple_Mail
      * Such as "-fyouremail@yourserver.com
      *
      * @param  string $additionalParameters
-     *
      * @throws \InvalidArgumentException on non string $additionalParameters
-     *
-     * @return Mail
+     * @return Simple_Mail
      */
     public function setParameters($additionalParameters)
     {
@@ -385,7 +383,7 @@ class Simple_Mail
      * @throws \InvalidArgumentException on non int value
      * @throws \InvalidArgumentException on int less than 1 for $wrap
      *
-     * @return Mail
+     * @return Simple_Mail
      */
     public function setWrap($wrap = 78)
     {
