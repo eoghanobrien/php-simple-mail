@@ -11,4 +11,4 @@ before_script:
 
 script:
   - phpunit --configuration phpunit.xml
-  - phpcs --standard=PSR2 class.simple_mail.php
+  - phpcs --standard=Zend class.simple_mail.php

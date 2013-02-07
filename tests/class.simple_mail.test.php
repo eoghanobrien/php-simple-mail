@@ -11,7 +11,7 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->mailer    = new Simple\Mail();
+        $this->mailer    = new Simple_Mail();
         $this->directory = realpath('./');
     }
 
@@ -292,6 +292,67 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
     }
 
     public function testFilterNameRemovesAngleBrackets()
+    {
+        $expected = 'Hello World';
+        $name     = $this->mailer->filterName('<> Hello World');
+
+        $this->assertEquals($expected, $name);
+    }
+
+    public function testFilterOtherRemovesCarriageReturns()
+    {
+        $expected = 'Hello World';
+        $actual   = $this->mailer->filterOther("\rHello World");
+        $this->assertSame($expected, $actual);
+    }
+
+    public function testFilterOtherRemovesNewLines()
+    {
+        $expected = 'Hello World';
+        $actual   = $this->mailer->filterOther("\nHello World");
+        $this->assertSame($expected, $actual);
+    }
+
+    public function testFilterOtherRemovesTabbedChars()
+    {
+        $expected = 'Hello World';
+        $actual   = $this->mailer->filterOther("\tHello World");
+        $this->assertSame($expected, $actual);
+    }
+
+    public function testFilterEmailRemovesCarriageReturns()
+    {
+        $string = "test@gmail.com\r";
+        $name = $this->mailer->filterName($string);
+
+        $this->assertNotSame($string, $name);
+    }
+
+    public function testFilterEmailRemovesNewLines()
+    {
+        $string = "test@gmail.com\n";
+        $name = $this->mailer->filterName($string);
+
+        $this->assertNotSame($string, $name);
+    }
+
+    public function testFilterEmailRemovesTabbedChars()
+    {
+        $string = "\tHello World\t";
+        $name = $this->mailer->filterName($string);
+
+        $this->assertNotSame($string, $name);
+    }
+
+    public function testFilterEmailReplacesDoubleQuotesWithSingleQuoteEntities()
+    {
+        $expected = "&#34;Hello World&#34;";
+        $name     = $this->mailer->filterName('"Hello World"');
+
+        $this->assertEquals($expected, $name);
+    }
+
+    public function testFilterEmailRemovesAngleBrackets()
     {
         $expected = 'Hello World';
         $name     = $this->mailer->filterName('<> Hello World');

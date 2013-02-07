@@ -1,63 +1,63 @@
-<?php namespace Simple;
+<?php
 
 /**
 * Simple Mail class.
 *
 * @author Eoghan O'Brien http://github.com/eoghanobrien
 * @package Simple
-* @version 1.1
+* @version 1.2
 * @copyright 2009-2010
 * @license Free http://unlicense.org/
 */
 
-class Mail
+class Simple_Mail
 {
     const CRLF = "\r\n";
 
     /**
-     * @var int $wrap
+     * @var int $_wrap
      */
-    protected $wrap = 78;
+    protected $_wrap = 78;
 
     /**
-     * @var string $to
+     * @var string $_to
      */
-    protected $to = array();
+    protected $_to = array();
 
     /**
-     * @var string $subject
+     * @var string $_subject
      */
-    protected $subject;
+    protected $_subject;
 
     /**
-     * @var string $message
+     * @var string $_message
      */
-    protected $message;
+    protected $_message;
 
     /**
-     * @var array $headers
+     * @var array $_headers
      */
-    protected $headers = array();
+    protected $_headers = array();
 
     /**
-     * @var string $additionalParameters
+     * @var string $_additionalParameters
      */
-    protected $additionalParameters;
+    protected $_additionalParameters;
 
     /**
-     * @var array $attachments
+     * @var array $_attachments
      */
-    protected $attachments = array();
+    protected $_attachments = array();
 
     /**
-     * @var array $attachmentsPath
+     * @var array $_attachmentsPath
      */
-    protected $attachmentsPath = array();
+    protected $_attachmentsPath = array();
 
     /**
-     * @var array $attachment_filename
+     * @var array $_attachment_filename
      */
-    protected $attachmentsFilename = array();
+    protected $_attachmentsFilename = array();
 
 
     /**
@@ -79,14 +79,14 @@ class Mail
     public function reset()
     {
         $this->to      = array();
-        $this->headers = array();
-        $this->subject = null;
-        $this->message = null;
-        $this->wrap    = 78;
-        $this->additionalParameters = null;
-        $this->attachments         = array();
-        $this->attachmentsPath     = array();
-        $this->attachmentsFilename = array();
+        $this->_headers = array();
+        $this->_subject = null;
+        $this->_message = null;
+        $this->_wrap    = 78;
+        $this->_additionalParameters = null;
+        $this->_attachments         = array();
+        $this->_attachmentsPath     = array();
+        $this->_attachmentsFilename = array();
 
         return $this;
     }
@@ -140,7 +140,7 @@ class Mail
             throw new \InvalidArgumentException('$subject must be a string.');
         }
 
-        $this->subject = $this->filterOther($subject);
+        $this->_subject = $this->filterOther($subject);
 
         return $this;
     }
@@ -152,7 +152,7 @@ class Mail
      */
     public function getSubject()
     {
-        return $this->subject;
+        return $this->_subject;
     }
 
     /**
@@ -169,7 +169,7 @@ class Mail
             throw new \InvalidArgumentException('$message must be a string.');
         }
 
-        $this->message = str_replace("\n.", "\n..", $message);
+        $this->_message = str_replace("\n.", "\n..", $message);
 
         return $this;
     }
@@ -181,7 +181,7 @@ class Mail
      */
     public function getMessage()
     {
-        return $this->message;
+        return $this->_message;
     }
 
     /**
@@ -195,9 +195,10 @@ class Mail
      */
     public function addAttachment($path, $filename = null)
     {
+        $filename = empty($filename) ? basename($path) : $filename;
         $this->addAttachmentPath($path);
-        $this->addAttachmentFilename(empty($filename) ? basename($path) : $filename);
-        $this->attachments[] = $this->getAttachmentData($path);
+        $this->addAttachmentFilename($filename);
+        $this->_attachments[] = $this->getAttachmentData($path);
 
         return $this;
     }
@@ -211,7 +212,7 @@ class Mail
      */
     public function addAttachmentPath($path)
     {
-        $this->attachmentsPath[] = $path;
+        $this->_attachmentsPath[] = $path;
 
         return $this;
     }
@@ -225,7 +226,7 @@ class Mail
      */
     public function addAttachmentFilename($filename)
     {
-        $this->attachmentsFilename[] = $filename;
+        $this->_attachmentsFilename[] = $filename;
 
         return $this;
     }
@@ -300,7 +301,8 @@ class Mail
             throw new \InvalidArgumentException('$name must be a string.');
         }
 
-        $this->headers[] = sprintf('%s: %s', $header, $this->formatHeader($email, $name));
+        $address = $this->formatHeader($email, $name);
+        $this->_headers[] = sprintf('%s: %s', $header, $address);
 
         return $this;
     }
@@ -326,7 +328,7 @@ class Mail
             throw new \InvalidArgumentException('$value must be a string.');
         }
 
-        $this->headers[] = "$header: $value";
+        $this->_headers[] = "$header: $value";
 
         return $this;
     }
@@ -338,7 +340,7 @@ class Mail
      */
     public function getHeaders()
     {
-        return $this->headers;
+        return $this->_headers;
     }
 
     /**
@@ -348,7 +350,7 @@ class Mail
      *
      * @param  string $additionalParameters
      *
-     * @throws \InvalidArgumentException on non string value for $additionalParameters
+     * @throws \InvalidArgumentException on non string $additionalParameters
      *
      * @return Mail
      */
@@ -358,7 +360,7 @@ class Mail
             throw new \InvalidArgumentException('$additionalParameters must be a string.');
         }
 
-        $this->additionalParameters = $additionalParameters;
+        $this->_additionalParameters = $additionalParameters;
 
         return $this;
     }
@@ -370,7 +372,7 @@ class Mail
      */
     public function getAdditionalParameters()
     {
-        return $this->additionalParameters;
+        return $this->_additionalParameters;
     }
 
     /**
@@ -388,7 +390,7 @@ class Mail
             throw new \InvalidArgumentException('Wrap must be an integer larger than 0');
         }
 
-        $this->wrap = $wrap;
+        $this->_wrap = $wrap;
 
         return $this;
     }
@@ -400,7 +402,7 @@ class Mail
      */
     public function getWrap()
     {
-        return $this->wrap;
+        return $this->_wrap;
     }
 
     /**
@@ -410,7 +412,7 @@ class Mail
      */
     public function hasAttachments()
     {
-        return !empty($this->attachments);
+        return !empty($this->_attachments);
     }
 
     /**
@@ -427,14 +429,14 @@ class Mail
         $headers .= sprintf('--%s%s', $uid, self::CRLF);
         $headers .= sprintf('Content-type:text/html; charset="utf-8"%s', self::CRLF);
         $headers .= sprintf('Content-Transfer-Encoding: 7bit%s', self::CRLF, self::CRLF);
-        $headers .= sprintf('%s%s%s', $this->message, self::CRLF, self::CRLF);
+        $headers .= sprintf('%s%s%s', $this->_message, self::CRLF, self::CRLF);
         $headers .= sprintf('--%s%s', $uid, self::CRLF);
 
-        foreach ($this->attachmentsFilename as $key => $value) {
+        foreach ($this->_attachmentsFilename as $key => $value) {
             $headers .= sprintf('Content-Type: application/octet-stream; name="%s"%s', $value, self::CRLF);
             $headers .= sprintf('Content-Transfer-Encoding: base64%s', self::CRLF);
             $headers .= sprintf('Content-Disposition: attachment; filename="%s"%s%s', $value, self::CRLF, self::CRLF);
-            $headers .= sprintf('%s%s%s', $this->attachments[$key], self::CRLF, self::CRLF);
+            $headers .= sprintf('%s%s%s', $this->_attachments[$key], self::CRLF, self::CRLF);
             $headers .= sprintf('--%s%s', $uid, self::CRLF);
         }
 
@@ -449,7 +451,7 @@ class Mail
      */
     public function send()
     {
-        $headers = (!empty($this->headers)) ? join("\r\n", $this->headers) : array();
+        $headers = (!empty($this->_headers)) ? join("\r\n", $this->_headers) : array();
         $to      = (is_array($this->to) && !empty($this->to)) ? join(", ", $this->to) : false;
 
         if ($to === false) {
@@ -458,10 +460,12 @@ class Mail
 
         if ($this->hasAttachments()) {
             $headers .= $this->assembleAttachmentHeaders();
-            return mail($to, $this->subject, "", $headers, $this->additionalParameters);
+            return mail($to, $this->_subject, "", $headers, $this->_additionalParameters);
         }
 
-        return mail($to, $this->subject, wordwrap($this->message, $this->wrap), $headers, $this->additionalParameters);
+        $message = wordwrap($this->_message, $this->_wrap);
+
+        return mail($to, $this->_subject, $message, $headers, $this->_additionalParameters);
     }
 
     /**

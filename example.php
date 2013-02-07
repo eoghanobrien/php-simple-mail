@@ -3,7 +3,7 @@
 require 'class.simple_mail.php';
 echo '<h1>Simple Mail</h1>';
 
-$mailer = new Simple\Mail();
+$mailer = new Simple_Mail();
 
 $send	= $mailer->setTo('test@gmail.com', 'Recipient 1')
 				 ->setTo('test2@gmail.com', 'Recipient 2')
@@ -21,10 +21,8 @@ $send	= $mailer->setTo('test@gmail.com', 'Recipient 1')
 echo $mailer->debug();
 
 if ($send) {
-	echo 'Email sent successfully';
+	echo 'Email was sent successfully!';
 }
 else {
-	echo 'Could not send email';
+	echo 'An error occurred. We could not send email';
 }
-
-?>

@@ -3,7 +3,7 @@
 require 'class.simple_mail.php';
 echo '<h1>Simple Mail</h1>';
 
-$mailer = new Simple\Mail();
+$mailer = new Simple_Mail();
 
 $send	= $mailer->setTo('youremail@gmail.com', 'Your Email')
 				 ->setSubject('Test Message')
