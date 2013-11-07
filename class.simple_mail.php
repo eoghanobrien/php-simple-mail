@@ -42,7 +42,7 @@ class Simple_Mail
     /**
      * @var string $_parameters
      */
-    protected $_parameters;
+    protected $_parameters = '-f';
 
     /**
      * @var array $_attachments
@@ -63,6 +63,7 @@ class Simple_Mail
     /**
      * __construct.
      *
+     * Resets the class properties.
      */
     public function __construct()
     {
@@ -72,7 +73,7 @@ class Simple_Mail
     /**
      * reset.
      *
-     * Resets all variables to initial state.
+     * Resets all properties to initial state.
      *
      * @return Simple_Mail
      */
@@ -437,9 +438,7 @@ class Simple_Mail
             'This is a multi-part message in MIME format.%s',
             self::CRLF
         );
-        $headers .= sprintf(
-            '--%s%s', $uid, self::CRLF
-        );
+        $headers .= sprintf('--%s%s', $uid, self::CRLF);
         $headers .= sprintf(
             'Content-type:text/html; charset="utf-8"%s', self::CRLF
         );
@@ -482,7 +481,7 @@ class Simple_Mail
     public function send()
     {
         $headers = (!empty($this->_headers))
-                 ? join("\r\n", $this->_headers) : array();
+                 ? join(static::CRLF, $this->_headers) : array();
 
         $to      = (is_array($this->to) && !empty($this->to))
                  ? join(", ", $this->to) : false;
