@@ -2,7 +2,13 @@
 
 [![Build Status](https://travis-ci.org/eoghanobrien/php-simple-mail.png?branch=master)](https://travis-ci.org/eoghanobrien/php-simple-mail)
 
-##Description
+#### Installation via Composer
+
+    {
+      "require": {
+        "eoghanobrien/php-simple-mail": "dev-master"
+			}
+		}
 
 ####Version 1.0
 
