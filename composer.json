@@ -1,0 +1,22 @@
+{
+    "name": "eoghanobrien/php-simple-mail",
+    "type": "library",
+    "description": "Simple PHP 5 Email Class with Chainable Methods",
+    "keywords": ["email","php5"],
+    "homepage": "https://github.com/eoghanobrien/php-simple-mail",
+    "license": "UNLICENSE",
+    "authors": [
+        {
+            "name": "Eoghan O'Brien",
+            "email": "eoghan@eoghanobrien.com",
+            "homepage": "http://www.eoghanobrien.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.2.0"
+    },
+    "autoload": {
+        "classmap": ["class.simple_mail.php"]
+    }
+}
