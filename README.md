@@ -5,10 +5,10 @@
 #### Installation via Composer
 
     {
-      "require": {
+       "require": {
         "eoghanobrien/php-simple-mail": "dev-master"
-			}
-		}
+      }
+    }
 
 ####Version 1.0
 
