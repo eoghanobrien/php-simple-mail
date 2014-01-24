@@ -4,6 +4,8 @@
 
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/eoghanobrien/php-simple-mail/badges/quality-score.png?s=a6850c4ef51c0d56ed50513d3749d6c1617dfaff)](https://scrutinizer-ci.com/g/eoghanobrien/php-simple-mail/)
 
+[![Code Coverage](https://scrutinizer-ci.com/g/eoghanobrien/php-simple-mail/badges/coverage.png?s=d167e7faf23471deeef69d26ff23812a64e74326)](https://scrutinizer-ci.com/g/eoghanobrien/php-simple-mail/)
+
 #### Installation via Composer
 
     {
