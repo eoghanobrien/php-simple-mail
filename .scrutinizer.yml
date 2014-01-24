@@ -1,14 +1,11 @@
 tools:
   # Runs PHP Code Sniffer
   php_code_sniffer:
-    filter:
-      extensions:
-        - php
-      excluded_paths:
-        - example
-        - tests
-      standard:
-        - Zend
+    excluded_paths:
+      - example
+      - tests
+    standard:
+      - Zend
 
   # Runs PHP Copy/Paste Detector
   php_cpd:
