@@ -79,7 +79,7 @@ class Simple_Mail
      */
     public function reset()
     {
-        $this->to      = array();
+        $this->_to      = array();
         $this->_headers = array();
         $this->_subject = null;
         $this->_message = null;
@@ -113,7 +113,7 @@ class Simple_Mail
             throw new \InvalidArgumentException('$name must be a string.');
         }
 
-        $this->to[] = $this->formatHeader($email, $name);
+        $this->_to[] = $this->formatHeader($email, $name);
 
         return $this;
     }
@@ -125,7 +125,7 @@ class Simple_Mail
      */
     public function getTo()
     {
-        return $this->to;
+        return $this->_to;
     }
 
     /**
@@ -483,8 +483,8 @@ class Simple_Mail
         $headers = (!empty($this->_headers))
                  ? join(static::CRLF, $this->_headers) : array();
 
-        $to      = (is_array($this->to) && !empty($this->to))
-                 ? join(", ", $this->to) : false;
+        $to      = (is_array($this->_to) && !empty($this->_to))
+                 ? join(", ", $this->_to) : false;
 
         if ($to === false) {
             throw new \RuntimeException(
@@ -513,7 +513,7 @@ class Simple_Mail
      */
     public function debug()
     {
-        return '<pre>'.print_r($this, 1).'</pre>';
+        return '<pre>'.print_r($this, true).'</pre>';
     }
 
     /**
@@ -523,7 +523,7 @@ class Simple_Mail
      */
     public function __toString()
     {
-        return print_r($this, 1);
+        return print_r($this, true);
     }
 
     /**
