@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/eoghanobrien/php-simple-mail.png?branch=master)](https://travis-ci.org/eoghanobrien/php-simple-mail)
 
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/eoghanobrien/php-simple-mail/badges/quality-score.png?s=a6850c4ef51c0d56ed50513d3749d6c1617dfaff)](https://scrutinizer-ci.com/g/eoghanobrien/php-simple-mail/)
+
 #### Installation via Composer
 
     {
