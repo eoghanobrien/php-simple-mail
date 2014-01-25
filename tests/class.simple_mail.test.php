@@ -1,9 +1,13 @@
-<?php require_once(__DIR__ . '/../class.simple_mail.php');
+<?php
+
+date_default_timezone_set('Europe/Dublin');
+
+require_once(__DIR__ . '/../class.simple_mail.php');
 
 class testSimpleMail extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Simple\Mail
+     * @var SimpleMail
      */
     protected $mailer;
 
@@ -11,7 +15,7 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->mailer    = new Simple_Mail();
+        $this->mailer    = new SimpleMail();
         $this->directory = realpath('./');
     }
 

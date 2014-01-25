@@ -1,9 +1,9 @@
 <?php
 
-require 'class.simple_mail.php';
+require '../class.simple_mail.php';
 echo '<h1>Simple Mail</h1>';
 
-$mailer = new Simple_Mail();
+$mailer = new SimpleMail();
 
 $send	= $mailer->setTo('test@gmail.com', 'Recipient 1')
 				 ->setTo('test2@gmail.com', 'Recipient 2')
