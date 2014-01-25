@@ -357,7 +357,7 @@ class SimpleMail
   {
     if (! is_string($additionalParameters)) {
       throw new \InvalidArgumentException(
-        '$additionalParameters must be a string.'
+          '$additionalParameters must be a string.'
       );
     }
 
@@ -390,7 +390,7 @@ class SimpleMail
   {
     if (! is_int($wrap) || $wrap < 1) {
       throw new \InvalidArgumentException(
-        'Wrap must be an integer larger than 0'
+          'Wrap must be an integer larger than 0'
       );
     }
 
@@ -465,22 +465,18 @@ class SimpleMail
 
     if ($to === false) {
       throw new \RuntimeException(
-        'Unable to send, no To address has been set.'
+          'Unable to send, no To address has been set.'
       );
     }
 
     if ($this->hasAttachments()) {
       $headers .= $this->assembleAttachmentHeaders();
-      return mail(
-        $to, $this->_subject, "", $headers, $this->_parameters
-      );
+      return mail($to, $this->_subject, "", $headers, $this->_parameters);
     }
 
     $message = wordwrap($this->_message, $this->_wrap);
 
-    return mail(
-      $to, $this->_subject, $message, $headers, $this->_parameters
-    );
+    return mail($to, $this->_subject, $message, $headers, $this->_parameters);
   }
 
   /**
@@ -574,14 +570,7 @@ class SimpleMail
             '>'  => ']',
     );
 
-    return trim(
-      strtr(
-        filter_var(
-          $name, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH
-        ),
-        $rule
-      )
-    );
+    return trim(strtr(filter_var($name, FILTER_SANITIZE_STRING), $rule));
   }
 
   /**
@@ -596,15 +585,9 @@ class SimpleMail
   public function filterOther($data)
   {
     $rule = array("\r" => '',
-            "\n" => '',
-            "\t" => '',
-    );
+                  "\n" => '',
+                  "\t" => '');
 
-    return strtr(
-      filter_var(
-        $data, FILTER_SANITIZE_STRING
-      ),
-      $rule
-    );
+    return strtr(filter_var($data, FILTER_SANITIZE_STRING), $rule);
   }
 }
