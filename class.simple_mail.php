@@ -113,7 +113,7 @@ class SimpleMail
       throw new \InvalidArgumentException('$name must be a string.');
     }
 
-    $this->_to[] = $this->formatHeader($email, $name);
+    $this->_to[] = $this->formatHeader($email, "=?UTF-8?B?".base64_encode($name)."?=");
 
     return $this;
   }
@@ -141,7 +141,7 @@ class SimpleMail
       throw new \InvalidArgumentException('$subject must be a string.');
     }
 
-    $this->_subject = $this->filterOther($subject);
+    $this->_subject = '=?UTF-8?B?'.base64_encode($this->filterOther($subject)).'?=';
 
     return $this;
   }
@@ -270,7 +270,7 @@ class SimpleMail
       throw new \InvalidArgumentException();
     }
 
-    $this->addMailHeader('From', $email, $name);
+    $this->addMailHeader('From', $email, "=?UTF-8?B?".base64_encode($name)."?=");
 
     return $this;
   }
