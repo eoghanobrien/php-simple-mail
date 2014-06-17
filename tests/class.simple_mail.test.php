@@ -25,36 +25,12 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
         $this->assertContains($this->mailer->encodeUtf8('Tester') . ' <test@gmail.com>', $this->mailer->getTo());
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testSetToThrowsInvalidArgumentExceptionWithInvalidEmail()
-    {
-        $this->mailer->setTo(123, 'Tester');
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testSetToThrowsInvalidArgumentExceptionWithInvalidName()
-    {
-        $this->mailer->setTo('test@gmail.com', 123);
-    }
-
     public function testSetToAddsHeader()
     {
         $this->mailer->setTo('test@gmail.com', 'Tester');
         $header = $this->mailer->formatHeader('test@gmail.com', 'Tester');
 
         $this->assertContains($header, $this->mailer->getTo());
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testSetSubjectThrowsInvalidArgumentExceptionWithInvalidSubject()
-    {
-        $this->mailer->setSubject(12345);
     }
 
     public function testSetSubjectReturnsCorrectValue()
@@ -85,35 +61,11 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
         $this->assertSame(implode($space, $expected), $encoded);
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testSetMessageThrowsInvalidArgumentExceptionWithInvalidMessage()
-    {
-        $this->mailer->setMessage(123);
-    }
-
     public function testSetMessageReturnsCorrectValue()
     {
         $this->mailer->setMessage('Testing Simple Mail');
 
         $this->assertSame($this->mailer->getMessage(), 'Testing Simple Mail');
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testSetFromThrowsInvalidArgumentWithInvalidEmail()
-    {
-        $this->mailer->setFrom(123, 'Tester');
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testSetMessageThrowsInvalidArgumentWithInvalidName()
-    {
-        $this->mailer->setFrom('test@gmail.com', 123);
     }
 
     public function testSetMessageIsAddedToHeaders()
@@ -124,22 +76,6 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
         $this->assertContains($header, $this->mailer->getHeaders());
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testSetWrapThrowsInvalidArgumentExceptionWithNonInt()
-    {
-        $this->mailer->setWrap('non int');
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testSetWrapThrowsInvalidArgumentExceptionWithZero()
-    {
-        $this->mailer->setWrap(0);
-    }
-
     public function testSetWrapAssignsCorrectValue()
     {
         $this->mailer->setWrap(50);
@@ -147,41 +83,15 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
         $this->assertSame(50, $this->mailer->getWrap());
     }
 
-    public function testGetWrapDefaultsTo78()
+    public function testSetWrapToZeroReturnsDefault()
     {
+        $this->mailer->setWrap(0);
         $this->assertSame(78, $this->mailer->getWrap());
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testAddMailHeaderThrowsInvalidArgumentExceptionWithInvalidHeader()
+    public function testGetWrapDefaultsTo78()
     {
-        $this->mailer->addMailHeader(123);
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testAddMailHeaderThrowsInvalidArgumentExceptionWithInvalidEmail()
-    {
-        $this->mailer->addMailHeader('Testing', 213);
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testAddMailHeaderThrowsInvalidArgumentExceptionWithInvalidName()
-    {
-        $this->mailer->addMailHeader('Testing', 'testing@gmail.com', 123);
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testSetParametersThrowsInvalidArgumentExceptionWithInvalidParams()
-    {
-        $this->mailer->setParameters(123);
+        $this->assertSame(78, $this->mailer->getWrap());
     }
 
     public function testSetParametersReturnsCorrectString()
@@ -189,22 +99,6 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
         $this->mailer->setParameters("-fuse@gmail.com");
         $params = $this->mailer->getParameters();
         $this->assertSame("-fuse@gmail.com", $params);
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testAddGenericHeaderThrowsInvalidArgumentExceptionWithInvalidHeader()
-    {
-        $this->mailer->addGenericHeader(false, 'Value');
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testAddGenericHeaderThrowsInvalidArgumentExceptionWithInvalidValue()
-    {
-        $this->mailer->addGenericHeader('Version', false);
     }
 
     public function testAddGenericHeaderReturnsCorrectHeader()

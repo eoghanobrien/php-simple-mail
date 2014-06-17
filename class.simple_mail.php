@@ -67,7 +67,7 @@ class SimpleMail
      *
      * Resets all properties to initial state.
      *
-     * @return Simple_Mail
+     * @return SimpleMail
      */
     public function reset()
     {
@@ -88,20 +88,12 @@ class SimpleMail
      * @param  string $email
      * @param  string $name
      *
-     * @throws \InvalidArgumentException on non string value for $email
-     * @throws \InvalidArgumentException on non string value for $name
-     *
-     * @return Simple_Mail
+     * @return SimpleMail
      */
     public function setTo($email, $name)
     {
-        if (!is_string($email)) {
-            throw new \InvalidArgumentException('$email must be a string');
-        }
-
-        if (!is_string($name)) {
-            throw new \InvalidArgumentException('$name must be a string.');
-        }
+        $name = (string) $name;
+        $email = (string) $email;
 
         $this->_to[] = $this->formatHeader($email, $name);
 
@@ -126,13 +118,11 @@ class SimpleMail
      * @param  string $subject
      *
      * @throws \InvalidArgumentException on non string value for $subject
-     * @return Simple_Mail
+     * @return SimpleMail
      */
     public function setSubject($subject)
     {
-        if (!is_string($subject)) {
-            throw new \InvalidArgumentException('$subject must be a string.');
-        }
+        $subject = (string) $subject;
 
         $this->_subject = $this->encodeUtf8($this->filterOther($subject));
 
@@ -157,16 +147,12 @@ class SimpleMail
      * @param  string $message
      *
      * @throws \InvalidArgumentException on non string value for $message
-     * @return Simple_Mail
+     * @return SimpleMail
      */
     public function setMessage($message)
     {
-        if (!is_string($message)) {
-            throw new \InvalidArgumentException('$message must be a string.');
-        }
-
+        $message = (string) $message;
         $this->_message = str_replace("\n.", "\n..", $message);
-
         return $this;
     }
 
@@ -188,7 +174,7 @@ class SimpleMail
      * @param  string $path
      * @param  string $filename
      *
-     * @return Simple_Mail
+     * @return SimpleMail
      */
     public function addAttachment($path, $filename = null)
     {
@@ -225,24 +211,13 @@ class SimpleMail
      *
      * @param  string $email
      * @param  string $name
-     *
-     * @throws \InvalidArgumentException on non string value for $email
-     * @throws \InvalidArgumentException on non string value for $name
-     *
-     * @return Simple_Mail
+     * @return SimpleMail
      */
     public function setFrom($email, $name)
     {
-        if (!is_string($email)) {
-            throw new \InvalidArgumentException();
-        }
-
-        if (!is_string($name)) {
-            throw new \InvalidArgumentException();
-        }
-
+        $email = (string) $email;
+        $name = (string) $name;
         $this->addMailHeader('From', $email, $name);
-
         return $this;
     }
 
@@ -253,25 +228,13 @@ class SimpleMail
      * @param  string $email
      * @param  string $name
      *
-     * @throws \InvalidArgumentException on non string value for $header
-     * @throws \InvalidArgumentException on non string value for $email
-     * @throws \InvalidArgumentException on non string value for $name
-     *
-     * @return Simple_Mail
+     * @return SimpleMail
      */
     public function addMailHeader($header, $email = null, $name = null)
     {
-        if (!is_string($header)) {
-            throw new \InvalidArgumentException('$header must be a string.');
-        }
-
-        if (!is_string($email)) {
-            throw new \InvalidArgumentException('$email must be a string.');
-        }
-
-        if (!is_string($name)) {
-            throw new \InvalidArgumentException('$name must be a string.');
-        }
+        $name = (string) $name;
+        $email = (string) $email;
+        $header = (string) $header;
 
         $address = $this->formatHeader($email, $name);
         $this->_headers[] = sprintf('%s: %s', $header, $address);
@@ -284,22 +247,12 @@ class SimpleMail
      *
      * @param  string $header
      * @param  mixed  $value
-     *
-     * @throws \InvalidArgumentException on non string value for $header
-     * @throws \InvalidArgumentException on non string value for $value
-     *
-     * @return Simple_Mail
+     * @return SimpleMail
      */
     public function addGenericHeader($header, $value)
     {
-        if (!is_string($header)) {
-            throw new \InvalidArgumentException('$header must be a string.');
-        }
-
-        if (!is_string($value) || !is_string($value)) {
-            throw new \InvalidArgumentException('$value must be a string.');
-        }
-
+        $value = (string) $value;
+        $header = (string) $header;
         $this->_headers[] = "$header: $value";
 
         return $this;
@@ -323,17 +276,11 @@ class SimpleMail
      * Such as "-fyouremail@yourserver.com
      *
      * @param  string $additionalParameters
-     *
-     * @throws \InvalidArgumentException on non string $additionalParameters
-     * @return Simple_Mail
+     * @return SimpleMail
      */
     public function setParameters($additionalParameters)
     {
-        if (!is_string($additionalParameters)) {
-            throw new \InvalidArgumentException(
-                '$additionalParameters must be a string.'
-            );
-        }
+        $additionalParameters = (string) $additionalParameters;
 
         $this->_params = $additionalParameters;
 
@@ -354,18 +301,12 @@ class SimpleMail
      * setWrap
      *
      * @param  int $wrap
-     *
-     * @throws \InvalidArgumentException on non int value
-     * @throws \InvalidArgumentException on int less than 1 for $wrap
-     *
-     * @return Simple_Mail
+     * @return SimpleMail
      */
     public function setWrap($wrap = 78)
     {
         if (!is_int($wrap) || $wrap < 1) {
-            throw new \InvalidArgumentException(
-                'Wrap must be an integer larger than 0'
-            );
+            $wrap = 78;
         }
 
         $this->_wrap = $wrap;
@@ -414,7 +355,7 @@ class SimpleMail
         $head[] = $this->_message . "{$eol}";
         $head[] = "--{$uid}";
 
-        foreach ($this->_attachments as $k => $attachment) {
+        foreach ($this->_attachments as $attachment) {
             $head[] = $this->getAttachmentMimeTemplate($attachment, $uid);
         }
 
@@ -658,7 +599,8 @@ class SimpleMail
 
     /**
      * getToForSend()
-     * @return bool|string
+     *
+     * @return string
      */
     public function getToForSend()
     {
