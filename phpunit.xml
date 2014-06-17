@@ -1,24 +1,24 @@
 <phpunit colors="true" backupGlobals="false">
-	<testsuites>
-		<testsuite name="Simple Mail Test Suite">
-			<directory suffix=".test.php">./tests</directory>
-		</testsuite>
-	</testsuites>
-	<filter>
-		<whitelist>
+    <testsuites>
+        <testsuite name="Simple Mail Test Suite">
+            <directory suffix=".test.php">./tests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
             <file>class.simple_mail.php</file>
-		</whitelist>
-	</filter>
-	<logging>
-		<log
-			type="coverage-html"
-			target="./coverage/"
-			charset="UTF-8"
-			yui="true"
-			highlight="true"
-			lowUpperBound="50"
-			highLowerBound="80"
-		/>
-		<log type="coverage-clover" target="./clover.xml" charset="UTF-8"/>
-	</logging>
+        </whitelist>
+    </filter>
+    <logging>
+        <log
+            type="coverage-html"
+            target="./coverage/"
+            charset="UTF-8"
+            yui="true"
+            highlight="true"
+            lowUpperBound="50"
+            highLowerBound="80"
+            />
+        <log type="coverage-clover" target="./clover.xml" charset="UTF-8"/>
+    </logging>
 </phpunit>
