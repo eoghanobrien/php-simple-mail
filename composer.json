@@ -18,10 +18,5 @@
     },
     "autoload": {
         "classmap": ["class.simple_mail.php"]
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "master-dev"
-        }
     }
 }
