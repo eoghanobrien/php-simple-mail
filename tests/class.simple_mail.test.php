@@ -22,7 +22,7 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
     public function testSetToWithExpectedValues()
     {
         $this->mailer->setTo('test@gmail.com', 'Tester');
-        $this->assertContains('Tester <test@gmail.com>', $this->mailer->getTo());
+        $this->assertContains($this->mailer->encodeUtf8('Tester') . ' <test@gmail.com>', $this->mailer->getTo());
     }
 
     /**
@@ -61,7 +61,28 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
     {
         $this->mailer->setSubject('Testing Simple Mail');
 
-        $this->assertSame($this->mailer->getSubject(), 'Testing Simple Mail');
+        $this->assertSame($this->mailer->encodeUtf8('Testing Simple Mail'), $this->mailer->getSubject());
+    }
+
+    public function testEncodeUtf8ReturnsCorrectWord()
+    {
+        $expected = sprintf('=?UTF-8?B?%s?=', base64_encode('Test'));
+        $encoded = $this->mailer->encodeUtf8('Test');
+
+        $this->assertSame($expected, $encoded);
+    }
+
+    public function testEncodeUtf8ReturnsCorrectWords()
+    {
+        $space = sprintf('=?UTF-8?B?%s?=', base64_encode(' '));
+        $expected = array(
+            sprintf('=?UTF-8?B?%s?=', base64_encode('Testing')),
+            sprintf('=?UTF-8?B?%s?=', base64_encode('Multiple')),
+            sprintf('=?UTF-8?B?%s?=', base64_encode('Words'))
+        );
+        $encoded = $this->mailer->encodeUtf8('Testing Multiple Words');
+
+        $this->assertSame(implode($space, $expected), $encoded);
     }
 
     /**
@@ -167,7 +188,6 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
     {
         $this->mailer->setParameters("-fuse@gmail.com");
         $params = $this->mailer->getParameters();
-
         $this->assertSame("-fuse@gmail.com", $params);
     }
 
@@ -232,6 +252,25 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
         $this->assertTrue(is_string($this->mailer->assembleAttachmentHeaders()));
     }
 
+    public function testSetEolNullGetEolReturnsCorrectLineEnding()
+    {
+        $this->mailer->setEol(null);
+
+        $this->assertSame(PHP_EOL, $this->mailer->getEol());
+    }
+
+    public function testGetEolReturnsExpectedLineEnding()
+    {
+        $this->mailer->setEol('{end}');
+
+        $this->assertSame('{end}', $this->mailer->getEol());
+    }
+
+    public function testGetEolReturnsSelf()
+    {
+        $this->assertSame($this->mailer, $this->mailer->setEol(null));
+    }
+
     /**
      * @expectedException RuntimeException
      */
@@ -289,7 +328,7 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
 
     public function testFilterNameReplacesDoubleQuotesWithSingleQuoteEntities()
     {
-        $expected = "&#34;Hello World&#34;";
+        $expected = "'Hello World'";
         $name     = $this->mailer->filterName('"Hello World"');
 
         $this->assertEquals($expected, $name);
@@ -350,7 +389,7 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
 
     public function testFilterEmailReplacesDoubleQuotesWithSingleQuoteEntities()
     {
-        $expected = "&#34;Hello World&#34;";
+        $expected = "'Hello World'";
         $name     = $this->mailer->filterName('"Hello World"');
 
         $this->assertEquals($expected, $name);
