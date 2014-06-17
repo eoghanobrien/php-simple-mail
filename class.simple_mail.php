@@ -60,7 +60,6 @@ class SimpleMail
     public function __construct()
     {
         $this->reset();
-        $this->setEol();
     }
 
     /**
@@ -396,33 +395,6 @@ class SimpleMail
     }
 
     /**
-     * setEol()
-     *
-     * @param  null|string $eol
-     * @return $this
-     */
-    public function setEol($eol = null)
-    {
-        if (is_null($eol)) {
-            $eol = PHP_EOL;
-        }
-
-        $this->_eol = $eol;
-
-        return $this;
-    }
-
-    /**
-     * getEol()
-     *
-     * @return string
-     */
-    public function getEol()
-    {
-        return $this->_eol;
-    }
-
-    /**
      * assembleAttachment
      *
      * @return string
@@ -430,7 +402,7 @@ class SimpleMail
     public function assembleAttachmentHeaders()
     {
         $uid = $this->getUniqueId();
-        $eol = $this->getEol();
+        $eol = PHP_EOL;
 
         $head = array();
         $head[] = "{$eol}MIME-Version: 1.0";
@@ -458,7 +430,7 @@ class SimpleMail
      */
     public function getAttachmentMimeTemplate($attachment, $uid)
     {
-        $eol = $this->getEol();
+        $eol = PHP_EOL;
         $file = $attachment['file'];
         $data = $attachment['data'];
 
@@ -534,7 +506,7 @@ class SimpleMail
     {
         $email = $this->filterEmail($email);
 
-        if (is_null($name)) {
+        if (empty($name)) {
             return $email;
         }
 
@@ -681,7 +653,7 @@ class SimpleMail
             return '';
         }
 
-        return join($this->getEol(), $this->_headers);
+        return join(PHP_EOL, $this->_headers);
     }
 
     /**

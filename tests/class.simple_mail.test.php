@@ -252,25 +252,6 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
         $this->assertTrue(is_string($this->mailer->assembleAttachmentHeaders()));
     }
 
-    public function testSetEolNullGetEolReturnsCorrectLineEnding()
-    {
-        $this->mailer->setEol(null);
-
-        $this->assertSame(PHP_EOL, $this->mailer->getEol());
-    }
-
-    public function testGetEolReturnsExpectedLineEnding()
-    {
-        $this->mailer->setEol('{end}');
-
-        $this->assertSame('{end}', $this->mailer->getEol());
-    }
-
-    public function testGetEolReturnsSelf()
-    {
-        $this->assertSame($this->mailer, $this->mailer->setEol(null));
-    }
-
     /**
      * @expectedException RuntimeException
      */
