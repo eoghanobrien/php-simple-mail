@@ -5,7 +5,7 @@
  *
  * @author Eoghan O'Brien http://github.com/eoghanobrien
  * @package Simple
- * @version 1.1
+ * @version 1.2
  * @copyright 2009-2014
  * @license Free http://unlicense.org/
  */
