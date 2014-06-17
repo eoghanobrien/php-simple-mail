@@ -4,7 +4,7 @@
     "description": "Simple PHP 5 Email Class with Chainable Methods",
     "keywords": ["email","php5"],
     "homepage": "https://github.com/eoghanobrien/php-simple-mail",
-    "license": "UNLICENSE",
+    "license": "MIT",
     "authors": [
         {
             "name": "Eoghan O'Brien",
@@ -21,7 +21,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "master"
+            "dev-master": "master-dev"
         }
     }
 }
