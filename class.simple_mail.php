@@ -38,7 +38,7 @@ class SimpleMail
     protected $_wrap = 78;
 
     /**
-     * @var string $_to
+     * @var array $_to
      */
     protected $_to = array();
 
@@ -127,7 +127,6 @@ class SimpleMail
      *
      * @param string $subject The email subject
      *
-     * @throws \InvalidArgumentException on non string value for $_subject
      * @return SimpleMail
      */
     public function setSubject($subject)
@@ -152,9 +151,6 @@ class SimpleMail
      * setMessage
      *
      * @param string $message The message to send.
-     *
-     * @access public
-     * @throws \InvalidArgumentException on non string value for $message
      *
      * @return SimpleMail
      */
