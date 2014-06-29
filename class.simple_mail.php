@@ -1,56 +1,71 @@
 <?php
+/**
+ * Simple Mail
+ *
+ * A simple PHP wrapper class for sending email using the mail() method.
+ *
+ * PHP version 5
+ *
+ * LICENSE: This source file is subject to the MIT license, which is
+ * available through the world-wide-web at the following URI:
+ * http://github.com/eoghanobrien/php-simple-mail/LICENCE.txt
+ *
+ * @category  SimpleMail
+ * @package   SimpleMail
+ * @author    Eoghan O'Brien <eoghan@eoghanobrien.com>
+ * @copyright 2009 - 2014 Eoghan O'Brien
+ * @license   http://github.com/eoghanobrien/php-simple-mail/LICENCE.txt MIT
+ * @version   1.3
+ * @link      http://github.com/eoghanobrien/php-simple-mail
+ */
 
 /**
  * Simple Mail class.
  *
- * @author Eoghan O'Brien http://github.com/eoghanobrien
- * @package Simple
- * @version 1.2
- * @copyright 2009-2014
- * @license Free http://unlicense.org/
+ * @category  SimpleMail
+ * @package   SimpleMail
+ * @author    Eoghan O'Brien <eoghan@eoghanobrien.com>
+ * @copyright 2009 - 2014 Eoghan O'Brien
+ * @license   http://github.com/eoghanobrien/php-simple-mail/LICENCE.txt MIT
+ * @version   1.3
+ * @link      http://github.com/eoghanobrien/php-simple-mail
  */
 class SimpleMail
 {
     /**
-     * @var int $_wrap
+     * @var int $wrap
      */
-    protected $_wrap = 78;
+    protected $wrap = 78;
 
     /**
-     * @var string $_to
+     * @var string $to
      */
-    protected $_to = array();
+    protected $to = array();
 
     /**
-     * @var string $_subject
+     * @var string $subject
      */
-    protected $_subject;
+    protected $subject;
 
     /**
-     * @var string $_message
+     * @var string $message
      */
-    protected $_message;
+    protected $message;
 
     /**
-     * @var array $_headers
+     * @var array $headers
      */
-    protected $_headers = array();
+    protected $headers = array();
 
     /**
-     * @var string $_parameters
+     * @var string $parameters
      */
-    protected $_params = '-f';
+    protected $params;
 
     /**
      * @var array $_attachments
      */
-    protected $_attachments = array();
-
-    /**
-     * End of Line character, different on most popular OSs.
-     * @var string $eol
-     */
-    protected $_eol;
+    protected $attachments = array();
 
     /**
      * __construct
@@ -71,32 +86,27 @@ class SimpleMail
      */
     public function reset()
     {
-        $this->_to = array();
-        $this->_headers = array();
-        $this->_subject = null;
-        $this->_message = null;
-        $this->_wrap = 78;
-        $this->_params = null;
-        $this->_attachments = array();
-
+        $this->to = array();
+        $this->headers = array();
+        $this->subject = null;
+        $this->message = null;
+        $this->wrap = 78;
+        $this->params = null;
+        $this->attachments = array();
         return $this;
     }
 
     /**
      * setTo
      *
-     * @param  string $email
-     * @param  string $name
+     * @param string $email The email address to send to.
+     * @param string $name  The name of the person to send to.
      *
      * @return SimpleMail
      */
     public function setTo($email, $name)
     {
-        $name = (string) $name;
-        $email = (string) $email;
-
-        $this->_to[] = $this->formatHeader($email, $name);
-
+        $this->to[] = $this->formatHeader((string) $email, (string) $name);
         return $this;
     }
 
@@ -109,23 +119,22 @@ class SimpleMail
      */
     public function getTo()
     {
-        return $this->_to;
+        return $this->to;
     }
 
     /**
      * setSubject
      *
-     * @param  string $subject
+     * @param string $subject The email subject
      *
      * @throws \InvalidArgumentException on non string value for $subject
      * @return SimpleMail
      */
     public function setSubject($subject)
     {
-        $subject = (string) $subject;
-
-        $this->_subject = $this->encodeUtf8($this->filterOther($subject));
-
+        $this->subject = $this->encodeUtf8(
+            $this->filterOther((string) $subject)
+        );
         return $this;
     }
 
@@ -136,23 +145,22 @@ class SimpleMail
      */
     public function getSubject()
     {
-        return $this->_subject;
+        return $this->subject;
     }
 
     /**
      * setMessage
      *
+     * @param string $message The message to send.
+     *
      * @access public
-     *
-     * @param  string $message
-     *
      * @throws \InvalidArgumentException on non string value for $message
+     *
      * @return SimpleMail
      */
     public function setMessage($message)
     {
-        $message = (string) $message;
-        $this->_message = str_replace("\n.", "\n..", $message);
+        $this->message = str_replace("\n.", "\n..", (string) $message);
         return $this;
     }
 
@@ -163,36 +171,32 @@ class SimpleMail
      */
     public function getMessage()
     {
-        return $this->_message;
+        return $this->message;
     }
 
     /**
      * addAttachment
      *
-     * @access public
-     *
-     * @param  string $path
-     * @param  string $filename
+     * @param string $path     The file path to the attachment.
+     * @param string $filename The filename of the attachment when emailed.
      *
      * @return SimpleMail
      */
     public function addAttachment($path, $filename = null)
     {
         $filename = empty($filename) ? basename($path) : $filename;
-
-        $this->_attachments[] = array(
+        $this->attachments[] = array(
             'path' => $path,
             'file' => $filename,
             'data' => $this->getAttachmentData($path)
         );
-
         return $this;
     }
 
     /**
      * getAttachmentData
      *
-     * @param  string $path
+     * @param string $path The path to the attachment file.
      *
      * @return string
      */
@@ -202,59 +206,54 @@ class SimpleMail
         $handle = fopen($path, "r");
         $attachment = fread($handle, $filesize);
         fclose($handle);
-
         return chunk_split(base64_encode($attachment));
     }
 
     /**
      * setFrom
      *
-     * @param  string $email
-     * @param  string $name
+     * @param string $email The email to send as from.
+     * @param string $name  The name to send as from.
+     *
      * @return SimpleMail
      */
     public function setFrom($email, $name)
     {
-        $email = (string) $email;
-        $name = (string) $name;
-        $this->addMailHeader('From', $email, $name);
+        $this->addMailHeader('From', (string) $email, (string) $name);
         return $this;
     }
 
     /**
      * addMailHeader
      *
-     * @param  string $header
-     * @param  string $email
-     * @param  string $name
+     * @param string $header The header to add.
+     * @param string $email  The email to add.
+     * @param string $name   The name to add.
      *
      * @return SimpleMail
      */
     public function addMailHeader($header, $email = null, $name = null)
     {
-        $name = (string) $name;
-        $email = (string) $email;
-        $header = (string) $header;
-
-        $address = $this->formatHeader($email, $name);
-        $this->_headers[] = sprintf('%s: %s', $header, $address);
-
+        $address = $this->formatHeader((string) $email, (string) $name);
+        $this->headers[] = sprintf('%s: %s', (string) $header, $address);
         return $this;
     }
 
     /**
      * addGenericHeader
      *
-     * @param  string $header
-     * @param  mixed  $value
+     * @param string $header The generic header to add.
+     * @param mixed  $value  The value of the header.
+     *
      * @return SimpleMail
      */
     public function addGenericHeader($header, $value)
     {
-        $value = (string) $value;
-        $header = (string) $header;
-        $this->_headers[] = "$header: $value";
-
+        $this->headers[] = sprintf(
+            '%s: %s',
+            (string) $header,
+            (string) $value
+        );
         return $this;
     }
 
@@ -267,7 +266,7 @@ class SimpleMail
      */
     public function getHeaders()
     {
-        return $this->_headers;
+        return $this->headers;
     }
 
     /**
@@ -275,15 +274,13 @@ class SimpleMail
      *
      * Such as "-fyouremail@yourserver.com
      *
-     * @param  string $additionalParameters
+     * @param string $additionalParameters The addition mail parameter.
+     *
      * @return SimpleMail
      */
     public function setParameters($additionalParameters)
     {
-        $additionalParameters = (string) $additionalParameters;
-
-        $this->_params = $additionalParameters;
-
+        $this->params = (string) $additionalParameters;
         return $this;
     }
 
@@ -294,23 +291,23 @@ class SimpleMail
      */
     public function getParameters()
     {
-        return $this->_params;
+        return $this->params;
     }
 
     /**
      * setWrap
      *
-     * @param  int $wrap
+     * @param int $wrap The number of characters at which the message will wrap.
+     *
      * @return SimpleMail
      */
     public function setWrap($wrap = 78)
     {
-        if (!is_int($wrap) || $wrap < 1) {
+        $wrap = (int) $wrap;
+        if ($wrap < 1) {
             $wrap = 78;
         }
-
-        $this->_wrap = $wrap;
-
+        $this->wrap = $wrap;
         return $this;
     }
 
@@ -321,7 +318,7 @@ class SimpleMail
      */
     public function getWrap()
     {
-        return $this->_wrap;
+        return $this->wrap;
     }
 
     /**
@@ -332,7 +329,7 @@ class SimpleMail
      */
     public function hasAttachments()
     {
-        return !empty($this->_attachments);
+        return !empty($this->attachments);
     }
 
     /**
@@ -344,7 +341,6 @@ class SimpleMail
     {
         $uid = $this->getUniqueId();
         $eol = PHP_EOL;
-
         $head = array();
         $head[] = "{$eol}MIME-Version: 1.0";
         $head[] = "Content-Type: multipart/mixed; boundary=\"{$uid}\"{$eol}";
@@ -352,10 +348,10 @@ class SimpleMail
         $head[] = "--{$uid}";
         $head[] = "Content-type:text/html; charset=\"utf-8\"";
         $head[] = "Content-Transfer-Encoding: 7bit{$eol}";
-        $head[] = $this->_message . "{$eol}";
+        $head[] = $this->message . "{$eol}";
         $head[] = "--{$uid}";
 
-        foreach ($this->_attachments as $attachment) {
+        foreach ($this->attachments as $attachment) {
             $head[] = $this->getAttachmentMimeTemplate($attachment, $uid);
         }
 
@@ -365,8 +361,9 @@ class SimpleMail
     /**
      * getAttachmentMimeTemplate()
      *
-     * @param  array  $attachment
-     * @param  string $uid
+     * @param array  $attachment An array containing 'file' and 'data' keys.
+     * @param string $uid        A unique identifier for the boundary.
+     *
      * @return string
      */
     public function getAttachmentMimeTemplate($attachment, $uid)
@@ -374,14 +371,12 @@ class SimpleMail
         $eol = PHP_EOL;
         $file = $attachment['file'];
         $data = $attachment['data'];
-
         $head = array();
         $head[] = "Content-Type: application/octet-stream; name=\"{$file}\"";
         $head[] = "Content-Transfer-Encoding: base64";
         $head[] = "Content-Disposition: attachment; filename=\"{$file}\"{$eol}";
         $head[]= "{$data}{$eol}";
         $head[]= "--{$uid}";
-
         return implode($eol, $head);
     }
 
@@ -409,7 +404,7 @@ class SimpleMail
             $message = $this->getWrapMessage();
         }
 
-        return mail($to, $this->_subject, $message, $headers, $this->_params);
+        return mail($to, $this->subject, $message, $headers, $this->params);
     }
 
     /**
@@ -438,28 +433,25 @@ class SimpleMail
      * Formats a display address for emails according to RFC2822 e.g.
      * Name <address@domain.tld>
      *
-     * @param  string $email
-     * @param  string $name
+     * @param string $email The email address.
+     * @param string $name  The display name.
      *
      * @return string
      */
     public function formatHeader($email, $name = null)
     {
         $email = $this->filterEmail($email);
-
         if (empty($name)) {
             return $email;
         }
-
         $name = $this->encodeUtf8($this->filterName($name));
-
         return sprintf('%s <%s>', $name, $email);
     }
 
     /**
      * encodeUtf8()
      *
-     * @param  string $value
+     * @param string $value The value to encode.
      *
      * @return string
      */
@@ -469,14 +461,13 @@ class SimpleMail
         if (preg_match('/(\s)/', $value)) {
             return $this->encodeUtf8Words($value);
         }
-
         return $this->encodeUtf8Word($value);
     }
 
     /**
      * encodeUtf8Word()
      *
-     * @param string $value
+     * @param string $value The word to encode.
      *
      * @return string
      */
@@ -488,19 +479,17 @@ class SimpleMail
     /**
      * encodeUtf8Words()
      *
-     * @param  string $value
+     * @param string $value The words to encode.
      *
      * @return string
      */
     public function encodeUtf8Words($value)
     {
         $words = explode(' ', $value);
-
         $encoded = array();
         foreach ($words as $word) {
             $encoded[] = $this->encodeUtf8Word($word);
         }
-
         return join($this->encodeUtf8Word(' '), $encoded);
     }
 
@@ -510,7 +499,7 @@ class SimpleMail
      * Removes any carriage return, line feed, tab, double quote, comma
      * and angle bracket characters before sanitizing the email address.
      *
-     * @param  string $email
+     * @param string $email The email to filter.
      *
      * @return string
      */
@@ -525,10 +514,8 @@ class SimpleMail
             '<'  => '',
             '>'  => ''
         );
-
         $email = strtr($email, $rule);
         $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-
         return $email;
     }
 
@@ -539,7 +526,7 @@ class SimpleMail
      * double quotes with single quotes and angle brackets with square
      * brackets, before sanitizing the string and stripping out html tags.
      *
-     * @param  string $name
+     * @param string $name The name to filter.
      *
      * @return string
      */
@@ -553,22 +540,21 @@ class SimpleMail
             '<'  => '[',
             '>'  => ']',
         );
-
         $filtered = filter_var(
             $name,
             FILTER_SANITIZE_STRING,
             FILTER_FLAG_NO_ENCODE_QUOTES
         );
-
         return trim(strtr($filtered, $rule));
     }
 
     /**
      * filterOther
      *
-     * Removes any carriage return, line feed or tab characters.
+     * Removes any carriage return, line feed or tab characters before
+     * sanitizing.
      *
-     * @param  string $data
+     * @param string $data The data to filter.
      *
      * @return string
      */
@@ -579,7 +565,6 @@ class SimpleMail
             "\n" => '',
             "\t" => ''
         );
-
         return strtr(filter_var($data, FILTER_SANITIZE_STRING), $rule);
     }
 
@@ -590,11 +575,10 @@ class SimpleMail
      */
     public function getHeadersForSend()
     {
-        if (empty($this->_headers)) {
+        if (empty($this->headers)) {
             return '';
         }
-
-        return join(PHP_EOL, $this->_headers);
+        return join(PHP_EOL, $this->headers);
     }
 
     /**
@@ -604,11 +588,10 @@ class SimpleMail
      */
     public function getToForSend()
     {
-        if (empty($this->_to)) {
+        if (empty($this->to)) {
             return '';
         }
-
-        return join(', ', $this->_to);
+        return join(', ', $this->to);
     }
 
     /**
@@ -628,6 +611,6 @@ class SimpleMail
      */
     public function getWrapMessage()
     {
-        return wordwrap($this->_message, $this->_wrap);
+        return wordwrap($this->message, $this->wrap);
     }
 }
