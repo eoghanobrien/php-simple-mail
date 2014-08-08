@@ -441,7 +441,7 @@ class SimpleMail
             return $email;
         }
         $name = $this->encodeUtf8($this->filterName($name));
-        return sprintf('%s <%s>', $name, $email);
+        return sprintf('"%s" <%s>', $name, $email);
     }
 
     /**
