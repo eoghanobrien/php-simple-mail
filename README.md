@@ -10,7 +10,7 @@
       }
     }
 
-####Version 1.3
+####Version 1.4
 
 Simple Mail Class provides a simple, chainable PHP class for sending basic emails
 

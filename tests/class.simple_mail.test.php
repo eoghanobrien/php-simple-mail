@@ -240,40 +240,48 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
 
     public function testFilterEmailRemovesCarriageReturns()
     {
-        $string = "test@gmail.com\r";
-        $name = $this->mailer->filterName($string);
+        $string = "test@test.com\r";
+        $name = $this->mailer->filterEmail($string);
 
         $this->assertNotSame($string, $name);
     }
 
     public function testFilterEmailRemovesNewLines()
     {
-        $string = "test@gmail.com\n";
-        $name = $this->mailer->filterName($string);
+        $string = "test@test.com\n";
+        $name = $this->mailer->filterEmail($string);
 
         $this->assertNotSame($string, $name);
     }
 
     public function testFilterEmailRemovesTabbedChars()
     {
-        $string = "\tHello World\t";
-        $name = $this->mailer->filterName($string);
+        $string = "\ttest@test.com\t";
+        $name = $this->mailer->filterEmail($string);
 
         $this->assertNotSame($string, $name);
     }
 
-    public function testFilterEmailReplacesDoubleQuotesWithSingleQuoteEntities()
+    public function testFilterEmailRemovesDoubleQuotes()
     {
-        $expected = "'Hello World'";
-        $name     = $this->mailer->filterName('"Hello World"');
+        $expected = "test@test.com";
+        $name     = $this->mailer->filterEmail('"test@test.com"');
+
+        $this->assertEquals($expected, $name);
+    }
+
+    public function testFilterEmailRemovesCommas()
+    {
+        $expected = "test@test.com";
+        $name     = $this->mailer->filterEmail('t,es,t@test.com');
 
         $this->assertEquals($expected, $name);
     }
 
     public function testFilterEmailRemovesAngleBrackets()
     {
-        $expected = 'Hello World';
-        $name     = $this->mailer->filterName('<> Hello World');
+        $expected = 'test@test.com';
+        $name     = $this->mailer->filterEmail('<test@test.com>');
 
         $this->assertEquals($expected, $name);
     }
