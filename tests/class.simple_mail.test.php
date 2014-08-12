@@ -22,7 +22,7 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
     public function testSetToWithExpectedValues()
     {
         $this->mailer->setTo('test@gmail.com', 'Tester');
-        $this->assertContains($this->mailer->encodeUtf8('Tester') . ' <test@gmail.com>', $this->mailer->getTo());
+        $this->assertContains('"' . $this->mailer->encodeUtf8('Tester') . '" <test@gmail.com>', $this->mailer->getTo());
     }
 
     public function testSetToAddsHeader()
