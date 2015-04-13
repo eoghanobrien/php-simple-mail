@@ -43,7 +43,7 @@ If you are sending an attachment there is no need to add any addGenericHeader()'
          ->addAttachment('example/pbXBsZSwgY2hh.jpg', 'lolcat_finally_arrived.jpg')
          ->addAttachment('example/lolcat_what.jpg')
          ->setMessage('<strong>This is a test message.</strong>')
-    >setWrap(100)
+         ->setWrap(100);
     $send = $mail->send();
     echo ($send) ? 'Email sent successfully' : 'Could not send email';
 
