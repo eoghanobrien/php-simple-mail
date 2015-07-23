@@ -388,9 +388,9 @@ class SimpleMail
         $head[] = "Content-Type: application/octet-stream; name=\"{$file}\"";
         $head[] = "Content-Transfer-Encoding: base64";
         $head[] = "Content-Disposition: attachment; filename=\"{$file}\"";
-	$head[] = "";
+	      $head[] = "";
         $head[] = $data;
-	$head[] = "";
+	      $head[] = "";
         $head[] = "--{$this->_uid}";
 
         return implode(PHP_EOL, $head);
