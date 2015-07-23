@@ -99,7 +99,7 @@ class SimpleMail
         $this->_wrap = 78;
         $this->_params = null;
         $this->_attachments = array();
-	$this->_uid = $this->getUniqueId();
+        $this->_uid = $this->getUniqueId();
         return $this;
     }
 
@@ -346,7 +346,7 @@ class SimpleMail
         $head[] = "MIME-Version: 1.0";
         $head[] = "Content-Type: multipart/mixed; boundary=\"{$this->_uid}\"";
 
-	return join(PHP_EOL, $head);
+        return join(PHP_EOL, $head);
     }
 
     /*
@@ -359,9 +359,9 @@ class SimpleMail
         $body[] = "--{$this->_uid}";
         $body[] = "Content-type:text/html; charset=\"utf-8\"";
         $body[] = "Content-Transfer-Encoding: 7bit";
-	$body[] = "";
+        $body[] = "";
         $body[] = $this->_message;
-	$body[] = "";
+        $body[] = "";
         $body[] = "--{$this->_uid}";
 
         foreach ($this->_attachments as $attachment) {
@@ -388,9 +388,9 @@ class SimpleMail
         $head[] = "Content-Type: application/octet-stream; name=\"{$file}\"";
         $head[] = "Content-Transfer-Encoding: base64";
         $head[] = "Content-Disposition: attachment; filename=\"{$file}\"";
-	      $head[] = "";
+        $head[] = "";
         $head[] = $data;
-	      $head[] = "";
+        $head[] = "";
         $head[] = "--{$this->_uid}";
 
         return implode(PHP_EOL, $head);
