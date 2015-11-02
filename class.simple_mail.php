@@ -68,6 +68,12 @@ class SimpleMail
     protected $_attachments = array();
 
     /**
+     * @var string $_uid
+     */
+    protected $_uid;
+
+
+    /**
      * __construct
      *
      * Resets the class properties.
@@ -93,6 +99,7 @@ class SimpleMail
         $this->_wrap = 78;
         $this->_params = null;
         $this->_attachments = array();
+        $this->_uid = $this->getUniqueId();
         return $this;
     }
 
@@ -335,26 +342,36 @@ class SimpleMail
      */
     public function assembleAttachmentHeaders()
     {
-        $uid = $this->getUniqueId();
-        $eol = PHP_EOL;
         $head = array();
-        $head[] = "{$eol}MIME-Version: 1.0";
-        $head[] = "Content-Type: multipart/mixed; boundary=\"{$uid}\"{$eol}";
-        $head[] = "This is a multi-part message in MIME format.";
-        $head[] = "--{$uid}";
-        $head[] = "Content-type:text/html; charset=\"utf-8\"";
-        $head[] = "Content-Transfer-Encoding: 7bit{$eol}";
-        $head[] = $this->_message . "{$eol}";
-        $head[] = "--{$uid}";
+        $head[] = "MIME-Version: 1.0";
+        $head[] = "Content-Type: multipart/mixed; boundary=\"{$this->_uid}\"";
 
-        foreach ($this->_attachments as $attachment) {
-            $head[] = $this->getAttachmentMimeTemplate($attachment, $uid);
-        }
-
-        return join("{$eol}", $head);
+        return join(PHP_EOL, $head);
     }
 
-    /**
+    /*
+     * @return string
+     */
+    public function assembleAttachmentBody()
+    {
+        $body = array();
+        $body[] = "This is a multi-part message in MIME format.";
+        $body[] = "--{$this->_uid}";
+        $body[] = "Content-type:text/html; charset=\"utf-8\"";
+        $body[] = "Content-Transfer-Encoding: 7bit";
+        $body[] = "";
+        $body[] = $this->_message;
+        $body[] = "";
+        $body[] = "--{$this->_uid}";
+
+        foreach ($this->_attachments as $attachment) {
+            $body[] = $this->getAttachmentMimeTemplate($attachment);
+        }
+
+        return implode(PHP_EOL, $body);
+    }
+
+    /*
      * getAttachmentMimeTemplate()
      *
      * @param array  $attachment An array containing 'file' and 'data' keys.
@@ -362,18 +379,21 @@ class SimpleMail
      *
      * @return string
      */
-    public function getAttachmentMimeTemplate($attachment, $uid)
+    public function getAttachmentMimeTemplate($attachment)
     {
-        $eol = PHP_EOL;
         $file = $attachment['file'];
         $data = $attachment['data'];
+
         $head = array();
         $head[] = "Content-Type: application/octet-stream; name=\"{$file}\"";
         $head[] = "Content-Transfer-Encoding: base64";
-        $head[] = "Content-Disposition: attachment; filename=\"{$file}\"{$eol}";
-        $head[]= "{$data}{$eol}";
-        $head[]= "--{$uid}";
-        return implode($eol, $head);
+        $head[] = "Content-Disposition: attachment; filename=\"{$file}\"";
+        $head[] = "";
+        $head[] = $data;
+        $head[] = "";
+        $head[] = "--{$this->_uid}";
+
+        return implode(PHP_EOL, $head);
     }
 
     /**
@@ -394,8 +414,8 @@ class SimpleMail
         }
 
         if ($this->hasAttachments()) {
-            $message = '';
-            $headers .= $this->assembleAttachmentHeaders();
+            $message  = $this->assembleAttachmentBody();
+            $headers .= PHP_EOL . $this->assembleAttachmentHeaders();
         } else {
             $message = $this->getWrapMessage();
         }
