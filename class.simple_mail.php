@@ -15,7 +15,7 @@
  * @author    Eoghan O'Brien <eoghan@eoghanobrien.com>
  * @copyright 2009 - 2014 Eoghan O'Brien
  * @license   http://github.com/eoghanobrien/php-simple-mail/LICENCE.txt MIT
- * @version   1.4
+ * @version   1.5
  * @link      http://github.com/eoghanobrien/php-simple-mail
  */
 
@@ -326,6 +326,7 @@ class SimpleMail
 
     /**
      * hasAttachments
+     * 
      * Checks if the email has any registered attachments.
      *
      * @return bool
@@ -349,7 +350,9 @@ class SimpleMail
         return join(PHP_EOL, $head);
     }
 
-    /*
+    /**
+     * assembleAttachmentBody
+     *
      * @return string
      */
     public function assembleAttachmentBody()
@@ -371,8 +374,8 @@ class SimpleMail
         return implode(PHP_EOL, $body);
     }
 
-    /*
-     * getAttachmentMimeTemplate()
+    /**
+     * getAttachmentMimeTemplate
      *
      * @param array  $attachment An array containing 'file' and 'data' keys.
      * @param string $uid        A unique identifier for the boundary.
@@ -434,7 +437,7 @@ class SimpleMail
     }
 
     /**
-     * magic __toString function.
+     * magic __toString function
      *
      * @return string
      */
@@ -465,7 +468,7 @@ class SimpleMail
     }
 
     /**
-     * encodeUtf8()
+     * encodeUtf8
      *
      * @param string $value The value to encode.
      *
@@ -481,7 +484,7 @@ class SimpleMail
     }
 
     /**
-     * encodeUtf8Word()
+     * encodeUtf8Word
      *
      * @param string $value The word to encode.
      *
@@ -493,7 +496,7 @@ class SimpleMail
     }
 
     /**
-     * encodeUtf8Words()
+     * encodeUtf8Words
      *
      * @param string $value The words to encode.
      *
@@ -580,7 +583,7 @@ class SimpleMail
     }
 
     /**
-     * getHeadersForSend()
+     * getHeadersForSend
      *
      * @return string
      */
@@ -593,7 +596,7 @@ class SimpleMail
     }
 
     /**
-     * getToForSend()
+     * getToForSend
      *
      * @return string
      */
@@ -606,7 +609,7 @@ class SimpleMail
     }
 
     /**
-     * getUniqueId()
+     * getUniqueId
      *
      * @return string
      */
@@ -616,7 +619,7 @@ class SimpleMail
     }
 
     /**
-     * getWrapMessage()
+     * getWrapMessage
      *
      * @return string
      */
