@@ -238,6 +238,27 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
         $this->assertSame($expected, $actual);
     }
 
+    public function testFilterOtherLeavesQuotes()
+    {
+        $expected = 'Hello "World"';
+        $actual   = $this->mailer->filterOther($expected);
+        $this->assertSame($expected, $actual);
+    }
+
+    public function testFilterOtherLeavesTags()
+    {
+        $expected = 'Hello <World>';
+        $actual   = $this->mailer->filterOther($expected);
+        $this->assertSame($expected, $actual);
+    }
+
+    public function testFilterOtherLeavesHighAscii()
+    {
+        $expected = "Hej världen!";
+        $actual   = $this->mailer->filterOther($expected);
+        $this->assertSame($expected, $actual);
+    }
+
     public function testFilterEmailRemovesCarriageReturns()
     {
         $string = "test@test.com\r";

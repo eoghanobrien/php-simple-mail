@@ -567,8 +567,8 @@ class SimpleMail
     /**
      * filterOther
      *
-     * Removes any carriage return, line feed or tab characters before
-     * sanitizing.
+     * Removes ASCII control characters including any carriage return, line
+     * feed or tab characters.
      *
      * @param string $data The data to filter.
      *
@@ -576,12 +576,7 @@ class SimpleMail
      */
     public function filterOther($data)
     {
-        $rule = array(
-            "\r" => '',
-            "\n" => '',
-            "\t" => ''
-        );
-        return strtr(filter_var($data, FILTER_SANITIZE_STRING), $rule);
+        return filter_var($data, FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW);
     }
 
     /**
