@@ -371,7 +371,7 @@ class SimpleMail
             $body[] = $this->getAttachmentMimeTemplate($attachment);
         }
 
-        return implode(PHP_EOL, $body);
+        return implode(PHP_EOL, $body) . '--';
     }
 
     /**
