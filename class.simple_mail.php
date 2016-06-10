@@ -182,16 +182,18 @@ class SimpleMail
      *
      * @param string $path     The file path to the attachment.
      * @param string $filename The filename of the attachment when emailed.
+     * @param string $data     (optional) The data if already loaded.
      *
      * @return SimpleMail
      */
-    public function addAttachment($path, $filename = null)
+    public function addAttachment($path, $filename = null, $data = null)
     {
         $filename = empty($filename) ? basename($path) : $filename;
+        $data = empty($data) ? $this->getAttachmentData($path) : $data;
         $this->_attachments[] = array(
             'path' => $path,
             'file' => $filename,
-            'data' => $this->getAttachmentData($path)
+            'data' => chunk_split(base64_encode($data))
         );
         return $this;
     }
@@ -209,7 +211,7 @@ class SimpleMail
         $handle = fopen($path, "r");
         $attachment = fread($handle, $filesize);
         fclose($handle);
-        return chunk_split(base64_encode($attachment));
+        return $attachment;
     }
 
     /**
