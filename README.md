@@ -49,3 +49,4 @@ If you are sending an attachment there is no need to add any addGenericHeader()'
 
 ## License
 php-simple-mail is free and unencumbered public domain software. For more information, see http://opensource.org/licenses/MIT or the accompanying MIT file.
+
