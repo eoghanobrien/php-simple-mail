@@ -88,7 +88,7 @@ class SimpleMail
      *
      * Resets all properties to initial state.
      *
-     * @return SimpleMail
+     * @return self
      */
     public function reset()
     {
@@ -109,7 +109,7 @@ class SimpleMail
      * @param string $email The email address to send to.
      * @param string $name  The name of the person to send to.
      *
-     * @return SimpleMail
+     * @return self
      */
     public function setTo($email, $name)
     {
@@ -134,7 +134,7 @@ class SimpleMail
      *
      * @param string $subject The email subject
      *
-     * @return SimpleMail
+     * @return self
      */
     public function setSubject($subject)
     {
@@ -159,7 +159,7 @@ class SimpleMail
      *
      * @param string $message The message to send.
      *
-     * @return SimpleMail
+     * @return self
      */
     public function setMessage($message)
     {
@@ -180,11 +180,11 @@ class SimpleMail
     /**
      * addAttachment
      *
-     * @param string $path     The file path to the attachment.
+     * @param string $path The file path to the attachment.
      * @param string $filename The filename of the attachment when emailed.
-     * @param string $data     (optional) The data if already loaded.
-     *
-     * @return SimpleMail
+     * @param null $data
+     * 
+     * @return self
      */
     public function addAttachment($path, $filename = null, $data = null)
     {
@@ -220,7 +220,7 @@ class SimpleMail
      * @param string $email The email to send as from.
      * @param string $name  The name to send as from.
      *
-     * @return SimpleMail
+     * @return self
      */
     public function setFrom($email, $name)
     {
@@ -235,7 +235,7 @@ class SimpleMail
      * @param string $email  The email to add.
      * @param string $name   The name to add.
      *
-     * @return SimpleMail
+     * @return self
      */
     public function addMailHeader($header, $email = null, $name = null)
     {
@@ -250,7 +250,7 @@ class SimpleMail
      * @param string $header The generic header to add.
      * @param mixed  $value  The value of the header.
      *
-     * @return SimpleMail
+     * @return self
      */
     public function addGenericHeader($header, $value)
     {
@@ -281,7 +281,7 @@ class SimpleMail
      *
      * @param string $additionalParameters The addition mail parameter.
      *
-     * @return SimpleMail
+     * @return self
      */
     public function setParameters($additionalParameters)
     {
@@ -304,7 +304,7 @@ class SimpleMail
      *
      * @param int $wrap The number of characters at which the message will wrap.
      *
-     * @return SimpleMail
+     * @return self
      */
     public function setWrap($wrap = 78)
     {
@@ -380,7 +380,6 @@ class SimpleMail
      * getAttachmentMimeTemplate
      *
      * @param array  $attachment An array containing 'file' and 'data' keys.
-     * @param string $uid        A unique identifier for the boundary.
      *
      * @return string
      */
@@ -404,8 +403,8 @@ class SimpleMail
     /**
      * send
      *
-     * @throws \RuntimeException on no 'To: ' address to send to.
      * @return boolean
+     * @throws \RuntimeException on no 'To: ' address to send to.
      */
     public function send()
     {
