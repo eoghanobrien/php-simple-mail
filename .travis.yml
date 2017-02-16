@@ -1,7 +1,6 @@
 language: php
 
 php:
-  - 5.2
   - 5.3
   - 5.4
   - 5.5
@@ -12,6 +11,9 @@ cache:
   directories:
     - $HOME/.composer/cache
     - vendor
+
+install:
+  - composer install
 
 script:
   - composer run-script test-build
