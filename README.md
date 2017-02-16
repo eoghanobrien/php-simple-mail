@@ -6,7 +6,7 @@
 
     {
        "require": {
-        "eoghanobrien/php-simple-mail": "dev-master"
+        "eoghanobrien/php-simple-mail": "~1.*"
       }
     }
 
