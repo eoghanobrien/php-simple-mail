@@ -4,3 +4,5 @@ coverage/
 clover.xml
 .scrutinizer.yml
 scrutinizer.phar
+/vendor/*
+/composer.lock
