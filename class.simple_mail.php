@@ -317,15 +317,12 @@ class SimpleMail
                 'You must pass at least one name => email pair.'
             );
         }
+        $addresses = array();
         foreach ($pairs as $name => $email) {
-            if (is_numeric($name)) {
-                $addresses[] = $this->formatHeader($email);
-            } else {
-                $addresses[] = $this->formatHeader($email, $name);
-            }
+            $name = is_numeric($name) ? null : $name;
+            $addresses[] = $this->formatHeader($email, $name);
         }
-        $addresses = implode(',', $addresses);
-        $this->addGenericHeader($header, $addresses);
+        $this->addGenericHeader($header, implode(',', $addresses));
         return $this;
     }
 
