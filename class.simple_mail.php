@@ -4,7 +4,7 @@
  *
  * A simple PHP wrapper class for sending email using the mail() method.
  *
- * PHP version 5
+ * PHP version > 5.2
  *
  * LICENSE: This source file is subject to the MIT license, which is
  * available through the world-wide-web at the following URI:
@@ -13,9 +13,9 @@
  * @category  SimpleMail
  * @package   SimpleMail
  * @author    Eoghan O'Brien <eoghan@eoghanobrien.com>
- * @copyright 2009 - 2014 Eoghan O'Brien
+ * @copyright 2009 - 2017 Eoghan O'Brien
  * @license   http://github.com/eoghanobrien/php-simple-mail/LICENCE.txt MIT
- * @version   1.5
+ * @version   1.7
  * @link      http://github.com/eoghanobrien/php-simple-mail
  */
 
@@ -25,9 +25,9 @@
  * @category  SimpleMail
  * @package   SimpleMail
  * @author    Eoghan O'Brien <eoghan@eoghanobrien.com>
- * @copyright 2009 - 2014 Eoghan O'Brien
+ * @copyright 2009 - 2017 Eoghan O'Brien
  * @license   http://github.com/eoghanobrien/php-simple-mail/LICENCE.txt MIT
- * @version   1.4
+ * @version   1.7
  * @link      http://github.com/eoghanobrien/php-simple-mail
  */
 class SimpleMail
@@ -72,6 +72,15 @@ class SimpleMail
      */
     protected $_uid;
 
+    /**
+     * Named constructor.
+     *
+     * @return static
+     */
+    public static function make()
+    {
+        return new SimpleMail();
+    }
 
     /**
      * __construct
@@ -127,6 +136,69 @@ class SimpleMail
     public function getTo()
     {
         return $this->_to;
+    }
+
+    /**
+     * setFrom
+     *
+     * @param string $email The email to send as from.
+     * @param string $name  The name to send as from.
+     *
+     * @return self
+     */
+    public function setFrom($email, $name)
+    {
+        $this->addMailHeader('From', (string) $email, (string) $name);
+        return $this;
+    }
+
+    /**
+     * setCc
+     *
+     * @param array  $pairs  An array of name => email pairs.
+     *
+     * @return self
+     */
+    public function setCc(array $pairs)
+    {
+        return $this->addMailHeaders('Cc', $pairs);
+    }
+
+    /**
+     * setBcc
+     *
+     * @param array  $pairs  An array of name => email pairs.
+     *
+     * @return self
+     */
+    public function setBcc(array $pairs)
+    {
+        return $this->addMailHeaders('Bcc', $pairs);
+    }
+
+    /**
+     * setReplyTo
+     *
+     * @param string $email
+     * @param string $name
+     *
+     * @return self
+     */
+    public function setReplyTo($email, $name = null)
+    {
+        return $this->addMailHeader('Reply-To', $email, $name);
+    }
+
+    /**
+     * setHtml
+     *
+     * @return self
+     */
+    public function setHtml()
+    {
+        return $this->addGenericHeader(
+            'Content-Type', 'text/html; charset="utf-8"'
+        );
     }
 
     /**
@@ -215,20 +287,6 @@ class SimpleMail
     }
 
     /**
-     * setFrom
-     *
-     * @param string $email The email to send as from.
-     * @param string $name  The name to send as from.
-     *
-     * @return self
-     */
-    public function setFrom($email, $name)
-    {
-        $this->addMailHeader('From', (string) $email, (string) $name);
-        return $this;
-    }
-
-    /**
      * addMailHeader
      *
      * @param string $header The header to add.
@@ -237,10 +295,37 @@ class SimpleMail
      *
      * @return self
      */
-    public function addMailHeader($header, $email = null, $name = null)
+    public function addMailHeader($header, $email, $name = null)
     {
         $address = $this->formatHeader((string) $email, (string) $name);
         $this->_headers[] = sprintf('%s: %s', (string) $header, $address);
+        return $this;
+    }
+
+    /**
+     * addMailHeaders
+     *
+     * @param string $header The header to add.
+     * @param array  $pairs  An array of name => email pairs.
+     *
+     * @return self
+     */
+    public function addMailHeaders($header, array $pairs)
+    {
+        if (count($pairs) === 0) {
+            throw new InvalidArgumentException(
+                'You must pass at least one name => email pair.'
+            );
+        }
+        foreach ($pairs as $name => $email) {
+            if (is_numeric($name)) {
+                $addresses[] = $this->formatHeader($email);
+            } else {
+                $addresses[] = $this->formatHeader($email, $name);
+            }
+        }
+        $addresses = implode(',', $addresses);
+        $this->addGenericHeader($header, $addresses);
         return $this;
     }
 
@@ -460,11 +545,11 @@ class SimpleMail
      */
     public function formatHeader($email, $name = null)
     {
-        $email = $this->filterEmail($email);
-        if (empty($name)) {
+        $email = $this->filterEmail((string) $email);
+        if (empty(trim($name))) {
             return $email;
         }
-        $name = $this->encodeUtf8($this->filterName($name));
+        $name = $this->encodeUtf8($this->filterName((string) $name));
         return sprintf('"%s" <%s>', $name, $email);
     }
 

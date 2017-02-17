@@ -3,18 +3,17 @@
 echo '<h1>Simple Mail</h1>';
 
 /* @var SimpleMail $mail */
-$mail = new SimpleMail();
-$mail->setTo('test1@gmail.com', 'Recipient 1')
-     ->setTo('test2@gmail.com', 'Recipient 2')
-     ->setSubject('Test Message')
-     ->setFrom('sender@gmail.com', 'Mail Bot')
-     ->addMailHeader('Reply-To', 'sender@gmail.com', 'Mail Bot')
-     ->addMailHeader('Cc', 'bill@example.com', 'Bill Gates')
-     ->addMailHeader('Bcc', 'steve@example.com', 'Steve Jobs')
-     ->addGenericHeader('X-Mailer', 'PHP/' . phpversion())
-     ->addGenericHeader('Content-Type', 'text/html; charset="utf-8"')
-     ->setMessage('<strong>This is a test message.</strong>')
-     ->setWrap(78);
+$mail = SimpleMail::make()
+    ->setTo('test1@example.com', 'Recipient 1')
+    ->setSubject("Hi Amy O'Neill, Welcome!")
+    ->setFrom('sender@gmail.com', 'Mail Bot')
+    ->setReplyTo('reply@test.com', 'Mail Bot')
+    ->setCc(['Recipient 2' => 'test2@example.com', 'Recipient 3' => 'test3@example.com'])
+    ->setBcc(['Recipient 4' => 'test4@example.com'])
+    ->addGenericHeader('X-Mailer', 'PHP/' . phpversion())
+    ->setHtml()
+    ->setMessage('<strong>This is a test message.</strong>')
+    ->setWrap(78);
 $send = $mail->send();
 //echo $mail->debug();
 

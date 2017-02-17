@@ -1,7 +1,7 @@
 {
     "name": "eoghanobrien/php-simple-mail",
     "type": "library",
-    "description": "Simple PHP 5 Email Class with Chainable Methods",
+    "description": "Provides a simple, chainable wrapper for creating and sending emails using the PHP mail() function.",
     "keywords": ["email","php5"],
     "homepage": "https://github.com/eoghanobrien/php-simple-mail",
     "license": "MIT",
