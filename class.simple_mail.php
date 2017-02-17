@@ -546,7 +546,7 @@ class SimpleMail
     public function formatHeader($email, $name = null)
     {
         $email = $this->filterEmail((string) $email);
-        if (empty(trim($name))) {
+        if (empty($name)) {
             return $email;
         }
         $name = $this->encodeUtf8($this->filterName((string) $name));
