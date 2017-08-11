@@ -261,6 +261,7 @@ class SimpleMail
     public function addAttachment($path, $filename = null, $data = null)
     {
         $filename = empty($filename) ? basename($path) : $filename;
+        $filename = $this->encodeUtf8($this->filterOther((string) $filename));
         $data = empty($data) ? $this->getAttachmentData($path) : $data;
         $this->_attachments[] = array(
             'path' => $path,
