@@ -272,6 +272,29 @@ class SimpleMail
     }
 
     /**
+     * addAttachmentVar
+     * 
+     * @param string $data the data to send
+     * @param string $filename the filename to use
+     *
+     * @return  self
+     */
+    public function addAttachmentVar($data, $filename = null)
+    {
+
+        if ($data == null  || $filename == null) throw new Exception("filename or data can't be null for memory attachment", 1);
+
+        $filename = $this->encodeUtf8($this->filterOther((string) $filename));
+
+        $this->_attachments[] = array(
+            'path' => null,
+            'file' => $filename,
+            'data' => chunk_split(base64_encode($data))
+        );
+        return $this;
+    }
+
+    /**
      * getAttachmentData
      *
      * @param string $path The path to the attachment file.
