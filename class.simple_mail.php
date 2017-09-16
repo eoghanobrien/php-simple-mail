@@ -699,7 +699,17 @@ class SimpleMail
         if (empty($this->_headers)) {
             return '';
         }
-        return join(PHP_EOL, $this->_headers);
+
+        //Make up for users trying to manage the content type when they have attachments
+        if ($this->hasAttachments()){
+            foreach ($this->_headers as $key => $value){
+                if (strpos($value,'Content-Type') === 0){
+                    unset($this->_headers[$key]);
+                }
+            }
+        }
+
+        return join("\r\n", $this->_headers);
     }
 
     /**
