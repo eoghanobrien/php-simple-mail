@@ -445,10 +445,10 @@ class SimpleMail
         $body = array();
         $body[] = "This is a multi-part message in MIME format.";
         $body[] = "--{$this->_uid}";
-        $body[] = "Content-type:text/html; charset=\"utf-8\"";
-        $body[] = "Content-Transfer-Encoding: 7bit";
+        $body[] = "Content-Type: text/html; charset=\"utf-8\"";
+        $body[] = "Content-Transfer-Encoding: quoted-printable";
         $body[] = "";
-        $body[] = $this->_message;
+        $body[] = quoted_printable_encode($this->_message);
         $body[] = "";
         $body[] = "--{$this->_uid}";
 
