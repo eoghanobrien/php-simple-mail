@@ -272,6 +272,29 @@ class SimpleMail
     }
 
     /**
+     * addAttachmentVar
+     * 
+     * @param string $data the data to send
+     * @param string $filename the filename to use
+     *
+     * @return  self
+     */
+    public function addAttachmentVar($data, $filename = null)
+    {
+
+        if ($data == null  || $filename == null) throw new Exception("filename or data can't be null for memory attachment", 1);
+
+        $filename = $this->encodeUtf8($this->filterOther((string) $filename));
+
+        $this->_attachments[] = array(
+            'path' => null,
+            'file' => $filename,
+            'data' => chunk_split(base64_encode($data))
+        );
+        return $this;
+    }
+
+    /**
      * getAttachmentData
      *
      * @param string $path The path to the attachment file.
@@ -676,7 +699,17 @@ class SimpleMail
         if (empty($this->_headers)) {
             return '';
         }
-        return join(PHP_EOL, $this->_headers);
+
+        //Make up for users trying to manage the content type when they have attachments
+        if ($this->hasAttachments()){
+            foreach ($this->_headers as $key => $value){
+                if (strpos($value,'Content-Type') === 0){
+                    unset($this->_headers[$key]);
+                }
+            }
+        }
+
+        return join("\r\n", $this->_headers);
     }
 
     /**
