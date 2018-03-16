@@ -528,12 +528,12 @@ class testSimpleMail extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_qp_encodes_attachment_message_bodies()
+    public function it_quoted_printable_encodes_attachment_message_bodies()
     {
         $message = "J'interdis aux marchands de vanter trop leur marchandises. Car ils se font vite pédagogues et t'enseignent comme but ce qui n'est par essence qu'un moyen, et te trompant ainsi sur la route à suivre les voilà bientôt qui te dégradent, car si leur musique est vulgaire ils te fabriquent pour te la vendre une âme vulgaire.";
 
         $this->mailer->setMessage($message)
-                     ->addAttachment($this->directory.'/example/pbXBsZSwgY2hh.jpg', 'lolcat_finally_arrived.jpg');
+                     ->addAttachment($this->directory . '/example/pbXBsZSwgY2hh.jpg', 'lolcat_finally_arrived.jpg');
 
         $body = $this->mailer->assembleAttachmentBody();
         $this->assertRegExp('/^Content-Transfer-Encoding: quoted-printable$/m', $body);

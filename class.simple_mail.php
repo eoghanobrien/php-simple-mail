@@ -15,7 +15,7 @@
  * @author    Eoghan O'Brien <eoghan@eoghanobrien.com>
  * @copyright 2009 - 2017 Eoghan O'Brien
  * @license   http://github.com/eoghanobrien/php-simple-mail/LICENCE.txt MIT
- * @version   1.7
+ * @version   1.7.1
  * @link      http://github.com/eoghanobrien/php-simple-mail
  */
 
@@ -27,7 +27,7 @@
  * @author    Eoghan O'Brien <eoghan@eoghanobrien.com>
  * @copyright 2009 - 2017 Eoghan O'Brien
  * @license   http://github.com/eoghanobrien/php-simple-mail/LICENCE.txt MIT
- * @version   1.7
+ * @version   1.7.1
  * @link      http://github.com/eoghanobrien/php-simple-mail
  */
 class SimpleMail
